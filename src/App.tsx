@@ -1,24 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import Landing from "./pages/landing/landing";
+import { MyThemeProvider } from "./contexts/ThemeContext";
+import { AuthProvider } from "./contexts/AuthContext/AuthContext";
+import Node from "./pages/node/node";
+import Auth from "./contexts/AuthContext/Auth";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Landing />
+  },
+  {
+    path: "/nodes/:id",
+    element: <Node />
+  }
+]);
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <MyThemeProvider>
+        <AuthProvider>
+          <RouterProvider router={router} />
+        </AuthProvider>
+      </MyThemeProvider>
     </div>
   );
 }
