@@ -1,5 +1,4 @@
 import { createContext, useMemo, useState } from "react";
-import Auth from "./Auth";
 import { Dialog } from "@mui/material";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
@@ -31,13 +30,6 @@ function AuthProvider(props: any) {
 
   return (
     <AuthContext.Provider value={{ openAuth, setOpenAuth, user, setUser }}>
-      <Dialog
-        color="secondary"
-        onClose={() => setOpenAuth(false)}
-        open={openAuth}
-      >
-        <Auth />
-      </Dialog>
       {children}
     </AuthContext.Provider>
   );

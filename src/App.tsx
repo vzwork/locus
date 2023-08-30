@@ -6,7 +6,10 @@ import Landing from "./pages/landing/landing";
 import { MyThemeProvider } from "./contexts/ThemeContext";
 import { AuthProvider } from "./contexts/AuthContext/AuthContext";
 import Node from "./pages/node/node";
-import Auth from "./contexts/AuthContext/Auth";
+import Auth from "./pages/auth/auth";
+import SignIn from "./pages/auth/SignIn";
+import SignUp from "./pages/auth/SignUp";
+import Reset from "./pages/auth/Reset";
 
 const router = createBrowserRouter([
   {
@@ -16,6 +19,18 @@ const router = createBrowserRouter([
   {
     path: "/nodes/:id",
     element: <Node />
+  },
+  {
+    path: "/signin",
+    element: <SignIn />
+  },
+  {
+    path: '/signup',
+    element: <SignUp />
+  },
+  {
+    path: '/reset',
+    element: <Reset />
   }
 ]);
 

@@ -2,17 +2,31 @@ import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 export default function Landing() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    return (
-        <div>
-            <Button
-                onClick={() => {navigate('/nodes/root')}}
-            >
-                go to tree
-            </Button>
-            <p>sidebar</p>
-            <p>sidebar</p>
-        </div>
-    )
+  return (
+    <div>
+      <Button
+        onClick={() => {
+          navigate("/signin");
+        }}
+      >
+        sign in
+      </Button>
+      <Button
+        onClick={() => {
+          navigate("/signup");
+        }}
+      >
+        sign up
+      </Button>
+      <Button
+        onClick={() => {
+          navigate("/reset");
+        }}
+      >
+        reset
+      </Button>
+    </div>
+  );
 }
