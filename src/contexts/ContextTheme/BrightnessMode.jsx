@@ -19,40 +19,27 @@ export default function BrightnessMode(props) {
   };
 
   return (
-    <>
-      <Box
-        bgcolor="bg.main"
-        sx={{
-          position: "fixed",
-          zIndex: -1,
-          width: "100vw",
-          height: "100vh",
-          top: 0,
-          left: 0,
-        }}
-      />
-      <Box
-        sx={{
-          position: "fixed",
-          zIndex: 998,
-          right: "0",
-          top: "0",
+    <Box
+      sx={{
+        position: "fixed",
+        zIndex: 998,
+        right: "0",
+        top: "0",
+      }}
+    >
+      <IconButton
+        color="primary"
+        size="large"
+        onClick={() => {
+          changeMode();
         }}
       >
-        <IconButton
-          color="primary"
-          size="large"
-          onClick={() => {
-            changeMode();
-          }}
-        >
-          {props.darkMode ? (
-            <DarkModeIcon fontSize="inherit" />
-          ) : (
-            <LightModeIcon fontSize="inherit" />
-          )}
-        </IconButton>
-      </Box>
-    </>
+        {props.darkMode ? (
+          <DarkModeIcon fontSize="inherit" />
+        ) : (
+          <LightModeIcon fontSize="inherit" />
+        )}
+      </IconButton>
+    </Box>
   );
 }

@@ -7,6 +7,9 @@ const themeLight = createTheme({
     primary: {
       main: "#6F836E",
     },
+    text: {
+      base: "#000",
+    },
     bg: {
       base: "#F4F6F6",
       clear: "rgba(240, 240, 240, 0.8)",
@@ -19,6 +22,9 @@ const themeDark = createTheme({
     mode: "dark",
     primary: {
       main: "#6F836E",
+    },
+    text: {
+      base: "#fff",
     },
     bg: {
       base: "#121212",
@@ -55,7 +61,6 @@ const ContextProviderTheme = (props) => {
       <ThemeProvider theme={darkMode ? themeDark : themeLight}>
         <BrightnessMode darkMode={darkMode} setDarkMode={setDarkMode} />
         {props.children}
-        <></>
       </ThemeProvider>
     </ContextTheme.Provider>
   );
