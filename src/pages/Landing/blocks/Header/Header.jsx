@@ -1,14 +1,15 @@
-import { Box } from "@mui/material";
-import Background from "../../../../components/Background/Background";
+import { Box, Button } from "@mui/material";
 import Content from "./blocks/Content/Content";
 import Search from "./blocks/Search/Search";
 import Recents from "./blocks/Recents/Recents";
 import Suggestions from "./blocks/Suggestions/Suggestions";
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
+  const navigate = useNavigate();
+
   return (
-    <Box bgcolor="bg.base" sx={{ height: "100vh", gap: "5px" }}>
-      <Background />
+    <Box sx={{ height: "100vh", gap: "5px" }}>
       <Box
         sx={{
           position: "relative",
@@ -22,6 +23,26 @@ export default function Header() {
         <Search />
         <Recents />
         <Suggestions />
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              navigate("/error");
+            }}
+          >
+            error
+          </Button>
+        </Box>
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              navigate("/error");
+            }}
+          >
+            error
+          </Button>
+        </Box>
       </Box>
     </Box>
   );
