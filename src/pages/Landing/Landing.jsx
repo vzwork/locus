@@ -7,12 +7,8 @@ export default function Landing() {
   const contextTheme = useContext(ContextTheme);
 
   return (
-    <Box
-      bgcolor="bg.main"
-      sx={{ color: contextTheme.darkMode ? "#ccc" : "#000" }}
-    >
+    <Box sx={{ color: contextTheme.darkMode ? "#ccc" : "#000" }}>
       <Header />
-      <></>
     </Box>
   );
 }

@@ -1,26 +1,39 @@
 import logo from "./logo.svg";
 import "./App.css";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Outlet,
+  Route,
+  RouterProvider,
+} from "react-router-dom";
 import { ContextProviderTheme } from "./contexts/ContextTheme/ContextTheme";
 import Landing from "./pages/Landing/Landing";
 import Error from "./pages/Error/Error";
+import { Box } from "@mui/material";
+import Background from "./components/Background/Background";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Landing />,
-  },
-  {
-    path: "*",
-    element: <Error />,
-  },
-]);
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route>
+      <Route element={<Background />}>
+        <Route path="/" element={<Landing />} />
+        <Route path="*" element={<Error />} />
+      </Route>
+    </Route>
+  )
+);
 
 function App() {
   return (
     <div>
       <ContextProviderTheme>
-        <RouterProvider router={router} />
+        <Box
+          sx={{ position: "fixed", width: "100vw", height: "100vh" }}
+          bgcolor="bg.base"
+        >
+          <RouterProvider router={router} />
+        </Box>
       </ContextProviderTheme>
     </div>
   );

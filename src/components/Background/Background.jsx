@@ -1,15 +1,13 @@
-/* eslint-disable */
-
+import { Outlet } from "react-router-dom";
+import ParticleAnimation from "./ParticleAnimation";
 import { useContext } from "react";
 import { ContextTheme } from "../../contexts/ContextTheme/ContextTheme";
-import ParticleAnimation from "./ParticleAnimation";
-import { Box } from "@mui/material";
 
 export default function Background() {
   const contextTheme = useContext(ContextTheme);
 
   return (
-    <Box sx={{ position: "fixed", zIndex: "1" }}>
+    <div style={{ position: "fixed", zIndex: "0" }}>
       <ParticleAnimation
         numParticles={200}
         color={
@@ -18,6 +16,7 @@ export default function Background() {
             : { r: 20, g: 20, b: 20, a: 255 }
         }
       />
-    </Box>
+      <Outlet />
+    </div>
   );
 }
