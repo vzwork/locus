@@ -1,16 +1,8 @@
 import * as React from "react";
-import CssBaseline from "@mui/material/CssBaseline";
-import Link from "@mui/material/Link";
-import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
-import PropTypes from "prop-types";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Box from "@mui/material/Box";
 import { Outlet, useNavigate } from "react-router-dom";
-import { Button } from "@mui/material";
-
+import { IconButton } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 export default function Auth() {
   const [value, setValue] = React.useState(0);
 
@@ -41,7 +33,16 @@ export default function Auth() {
           }
         }
       />
-      <Grid item xs={12} sm={8} md={5} square bgcolor={"bg.clear"}>
+      <Grid item xs={12} sm={8} md={5} bgcolor={"bg.clear"}>
+        <IconButton
+          size="large"
+          color="primary"
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          <ArrowBackIcon />
+        </IconButton>
         <Outlet />
       </Grid>
     </Grid>

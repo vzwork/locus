@@ -10,24 +10,7 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
-
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://locus.news">
-        locus.news
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+import Copyright from "./Copyright";
 
 export default function Reset() {
   const navigate = useNavigate();
@@ -44,7 +27,7 @@ export default function Reset() {
   return (
     <Box
       sx={{
-        mt: "10vh",
+        mt: "6vh",
         mx: 4,
         display: "flex",
         flexDirection: "column",
@@ -109,26 +92,9 @@ export default function Reset() {
             </Link>
           </Grid>
         </Grid>
-        <Typography
-          variant="body2"
-          color="text.secondary"
-          align="center"
-          mt="2rem"
-        >
-          <Link
-            component="button"
-            variant="body2"
-            onClick={() => {
-              navigate("/");
-            }}
-            color="inherit"
-          >
-            home
-          </Link>
-        </Typography>
       </Box>
 
-      <Copyright sx={{ mt: "20vh" }} />
+      <Copyright />
     </Box>
   );
 }
