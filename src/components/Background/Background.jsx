@@ -8,7 +8,7 @@ export default function Background() {
 
   return (
     <div>
-      <div style={{ position: "fixed" }}>
+      <div style={{ position: "fixed", zIndex: "-998" }}>
         <ParticleAnimation
           numParticles={200}
           color={

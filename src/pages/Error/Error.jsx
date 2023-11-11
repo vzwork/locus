@@ -11,7 +11,6 @@ export default function Error() {
           sx={{
             display: "flex",
             height: "100vh",
-            width: "100vw",
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",

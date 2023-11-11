@@ -27,20 +27,20 @@ export default function Header() {
           <Button
             variant="outlined"
             onClick={() => {
-              navigate("/error");
+              navigate("/tree");
             }}
           >
-            error
+            tree
           </Button>
         </Box>
         <Box sx={{ display: "flex", justifyContent: "center" }}>
           <Button
             variant="outlined"
             onClick={() => {
-              navigate("/error");
+              navigate("/auth/signin");
             }}
           >
-            error
+            auth
           </Button>
         </Box>
       </Box>
