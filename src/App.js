@@ -17,10 +17,11 @@ import Auth from "./pages/Auth/Auth";
 import SignIn from "./pages/Auth/SignIn";
 import SignUp from "./pages/Auth/SignUp";
 import Reset from "./pages/Auth/Reset";
+import { ContextProviderAuth } from "./contexts/ContextAuth/ContextAuth";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route>
+    <Route element={<ContextProviderAuth />}>
       <Route element={<Background />}>
         <Route path="/" element={<Landing />} />
         <Route path="*" element={<Error />} />

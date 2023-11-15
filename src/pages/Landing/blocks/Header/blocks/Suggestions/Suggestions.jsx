@@ -13,7 +13,7 @@ export default function Suggestions() {
           <LabelOutlined
             style={{ width: "100%" }}
             label={"suggestions"}
-            borderColor={contextTheme.darkMode ? "#888" : "#bbb"}
+            borderColor={contextTheme.darkMode ? "#666" : "#bbb"}
           >
             <Box sx={{ display: "flex", gap: "0.5rem" }}>
               <Box>hello</Box>

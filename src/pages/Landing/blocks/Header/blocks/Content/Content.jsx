@@ -26,8 +26,7 @@ export default function Content() {
               }}
             >
               <Box bgcolor={"bg.clear"} p="1rem" borderRadius="1rem">
-                An explanation video will go here, later it will be tailored
-                suggestions.
+                Welcome / guide video.
               </Box>
             </Box>
             <img

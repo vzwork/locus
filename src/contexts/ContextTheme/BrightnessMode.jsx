@@ -1,21 +1,10 @@
 import { Box, IconButton } from "@mui/material";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
-import { useContext } from "react";
-// import { PageColorContext } from "../PageColorContext/PageColorContext";
 
 export default function BrightnessMode(props) {
-  // const pageColorContext = useContext(PageColorContext);
-
   const changeMode = async () => {
-    if (props.darkMode) {
-      // pageColorContext.setDarkToLightTransition(true);
-    } else {
-      // pageColorContext.setDarkToLightTransition(false);
-    }
-    // await pageColorContext.animateInColor();
     props.setDarkMode(!props.darkMode);
-    // await pageColorContext.animateOutColor();
   };
 
   return (

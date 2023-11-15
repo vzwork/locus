@@ -33,16 +33,6 @@ export default function Header() {
             tree
           </Button>
         </Box>
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <Button
-            variant="outlined"
-            onClick={() => {
-              navigate("/auth/signin");
-            }}
-          >
-            auth
-          </Button>
-        </Box>
       </Box>
     </Box>
   );
