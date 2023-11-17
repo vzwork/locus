@@ -7,28 +7,55 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
-import { ContextProviderTheme } from "./contexts/ContextTheme/ContextTheme";
+
+import { Box } from "@mui/material";
+
 import Landing from "./pages/Landing/Landing";
 import Error from "./pages/Error/Error";
-import { Box } from "@mui/material";
 import Background from "./components/Background/Background";
 import Tree from "./pages/Tree/Tree";
-import Auth from "./pages/Auth/Auth";
-import SignIn from "./pages/Auth/SignIn";
-import SignUp from "./pages/Auth/SignUp";
-import Reset from "./pages/Auth/Reset";
-import { ContextProviderAuth } from "./contexts/ContextAuth/ContextAuth";
+import Account from "./pages/Account/Account";
+import SignIn from "./pages/Account/SignIn";
+import SignUp from "./pages/Account/SignUp";
+import PasswordChange from "./pages/Account/PasswordChange";
+import AppBarHome from "./components/AppBar/AppBarHome";
+import EmailVerify from "./pages/Account/EmailVerify";
+
+import { ContextProviderTheme } from "./contexts/ContextTheme/ContextTheme";
+import { ContextProviderOnboardFlow } from "./contexts/ContextOnboardFlow/ContextOnboardFlow";
+import SetUp from "./pages/Account/SetUp";
+import Home from "./pages/Account/Home";
+
+function WrapperContextsNavigation() {
+  return (
+    <ContextProviderOnboardFlow>
+      <Outlet />
+    </ContextProviderOnboardFlow>
+  );
+}
+
+function WrapperHome() {
+  return (
+    <Box>
+      <Background />
+      <AppBarHome />
+    </Box>
+  );
+}
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route element={<ContextProviderAuth />}>
-      <Route element={<Background />}>
+    <Route element={<WrapperContextsNavigation />}>
+      <Route element={<WrapperHome />}>
         <Route path="/" element={<Landing />} />
         <Route path="*" element={<Error />} />
-        <Route path="/auth" element={<Auth />}>
+        <Route path="/account" element={<Account />}>
           <Route path="signin" element={<SignIn />} />
           <Route path="signup" element={<SignUp />} />
-          <Route path="reset" element={<Reset />} />
+          <Route path="passwordchange" element={<PasswordChange />} />
+          <Route path="emailverify" element={<EmailVerify />} />
+          <Route path="setup" element={<SetUp />} />
+          <Route path="home" element={<Home />} />
         </Route>
       </Route>
       <Route path="/tree" element={<Tree />} />
@@ -40,18 +67,7 @@ function App() {
   return (
     <div>
       <ContextProviderTheme>
-        <Box
-          sx={{
-            position: "fixed",
-            width: "100vw",
-            height: "100vh",
-            zIndex: "-999",
-          }}
-          bgcolor="bg.base"
-        />
-        <Box color="text.base">
-          <RouterProvider router={router} />
-        </Box>
+        <RouterProvider router={router} />
       </ContextProviderTheme>
     </div>
   );

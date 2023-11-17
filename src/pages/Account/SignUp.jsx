@@ -9,8 +9,13 @@ import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 import Copyright from "./Copyright";
 
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { useEffect, useState } from "react";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
+import { useContext, useEffect, useState } from "react";
+import { ContextOnboardFlow } from "../../contexts/ContextOnboardFlow/ContextOnboardFlow";
 
 const isValidEmail = (email) => {
   return String(email)
@@ -28,6 +33,7 @@ function isValidPassword(password) {
 export default function SignUp() {
   const navigate = useNavigate();
   const auth = getAuth();
+  const contextOnboardFlow = useContext(ContextOnboardFlow);
 
   const [usedEmails, setUsedEmails] = useState([]);
   const [email, setEmail] = useState("");
@@ -105,8 +111,8 @@ export default function SignUp() {
       .then((userCredential) => {
         // Signed up
         const user = userCredential.user;
-        console.log(user);
-        navigate("/");
+        sendEmailVerification(user);
+        navigate("/account/emailverify");
         // ...
       })
       .catch((error) => {
@@ -198,7 +204,7 @@ export default function SignUp() {
               component="button"
               variant="body2"
               onClick={() => {
-                navigate("/auth/reset");
+                navigate("/account/passwordchange");
               }}
             >
               Forgot password?
@@ -209,7 +215,7 @@ export default function SignUp() {
               component="button"
               variant="body2"
               onClick={() => {
-                navigate("/auth/signin");
+                navigate("/account/signin");
               }}
             >
               Have an account?

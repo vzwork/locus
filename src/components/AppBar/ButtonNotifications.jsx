@@ -3,10 +3,11 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { Box, IconButton } from "@mui/material";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import NotificationsIcon from "@mui/icons-material/Notifications";
 import { useState } from "react";
 import { getAuth, signOut } from "firebase/auth";
 
-export default function ButtonAuthRecognized() {
+export default function ButtonNotifications() {
   const auth = getAuth();
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -19,7 +20,7 @@ export default function ButtonAuthRecognized() {
   };
 
   return (
-    <Box sx={{ position: "fixed", right: "52px", zIndex: "999" }}>
+    <Box>
       <IconButton
         color="primary"
         id="basic-button"
@@ -29,7 +30,7 @@ export default function ButtonAuthRecognized() {
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
       >
-        <ManageAccountsIcon fontSize="inherit" />
+        <NotificationsIcon fontSize="inherit" />
       </IconButton>
       <Menu
         id="basic-menu"

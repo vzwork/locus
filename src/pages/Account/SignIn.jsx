@@ -8,8 +8,14 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 import Copyright from "./Copyright";
-import { useEffect, useState } from "react";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { useContext, useEffect, useState } from "react";
+import {
+  GoogleAuthProvider,
+  getAuth,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+} from "firebase/auth";
+import { ContextOnboardFlow } from "../../contexts/ContextOnboardFlow/ContextOnboardFlow";
 
 const isValidEmail = (email) => {
   return String(email)
@@ -27,6 +33,7 @@ function isValidPassword(password) {
 export default function SignIn() {
   const navigate = useNavigate();
   const auth = getAuth();
+  const contextOnboardFlow = useContext(ContextOnboardFlow);
 
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -67,10 +74,9 @@ export default function SignIn() {
     }
 
     signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log(user);
+      .then(() => {
         navigate("/");
+        contextOnboardFlow.check();
       })
       .catch((err) => {
         console.log(err);
@@ -142,7 +148,7 @@ export default function SignIn() {
               component="button"
               variant="body2"
               onClick={() => {
-                navigate("/auth/reset");
+                navigate("/account/passwordchange");
               }}
             >
               Forgot password?
@@ -153,7 +159,7 @@ export default function SignIn() {
               component="button"
               variant="body2"
               onClick={() => {
-                navigate("/auth/signup");
+                navigate("/account/signup");
               }}
             >
               {"Don't have an account?"}
@@ -165,6 +171,12 @@ export default function SignIn() {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
             color="inherit"
+            onClick={() => {
+              const provider = new GoogleAuthProvider();
+              signInWithPopup(auth, provider).then((res) => {
+                console.log(res);
+              });
+            }}
           >
             <img
               src="/Google__G__Logo.svg.png"

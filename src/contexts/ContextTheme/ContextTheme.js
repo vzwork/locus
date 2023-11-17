@@ -1,6 +1,6 @@
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { createContext, useEffect, useState } from "react";
-import BrightnessMode from "./BrightnessMode";
+import { Box } from "@mui/material";
 
 const themeLight = createTheme({
   palette: {
@@ -57,10 +57,20 @@ const ContextProviderTheme = (props) => {
   }, [darkMode]);
 
   return (
-    <ContextTheme.Provider value={{ darkMode }}>
+    <ContextTheme.Provider value={{ darkMode, setDarkMode }}>
       <ThemeProvider theme={darkMode ? themeDark : themeLight}>
-        <BrightnessMode darkMode={darkMode} setDarkMode={setDarkMode} />
-        {props.children}
+        <Box
+          sx={{
+            position: "fixed",
+            width: "100vw",
+            height: "100vh",
+            zIndex: "-999",
+          }}
+          bgcolor="bg.base"
+          color="text.base"
+        >
+          {props.children}
+        </Box>
       </ThemeProvider>
     </ContextTheme.Provider>
   );

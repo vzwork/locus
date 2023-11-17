@@ -1,4 +1,3 @@
-import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -9,20 +8,39 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
-import { useNavigate } from "react-router-dom";
+
 import Copyright from "./Copyright";
 
-export default function Reset() {
-  const navigate = useNavigate();
+import { useNavigate } from "react-router-dom";
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
+import { useEffect, useState } from "react";
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-  };
+const isValidEmail = (email) => {
+  return String(email)
+    .toLowerCase()
+    .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+};
+
+export default function PasswordChange() {
+  const navigate = useNavigate();
+  const auth = getAuth();
+
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [emailHelper, setEmailHelper] = useState("");
+
+  useEffect(() => {
+    setEmailError("");
+
+    const timer = setTimeout(() => {
+      if (!isValidEmail(email) && email.length > 0) {
+        setEmailError("improper email format");
+      }
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, [email]);
 
   return (
     <Box
@@ -40,8 +58,9 @@ export default function Reset() {
       <Typography component="h1" variant="h5">
         Reset password
       </Typography>
-      <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+      <Box component="form" noValidate sx={{ mt: 1 }}>
         <TextField
+          error={emailError.length > 0}
           margin="normal"
           required
           fullWidth
@@ -50,18 +69,24 @@ export default function Reset() {
           name="email"
           autoComplete="email"
           autoFocus
-        />
-        {/* <Box m="2rem" /> */}
-        <FormControlLabel
-          control={<Checkbox value="remember" color="primary" />}
-          label="Remember me"
-          sx={{ visibility: "hidden" }}
+          value={email}
+          helperText={emailError || emailHelper}
+          onChange={(e) => {
+            setEmail(e.target.value);
+          }}
         />
         <Button
-          type="submit"
           fullWidth
           variant="contained"
           sx={{ mt: 3, mb: 2 }}
+          onClick={() => {
+            sendPasswordResetEmail(auth, email)
+              .then((res) => {})
+              .catch((err) => {
+                console.log(err);
+              });
+            setEmailHelper("if account exists, check your email");
+          }}
         >
           send reset link
         </Button>
@@ -71,7 +96,7 @@ export default function Reset() {
               component="button"
               variant="body2"
               onClick={() => {
-                navigate("/auth/signin");
+                navigate("/account/signin");
               }}
               sx={{ textAlign: "start" }}
             >
@@ -84,7 +109,7 @@ export default function Reset() {
               component="button"
               variant="body2"
               onClick={() => {
-                navigate("/auth/signup");
+                navigate("/account/signup");
               }}
               sx={{ textAlign: "start" }}
             >
