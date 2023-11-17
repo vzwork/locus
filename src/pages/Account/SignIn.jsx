@@ -31,6 +31,7 @@ function isValidPassword(password) {
 }
 
 export default function SignIn() {
+  const provider = new GoogleAuthProvider();
   const navigate = useNavigate();
   const auth = getAuth();
   const contextOnboardFlow = useContext(ContextOnboardFlow);
@@ -82,6 +83,14 @@ export default function SignIn() {
         console.log(err);
         setPasswordError("wrong email or password");
       });
+  };
+
+  const signInGoogle = () => {
+    signInWithPopup(auth, provider)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -172,10 +181,7 @@ export default function SignIn() {
             sx={{ mt: 3, mb: 2 }}
             color="inherit"
             onClick={() => {
-              const provider = new GoogleAuthProvider();
-              signInWithPopup(auth, provider).then((res) => {
-                console.log(res);
-              });
+              signInGoogle();
             }}
           >
             <img
