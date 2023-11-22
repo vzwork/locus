@@ -13,7 +13,7 @@ import { Box } from "@mui/material";
 import Landing from "./pages/Landing/Landing";
 import Error from "./pages/Error/Error";
 import Background from "./components/Background/Background";
-import Tree from "./pages/Tree/Tree";
+import Channels from "./pages/Channels/Channels";
 import Account from "./pages/Account/Account";
 import SignIn from "./pages/Account/SignIn";
 import SignUp from "./pages/Account/SignUp";
@@ -25,11 +25,17 @@ import { ContextProviderTheme } from "./contexts/ContextTheme/ContextTheme";
 import { ContextProviderOnboardFlow } from "./contexts/ContextOnboardFlow/ContextOnboardFlow";
 import SetUp from "./pages/Account/SetUp";
 import Home from "./pages/Account/Home";
+import { ContextProviderChannels } from "./contexts/ContextChannels/ContextChannels";
+import { ContextProviderContent } from "./contexts/ContextContent/ContextContent";
 
 function WrapperContextsNavigation() {
   return (
     <ContextProviderOnboardFlow>
-      <Outlet />
+      <ContextProviderChannels>
+        <ContextProviderContent>
+          <Outlet />
+        </ContextProviderContent>
+      </ContextProviderChannels>
     </ContextProviderOnboardFlow>
   );
 }
@@ -58,13 +64,13 @@ const router = createBrowserRouter(
           <Route path="home" element={<Home />} />
         </Route>
       </Route>
-      <Route path="/tree" element={<Tree />} />
+      <Route path="/channels" element={<Channels />} />
+      <Route path="/channels/:id" element={<Channels />} />
     </Route>
   )
 );
 
 function App() {
-  // some change
   return (
     <div>
       <ContextProviderTheme>

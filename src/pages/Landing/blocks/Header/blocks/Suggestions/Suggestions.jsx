@@ -16,10 +16,7 @@ export default function Suggestions() {
             borderColor={contextTheme.darkMode ? "#666" : "#bbb"}
           >
             <Box sx={{ display: "flex", gap: "0.5rem" }}>
-              <Box>hello</Box>
-              <Box>hello</Box>
-              <Box>hello</Box>
-              <Box>hello</Box>
+              to be implemented...
             </Box>
           </LabelOutlined>
         </Box>

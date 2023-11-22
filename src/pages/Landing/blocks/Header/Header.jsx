@@ -27,10 +27,10 @@ export default function Header() {
           <Button
             variant="outlined"
             onClick={() => {
-              navigate("/tree");
+              navigate("/channels");
             }}
           >
-            tree
+            channels
           </Button>
         </Box>
       </Box>

@@ -41,7 +41,8 @@ export default function ButtonNotifications() {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
+        <MenuItem>nothing here yet</MenuItem>
+        {/* <MenuItem onClick={handleClose}>Profile</MenuItem>
         <MenuItem onClick={handleClose}>My account</MenuItem>
         <MenuItem
           onClick={() => {
@@ -50,7 +51,7 @@ export default function ButtonNotifications() {
           }}
         >
           Logout
-        </MenuItem>
+        </MenuItem> */}
       </Menu>
     </Box>
   );

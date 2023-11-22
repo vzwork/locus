@@ -9,7 +9,9 @@ export default function LabelOutlined({
 }) {
   return (
     <div style={{ ...style, position: "relative" }}>
-      <div style={{ position: "relative", padding: "1rem" }}>{children}</div>
+      <div style={{ position: "relative", padding: "1rem", zIndex: "1" }}>
+        {children}
+      </div>
       <div
         style={{
           position: "absolute",
