@@ -19,8 +19,7 @@ const ContextProviderOnboardFlow = (props) => {
 
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
-      // console.log(authUser);
-      if (user != authUser) {
+      if (user?.email != authUser.email) {
         setUser(authUser);
         if (authUser) {
           check();
@@ -34,7 +33,6 @@ const ContextProviderOnboardFlow = (props) => {
   }, [user]);
 
   const check = () => {
-    // console.log(user);
     setTimeout(() => {
       const user = auth.currentUser;
       if (!user) {
@@ -49,10 +47,7 @@ const ContextProviderOnboardFlow = (props) => {
         navigate("/account/setup");
         return;
       }
-      if (!complete) {
-        setComplete(true);
-        navigate("/");
-      } else {
+      if (!(user && user.emailVerified && user.displayName)) {
         navigate("/");
       }
     }, 200);

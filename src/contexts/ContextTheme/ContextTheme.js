@@ -23,6 +23,9 @@ const themeDark = createTheme({
     primary: {
       main: "#6F836E",
     },
+    secondary: {
+      main: "#6b506a",
+    },
     text: {
       base: "#fff",
     },

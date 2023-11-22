@@ -1,14 +1,13 @@
-import { Box, Button } from "@mui/material";
+import { useContext } from "react";
+import { Box } from "@mui/material";
+import { ContextOnboardFlow } from "../../contexts/ContextOnboardFlow/ContextOnboardFlow";
+
 import ButtonAuth from "./ButtonAuth";
 import ButtonBrightnessMode from "./ButtonBrightnessMode";
 import ButtonNotifications from "./ButtonNotifications";
-import { getAuth } from "firebase/auth";
-import { useContext } from "react";
-import { ContextOnboardFlow } from "../../contexts/ContextOnboardFlow/ContextOnboardFlow";
 import ButtonAuthRecognized from "./ButtonAuthRecognized";
 
 export default function AppBarHome() {
-  const auth = getAuth();
   const contextOnboardFlow = useContext(ContextOnboardFlow);
 
   return (
