@@ -19,7 +19,7 @@ const ContextProviderOnboardFlow = (props) => {
 
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
-      if (user?.email != authUser.email) {
+      if (user?.email != authUser?.email) {
         setUser(authUser);
         if (authUser) {
           check();
