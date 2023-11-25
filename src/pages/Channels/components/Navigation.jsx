@@ -12,6 +12,7 @@ import { useContext, useEffect } from "react";
 import { useTheme } from "@emotion/react";
 import { useNavigate } from "react-router-dom";
 
+import { ContextOnboardFlow } from "../../../contexts/ContextOnboardFlow/ContextOnboardFlow";
 import { ContextChannels } from "../../../contexts/ContextChannels/ContextChannels";
 
 import Search from "./Search";
@@ -22,6 +23,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 export default function Navigation() {
   const theme = useTheme();
   const navigate = useNavigate();
+  const contextOnboardFlow = useContext(ContextOnboardFlow);
   const contextChannels = useContext(ContextChannels);
 
   useEffect(() => {
@@ -187,7 +189,13 @@ export default function Navigation() {
             fullWidth
             size="small"
             startIcon={<DeleteIcon />}
-            onClick={() => contextChannels.setDialogDeleteChannel(true)}
+            onClick={() => {
+              if (!contextOnboardFlow.complete) {
+                navigate("/account/signin");
+                return;
+              }
+              contextChannels.setDialogDeleteChannel(true);
+            }}
           >
             {contextChannels.channelCurrent?.name}
           </Button>
@@ -197,7 +205,13 @@ export default function Navigation() {
             fullWidth
             size="small"
             endIcon={<AddCircleOutlineIcon />}
-            onClick={() => contextChannels.setDialogAddChannel(true)}
+            onClick={() => {
+              if (!contextOnboardFlow.complete) {
+                navigate("/account/signin");
+                return;
+              }
+              contextChannels.setDialogAddChannel(true);
+            }}
           >
             channel
           </Button>
