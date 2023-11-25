@@ -5,14 +5,22 @@ import { Box } from "@mui/material";
 const themeLight = createTheme({
   palette: {
     primary: {
-      main: "#6F836E",
+      main: "#296e23",
     },
     text: {
       base: "#000",
     },
+    inactive: {
+      main: "#999195",
+    },
+    active: {
+      main: "#756e72",
+    },
     bg: {
-      base: "#F4F6F6",
-      clear: "rgba(240, 240, 240, 0.8)",
+      base: "#c8cfcf",
+      clear: "rgba(200, 207, 207, 0.8)",
+      hard: "rgba(180, 187, 187, 0.8)",
+      easy: "rgba(190, 197, 197, 0.8)",
     },
   },
 });
@@ -26,12 +34,20 @@ const themeDark = createTheme({
     secondary: {
       main: "#6b506a",
     },
+    inactive: {
+      main: "#4d494b",
+    },
+    active: {
+      main: "#ada6a9",
+    },
     text: {
       base: "#fff",
     },
     bg: {
       base: "#121212",
-      clear: "rgba(40, 40, 40, 0.8)",
+      clear: "rgba(18, 18, 18, 0.8)",
+      hard: "rgba(48, 48, 48, 0.8)",
+      easy: "rgba(28, 28, 28, 0.8)",
     },
   },
 });

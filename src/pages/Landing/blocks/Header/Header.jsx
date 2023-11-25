@@ -4,9 +4,11 @@ import Search from "./blocks/Search/Search";
 import Recents from "./blocks/Recents/Recents";
 import Suggestions from "./blocks/Suggestions/Suggestions";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { ContextChannels } from "../../../../contexts/ContextChannels/ContextChannels";
 
 export default function Header() {
-  const navigate = useNavigate();
+  const contextChannels = useContext(ContextChannels);
 
   return (
     <Box sx={{ height: "100vh", gap: "5px" }}>
@@ -27,7 +29,7 @@ export default function Header() {
           <Button
             variant="outlined"
             onClick={() => {
-              navigate("/channels");
+              contextChannels.initialNavigation();
             }}
           >
             channels

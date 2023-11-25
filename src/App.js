@@ -27,14 +27,17 @@ import SetUp from "./pages/Account/SetUp";
 import Home from "./pages/Account/Home";
 import { ContextProviderChannels } from "./contexts/ContextChannels/ContextChannels";
 import { ContextProviderContent } from "./contexts/ContextContent/ContextContent";
+import { ContextProviderQuotes } from "./contexts/ContextQuotes/ContextQuotes";
 
 function WrapperContextsNavigation() {
   return (
     <ContextProviderOnboardFlow>
       <ContextProviderChannels>
-        <ContextProviderContent>
-          <Outlet />
-        </ContextProviderContent>
+        <ContextProviderQuotes>
+          <ContextProviderContent>
+            <Outlet />
+          </ContextProviderContent>
+        </ContextProviderQuotes>
       </ContextProviderChannels>
     </ContextProviderOnboardFlow>
   );
