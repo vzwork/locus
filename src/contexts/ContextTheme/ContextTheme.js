@@ -5,7 +5,7 @@ import { Box } from "@mui/material";
 const themeLight = createTheme({
   palette: {
     primary: {
-      main: "#296e23",
+      main: "#3f6e59",
     },
     text: {
       base: "#000",

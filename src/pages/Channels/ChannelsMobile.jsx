@@ -23,7 +23,7 @@ function NavigationMobile({ navigationOpen, setNavigationOpen }) {
       open={navigationOpen}
       onClose={() => setNavigationOpen(false)}
       PaperProps={{
-        style: { background: "none" },
+        style: { background: "none", backdropFilter: "blur(1px)" },
       }}
     >
       <Box
@@ -38,7 +38,7 @@ function NavigationMobile({ navigationOpen, setNavigationOpen }) {
         </Box>
         <Button
           variant="outlined"
-          color="active"
+          color="inherit"
           style={{ minWidth: "30px", maxWidth: "36px", marginLeft: "0.4rem" }}
           onClick={() => {
             setNavigationOpen(false);
@@ -124,7 +124,13 @@ export default function ChannelsMobile() {
         <Box>
           <IconButton
             size="large"
-            onClick={() => contextContent.setDialogAdd(true)}
+            onClick={() => {
+              if (!contextOnboardFlow.complete) {
+                navigate("/account/signin");
+                return;
+              }
+              contextContent.setDialogAdd(true);
+            }}
             color="active"
           >
             <AddCircleOutlineIcon fontSize="inherit" />
