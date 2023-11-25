@@ -20,11 +20,11 @@ export default function ButtonNotifications() {
   };
 
   return (
-    <Box>
+    <>
       <IconButton
         color="primary"
         id="basic-button"
-        size="large"
+        size="medium"
         aria-controls={open ? "basic-menu" : undefined}
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
@@ -53,6 +53,6 @@ export default function ButtonNotifications() {
           Logout
         </MenuItem> */}
       </Menu>
-    </Box>
+    </>
   );
 }

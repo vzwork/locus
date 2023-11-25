@@ -9,7 +9,7 @@ export default function ButtonAuth(props) {
   return (
     <IconButton
       color="primary"
-      size="large"
+      size="medium"
       onClick={() => contextOnboardFlow.check()}
     >
       <PersonAddIcon fontSize="inherit" />

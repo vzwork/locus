@@ -115,7 +115,7 @@ export default function Search() {
       <Button
         size="small"
         variant="outlined"
-        color={nodeRef ? "primary" : "inherit"}
+        color={nodeRef ? "primary" : "active"}
         onClick={() => {
           processSearch();
         }}

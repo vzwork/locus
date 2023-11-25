@@ -15,9 +15,9 @@ export default function AppBar() {
   const contextOnboardFlow = useContext(ContextOnboardFlow);
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex" }} bgcolor="bg.clear" borderRadius="1rem">
       <IconButton
-        size="large"
+        size="medium"
         color="primary"
         onClick={() => {
           navigate("/");

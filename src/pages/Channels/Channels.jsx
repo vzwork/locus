@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { ContextChannels } from "../../contexts/ContextChannels/ContextChannels";
 import ChannelsDesktop from "./ChannelsDesktop";
 import ChannelsMobile from "./ChannelsMobile";
+import ChannelsDesktopCompact from "./ChannelsDesktopCompact";
 
 function useWindowSize() {
   const [size, setSize] = useState([0, 0]);
@@ -26,17 +27,16 @@ export default function Channels() {
   const [width, height] = useWindowSize();
 
   useEffect(() => {
-    if (!params.id) {
-      contextChannels.initialNavigation();
-    } else {
-      contextChannels.processSetChannelCurrent(params.id);
-    }
+    contextChannels.processSetChannelCurrent(params.id);
   });
 
   return (
-    <Box sx={{ width: "100vw", height: "100vh", position: "fixed" }}>
-      {width > 660 ? <ChannelsDesktop /> : <ChannelsMobile />}
-      <></>
+    <Box sx={{ overflowY: "auto", height: "100vh" }}>
+      {width > 700 ? (
+        <>{width > 1100 ? <ChannelsDesktop /> : <ChannelsDesktopCompact />}</>
+      ) : (
+        <ChannelsMobile />
+      )}
     </Box>
   );
 }

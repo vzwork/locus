@@ -13,11 +13,11 @@ export default function ContentBar() {
   const contextContent = useContext(ContextContent);
 
   return (
-    <Box>
+    <Box bgcolor="bg.clear" borderRadius="1rem">
       <Tooltip title="quotes" arrow>
         <IconButton
           fontSize="inherit"
-          color={contextContent.quote ? "secondary" : ""}
+          color={contextContent.quote ? "primary" : "inactive"}
           onClick={() => {
             contextContent.setQuote(!contextContent.quote);
           }}
@@ -25,41 +25,41 @@ export default function ContentBar() {
           <FormatQuoteIcon fontSize="inherit" />
         </IconButton>
       </Tooltip>
-      <Tooltip title="articles" arrow>
+      <Tooltip title="articles - developing..." arrow>
         <IconButton
-          color={contextContent.article ? "secondary" : ""}
+          color={contextContent.article ? "primary" : "inactive"}
           onClick={() => {
-            contextContent.setArticle(!contextContent.article);
+            // contextContent.setArticle(!contextContent.article);
           }}
         >
           <NewspaperIcon fontSize="inherit" />
         </IconButton>
       </Tooltip>
-      <Tooltip title="photos" arrow>
+      <Tooltip title="photos - developing..." arrow>
         <IconButton
-          color={contextContent.photo ? "secondary" : ""}
+          color={contextContent.photo ? "primary" : "inactive"}
           onClick={() => {
-            contextContent.setPhoto(!contextContent.photo);
+            // contextContent.setPhoto(!contextContent.photo);
           }}
         >
           <PhotoCameraIcon fontSize="inherit" />
         </IconButton>
       </Tooltip>
-      <Tooltip title="videos" arrow>
+      <Tooltip title="videos - developing..." arrow>
         <IconButton
-          color={contextContent.video ? "secondary" : ""}
+          color={contextContent.video ? "primary" : "inactive"}
           onClick={() => {
-            contextContent.setVideo(!contextContent.video);
+            // contextContent.setVideo(!contextContent.video);
           }}
         >
           <OndemandVideoIcon fontSize="inherit" />
         </IconButton>
       </Tooltip>
-      <Tooltip title="streams" arrow>
+      <Tooltip title="streams - developing..." arrow>
         <IconButton
-          color={contextContent.stream ? "secondary" : ""}
+          color={contextContent.stream ? "primary" : "inactive"}
           onClick={() => {
-            contextContent.setStream(!contextContent.stream);
+            // contextContent.setStream(!contextContent.stream);
           }}
         >
           <PhotoCameraFrontIcon fontSize="inherit" />

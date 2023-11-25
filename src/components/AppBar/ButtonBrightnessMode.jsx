@@ -14,7 +14,7 @@ export default function ButtonBrightnessMode() {
   return (
     <IconButton
       color="primary"
-      size="large"
+      size="medium"
       onClick={() => {
         changeMode();
       }}
