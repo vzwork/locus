@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { getAuth } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { getAnalytics, logEvent, setUserId } from "firebase/analytics";
 
 const ContextOnboardFlow = createContext({});
 
@@ -9,10 +10,11 @@ const ContextProviderOnboardFlow = (props) => {
   // step 2 - sign in
   // step 3 - verify email
   // step 4 - setup account
-  // step 5 - all other
 
+  const analytics = getAnalytics();
   const auth = getAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [user, setUser] = useState(null);
   const [complete, setComplete] = useState(false);
@@ -20,10 +22,15 @@ const ContextProviderOnboardFlow = (props) => {
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
       if (user?.email != authUser?.email) {
-        setUser(authUser);
         if (authUser) {
+          // analytics, logging
+          setUserId(analytics, authUser.uid);
+          if (location.pathname == "/account/signin") {
+            navigate(-1);
+          }
           check();
         }
+        setUser(authUser);
       }
     });
   });
@@ -41,10 +48,12 @@ const ContextProviderOnboardFlow = (props) => {
       }
       if (!user.emailVerified) {
         navigate("/account/emailverify");
+        logEvent(analytics, "onboard_email_verify");
         return;
       }
       if (!user.displayName) {
         navigate("/account/setup");
+        logEvent(analytics, "onboard_account_setup");
         return;
       }
       if (!(user && user.emailVerified && user.displayName)) {

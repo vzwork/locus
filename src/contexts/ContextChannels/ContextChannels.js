@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 
 import ChannelCreation from "./ChannelCreation";
 import ChannelDeletion from "./ChannelDeletion";
+import { getAnalytics, logEvent } from "firebase/analytics";
 
 const ID_CHANNEL_ROOT = "wJwdi4XKGfFV3oTaCYFv";
 const FIREBASE_NAME_CHANNELS = "channels";
@@ -25,6 +26,7 @@ const CHANNEL_PARENT_ROOT_DEAD_END = {
 const ContextChannels = createContext({});
 
 const ContextProviderChannels = (props) => {
+  const analytics = getAnalytics();
   const navigate = useNavigate();
   const db = getFirestore();
 
@@ -38,7 +40,6 @@ const ContextProviderChannels = (props) => {
   useEffect(() => {
     // console.log(channelParent);
     // console.log(channelCurrent);
-
     if (channelCurrent) {
       let history = JSON.parse(localStorage.getItem("history")) || [];
       history = history.slice(0, 10);
@@ -65,6 +66,8 @@ const ContextProviderChannels = (props) => {
 
   // CURRENT CHANNEL NAVIGATION
   const processSetChannelCurrent = (id) => {
+    logEvent(analytics, "set_channel");
+
     if (mapCashChannels.has(id)) {
       setChannelCurrent(mapCashChannels.get(id));
 
