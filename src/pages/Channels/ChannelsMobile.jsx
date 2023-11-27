@@ -23,7 +23,7 @@ function NavigationMobile({ navigationOpen, setNavigationOpen }) {
       open={navigationOpen}
       onClose={() => setNavigationOpen(false)}
       PaperProps={{
-        style: { background: "none", backdropFilter: "blur(1px)" },
+        style: { background: "none", backdropFilter: "blur(2px)" },
       }}
     >
       <Box

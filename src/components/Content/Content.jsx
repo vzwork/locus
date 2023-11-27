@@ -1,4 +1,4 @@
-import { Box, Button } from "@mui/material";
+import { Box, Button, Divider } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { ContextContent } from "../../contexts/ContextContent/ContextContent";
 import Quote from "../Quote/Quote";
@@ -23,19 +23,26 @@ export default function Content() {
       <Box
         m="0.5rem"
         // pt="1rem"
-        border="1px solid"
+        // pt="1rem"
+        // border="1px solid"
         borderColor={"inactive.main"}
         borderRadius={"1rem"}
         sx={{
           height: "200vh",
           display: "flex",
           flexDirection: "column",
-          gap: "0.7rem",
         }}
       >
         {contextContent.content.map((data, idx) => {
           if (data.type == "quote") {
-            return <Quote data={data} key={idx} />;
+            return (
+              <Box key={idx}>
+                <Quote data={data} />
+                <Box py="0rem">
+                  <Divider />
+                </Box>
+              </Box>
+            );
           }
         })}
       </Box>

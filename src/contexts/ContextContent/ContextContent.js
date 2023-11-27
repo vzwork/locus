@@ -19,10 +19,12 @@ import {
   query,
   where,
 } from "firebase/firestore";
+import { getAnalytics, logEvent } from "firebase/analytics";
 
 const ContextContent = createContext({});
 
 const ContextProviderContent = (props) => {
+  const analytics = getAnalytics();
   const db = getFirestore();
 
   const contextChannels = useContext(ContextChannels);
@@ -63,6 +65,7 @@ const ContextProviderContent = (props) => {
   useEffect(() => {
     if (contextChannels.channelCurrent?.id) {
       if (contextChannels.channelCurrent?.id !== lastQueriedChannel) {
+        logEvent(analytics, "content_query");
         setLastQueriedChannel(contextChannels.channelCurrent?.id);
       }
     }

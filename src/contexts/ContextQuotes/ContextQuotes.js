@@ -10,12 +10,14 @@ import CloseIcon from "@mui/icons-material/Close";
 import { collection, doc, getFirestore, setDoc } from "firebase/firestore";
 import { ContextChannels } from "../ContextChannels/ContextChannels";
 import { getAuth } from "firebase/auth";
+import { getAnalytics, logEvent } from "firebase/analytics";
 
 const { createContext, useState, useEffect, useContext } = require("react");
 
 const ContextQuotes = createContext({});
 
 const DialogAdd = ({ dialogAdd, setDialogAdd }) => {
+  const analytics = getAnalytics();
   const db = getFirestore();
   const contextChannels = useContext(ContextChannels);
   const limitChars = 128;
@@ -48,6 +50,7 @@ const DialogAdd = ({ dialogAdd, setDialogAdd }) => {
       reaction: 0.0,
       type: "quote",
     }).then(() => {
+      logEvent(analytics, "quote_creation");
       setText("");
       setDialogAdd(false);
     });

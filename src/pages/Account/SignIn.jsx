@@ -88,7 +88,7 @@ export default function SignIn() {
   const signInGoogle = () => {
     signInWithPopup(auth, provider)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
       })
       .catch((err) => console.log(err));
   };
