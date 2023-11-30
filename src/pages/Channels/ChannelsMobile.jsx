@@ -33,7 +33,7 @@ function NavigationMobile({ navigationOpen, setNavigationOpen }) {
           display: "flex",
         }}
       >
-        <Box sx={{ flex: 1, paddingX: "0.5rem" }} bgcolor="bg.clear">
+        <Box sx={{ flex: 1, paddingX: "0.5rem" }} bgcolor="bg.base">
           <Navigation />
         </Box>
         <Button

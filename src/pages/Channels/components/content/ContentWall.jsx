@@ -16,7 +16,6 @@ export default function ContentWall() {
         borderColor={"inactive.main"}
         borderRadius={"1rem"}
         sx={{
-          height: "200vh",
           display: "flex",
           flexDirection: "column",
         }}
