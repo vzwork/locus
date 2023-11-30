@@ -2,9 +2,13 @@ import { Box, Container, TextField } from "@mui/material";
 import { useContext } from "react";
 import { ContextTheme } from "../../../contexts/ContextTheme/ContextTheme";
 import LabelOutlined from "../../../components/LabelOutlined/LabelOutlined";
+import { Link, useNavigate } from "react-router-dom";
+import { useTheme } from "@emotion/react";
 
 export default function Suggestions() {
   const contextTheme = useContext(ContextTheme);
+  const theme = useTheme();
+  const navigate = useNavigate();
 
   return (
     <Box>
@@ -16,7 +20,21 @@ export default function Suggestions() {
             borderColor={contextTheme.darkMode ? "#666" : "#888"}
           >
             <Box sx={{ display: "flex", gap: "0.5rem" }}>
-              to be implemented...
+              <Link
+                component="button"
+                color="inherit"
+                sx={{
+                  "&:hover": {
+                    color: `${theme.palette.primary.main}`,
+                  },
+                  whiteSpace: "nowrap",
+                }}
+                onClick={() => {
+                  navigate(`/channels/wJwdi4XKGfFV3oTaCYFv`);
+                }}
+              >
+                locus
+              </Link>
             </Box>
           </LabelOutlined>
         </Box>
