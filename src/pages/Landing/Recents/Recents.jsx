@@ -22,7 +22,7 @@ export default function Recents() {
           <LabelOutlined
             style={{ width: "100%" }}
             label={"recent channels"}
-            borderColor={contextTheme.darkMode ? "#666" : "#bbb"}
+            borderColor={contextTheme.darkMode ? "#666" : "#888"}
           >
             <Box sx={{ display: "flex", gap: "0.5rem", overflow: "hidden" }}>
               {history.map((key, idx) => {

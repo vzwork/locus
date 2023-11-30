@@ -13,7 +13,7 @@ export default function Suggestions() {
           <LabelOutlined
             style={{ width: "100%" }}
             label={"popular channels"}
-            borderColor={contextTheme.darkMode ? "#666" : "#bbb"}
+            borderColor={contextTheme.darkMode ? "#666" : "#888"}
           >
             <Box sx={{ display: "flex", gap: "0.5rem" }}>
               to be implemented...

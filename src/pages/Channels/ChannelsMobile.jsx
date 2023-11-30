@@ -13,9 +13,9 @@ import HomeIcon from "@mui/icons-material/Home";
 import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 import ContentBar from "../../components/ContentBar/ContentBar";
 import CloseIcon from "@mui/icons-material/Close";
-import Navigation from "./components/Navigation";
+import Navigation from "./components/navigation/Navigation";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import Content from "../../components/Content/Content";
+import ContentWall from "./components/content/ContentWall";
 
 function NavigationMobile({ navigationOpen, setNavigationOpen }) {
   return (
@@ -69,6 +69,7 @@ export default function ChannelsMobile() {
           top: 0,
           right: 0,
           display: "flex",
+          alignItems: "center",
           zIndex: "998",
         }}
         bgcolor="bg.clear"
@@ -91,7 +92,8 @@ export default function ChannelsMobile() {
         )}
         <ButtonBrightnessMode />
       </Box>
-      <Content />
+      <Box pt="1rem" />
+      <ContentWall />
       <Box
         sx={{
           position: "fixed",

@@ -38,7 +38,6 @@ const DialogAdd = ({ dialogAdd, setDialogAdd }) => {
     }
     const newRef = doc(collection(db, "content"));
     setDoc(newRef, {
-      count_interactions: 0,
       data: {
         text: text,
       },
@@ -47,7 +46,8 @@ const DialogAdd = ({ dialogAdd, setDialogAdd }) => {
       id_channel: contextChannels.channelCurrent.id,
       id_user: getAuth().currentUser.uid,
       name_user: getAuth().currentUser.displayName,
-      reaction: 0.0,
+      likes: [getAuth().currentUser.uid],
+      dislikes: [],
       type: "quote",
     }).then(() => {
       logEvent(analytics, "quote_creation");
