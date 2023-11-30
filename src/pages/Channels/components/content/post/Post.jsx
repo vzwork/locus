@@ -117,7 +117,7 @@ export default function Post(props) {
             sx={{ padding: 0 }}
             size="small"
             color={
-              props.data.dislikes.includes(auth.currentUser.uid)
+              props.data.dislikes.includes(auth.currentUser?.uid)
                 ? "error"
                 : "inactive"
             }
@@ -130,7 +130,7 @@ export default function Post(props) {
             sx={{ padding: 0 }}
             size="small"
             color={
-              props.data.likes.includes(auth.currentUser.uid)
+              props.data.likes.includes(auth.currentUser?.uid)
                 ? "success"
                 : "inactive"
             }

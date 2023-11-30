@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import {
   collection,
   doc,
@@ -8,6 +8,8 @@ import {
   setDoc,
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
+import { ContextOnboardFlow } from "../ContextOnboardFlow/ContextOnboardFlow";
+import { useNavigate } from "react-router-dom";
 
 const ContextComments = createContext({});
 
@@ -15,27 +17,34 @@ const ContextProviderComments = (props) => {
   const db = getFirestore();
 
   const auth = getAuth();
+  const contextOnboardFlow = useContext(ContextOnboardFlow);
+  const navigate = useNavigate();
   const [currentOpenId, setCurrentOpenId] = useState("");
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
     // subscribe
     if (currentOpenId !== "") {
-      setComments([]);
-      const unsub = onSnapshot(
-        doc(db, "comments", currentOpenId),
-        (docSnapshot) => {
-          if (!docSnapshot.exists()) {
-            console.log("comments are empty");
-            setDoc(doc(db, "comments", currentOpenId), {
-              data: [],
-            });
-          } else {
-            setComments(docSnapshot.data().data.reverse());
+      if (!contextOnboardFlow.complete) {
+        navigate("/account/signin");
+        setCurrentOpenId("");
+      } else {
+        setComments([]);
+        const unsub = onSnapshot(
+          doc(db, "comments", currentOpenId),
+          (docSnapshot) => {
+            if (!docSnapshot.exists()) {
+              console.log("comments are empty");
+              setDoc(doc(db, "comments", currentOpenId), {
+                data: [],
+              });
+            } else {
+              setComments(docSnapshot.data().data.reverse());
+            }
           }
-        }
-      );
-      return () => unsub();
+        );
+        return () => unsub();
+      }
     }
   }, [currentOpenId]);
 
