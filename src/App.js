@@ -28,6 +28,7 @@ import Home from "./pages/Account/Home";
 import { ContextProviderChannels } from "./contexts/ContextChannels/ContextChannels";
 import { ContextProviderContent } from "./contexts/ContextContent/ContextContent";
 import { ContextProviderQuotes } from "./contexts/ContextQuotes/ContextQuotes";
+import { ContextProviderComments } from "./contexts/ContextComments/ContextComments";
 
 function WrapperContextsNavigation() {
   return (
@@ -35,7 +36,9 @@ function WrapperContextsNavigation() {
       <ContextProviderChannels>
         <ContextProviderQuotes>
           <ContextProviderContent>
-            <Outlet />
+            <ContextProviderComments>
+              <Outlet />
+            </ContextProviderComments>
           </ContextProviderContent>
         </ContextProviderQuotes>
       </ContextProviderChannels>

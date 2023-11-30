@@ -15,7 +15,11 @@ export default function AppBar() {
   const contextOnboardFlow = useContext(ContextOnboardFlow);
 
   return (
-    <Box sx={{ display: "flex" }} bgcolor="bg.clear" borderRadius="1rem">
+    <Box
+      sx={{ display: "flex", alignItems: "center" }}
+      bgcolor="bg.clear"
+      borderRadius="1rem"
+    >
       <IconButton
         size="medium"
         color="primary"

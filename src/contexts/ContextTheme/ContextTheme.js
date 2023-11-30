@@ -21,6 +21,7 @@ const themeLight = createTheme({
       clear: "rgba(200, 207, 207, 0.8)",
       hard: "rgba(180, 187, 187, 0.8)",
       easy: "rgba(190, 197, 197, 0.8)",
+      comments: "rgba(200, 207, 207, 0.8)",
     },
   },
 });
@@ -48,6 +49,7 @@ const themeDark = createTheme({
       clear: "rgba(18, 18, 18, 0.8)",
       hard: "rgba(48, 48, 48, 0.8)",
       easy: "rgba(28, 28, 28, 0.8)",
+      comments: "rgba(48, 48, 48, 0.8)",
     },
   },
 });

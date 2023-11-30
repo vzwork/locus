@@ -2,8 +2,8 @@ import { Button, Dialog, DialogTitle } from "@mui/material";
 import { createContext, useContext, useEffect, useState } from "react";
 
 import { ContextChannels } from "../ContextChannels/ContextChannels";
-
 import { ContextQuotes } from "../ContextQuotes/ContextQuotes";
+import { ContextOnboardFlow } from "../ContextOnboardFlow/ContextOnboardFlow";
 
 import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
 import NewspaperIcon from "@mui/icons-material/Newspaper";
@@ -12,21 +12,27 @@ import PhotoCameraFrontIcon from "@mui/icons-material/PhotoCameraFront";
 import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 import {
   collection,
+  deleteDoc,
+  doc,
   getDocs,
   getFirestore,
   limit,
   orderBy,
   query,
+  setDoc,
   where,
 } from "firebase/firestore";
 import { getAnalytics, logEvent } from "firebase/analytics";
+import { useNavigate } from "react-router-dom";
 
 const ContextContent = createContext({});
 
 const ContextProviderContent = (props) => {
+  const navigate = useNavigate();
   const analytics = getAnalytics();
   const db = getFirestore();
 
+  const contextOnboardFlow = useContext(ContextOnboardFlow);
   const contextChannels = useContext(ContextChannels);
   const contextQuotes = useContext(ContextQuotes);
 
@@ -94,6 +100,92 @@ const ContextProviderContent = (props) => {
     });
   }, [contentFormatsActive, lastQueriedChannel, contextQuotes]);
 
+  const deletePost = (data) => {
+    deleteDoc(doc(db, "content", data.id))
+      .then((res) => {
+        const docs = [];
+        content.forEach((doc, idx) => {
+          if (doc.id != data.id) {
+            docs.push(data);
+          }
+        });
+        setContent(docs);
+        deleteDoc(doc(db, "comments", data.id));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const likePost = (data) => {
+    if (!contextOnboardFlow.complete) {
+      navigate("/account/signin");
+      // TODO: log attempted like
+      return;
+    }
+
+    if (data.likes.length > 10) {
+      return;
+    }
+
+    const likes = data.likes;
+    removeItemByValue(likes, data.id_user);
+    const dislikes = data.dislikes;
+    removeItemByValue(dislikes, data.id_user);
+
+    const updated_doc = {
+      ...data,
+      likes: [...likes, data.id_user],
+      dislikes,
+    };
+
+    maintenance_doc_changed(updated_doc);
+  };
+
+  const dislikePost = (data) => {
+    if (!contextOnboardFlow.complete) {
+      navigate("/account/signin");
+      // TODO: log attempted like
+      return;
+    }
+
+    if (data.dislikes.length > 10) {
+      return;
+    }
+
+    const likes = data.likes;
+    removeItemByValue(likes, data.id_user);
+    const dislikes = data.dislikes;
+    removeItemByValue(dislikes, data.id_user);
+
+    const updated_doc = {
+      ...data,
+      dislikes: [...dislikes, data.id_user],
+      likes,
+    };
+
+    maintenance_doc_changed(updated_doc);
+  };
+
+  const maintenance_doc_changed = (updated_doc) => {
+    setDoc(doc(db, "content", updated_doc.id), updated_doc)
+      .then(() => {
+        const docs = [];
+        content.forEach((doc) => {
+          // console.log(doc.data());
+          if (doc.id !== updated_doc.id) {
+            docs.push(doc);
+          } else {
+            docs.push(updated_doc);
+          }
+        });
+        setContent(docs);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <ContextContent.Provider
       value={{
@@ -109,6 +201,9 @@ const ContextProviderContent = (props) => {
         setStream,
         setDialogAdd,
         content,
+        deletePost,
+        likePost,
+        dislikePost,
       }}
     >
       <Dialog open={dialogAdd} onClose={() => setDialogAdd(false)}>
@@ -141,3 +236,14 @@ const ContextProviderContent = (props) => {
 };
 
 export { ContextContent, ContextProviderContent };
+
+function removeItemByValue(array, value) {
+  const index = array.indexOf(value);
+
+  if (index !== -1) {
+    array.splice(index, 1);
+  }
+
+  // If you want to return the modified array, you can do so
+  // return array;
+}

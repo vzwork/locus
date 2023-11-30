@@ -1,12 +1,12 @@
 import { Box, Button, Container, Grid } from "@mui/material";
 import AppBar from "../../components/AppBar/AppBar";
 import ContentBar from "../../components/ContentBar/ContentBar";
-import Navigation from "./components/Navigation";
+import Navigation from "./components/navigation/Navigation";
 import { useContext } from "react";
 import { ContextContent } from "../../contexts/ContextContent/ContextContent";
-import Content from "../../components/Content/Content";
 import { useNavigate } from "react-router-dom";
 import { ContextOnboardFlow } from "../../contexts/ContextOnboardFlow/ContextOnboardFlow";
+import ContentWall from "./components/content/ContentWall";
 
 export default function ChannelsDesktopCompact() {
   const navigate = useNavigate();
@@ -65,7 +65,7 @@ export default function ChannelsDesktopCompact() {
                 add content
               </Button>
             </Box>
-            <Content />
+            <ContentWall />
           </Box>
         </Grid>
       </Grid>
