@@ -20,9 +20,9 @@ export default function Photo(props) {
       <img
         src={imgURL}
         style={{
-          height: "30vh",
+          height: "min-content",
           width: "100%",
-          objectFit: "cover",
+          objectFit: "contain",
         }}
       />
     </Box>

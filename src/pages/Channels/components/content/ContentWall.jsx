@@ -18,6 +18,7 @@ export default function ContentWall() {
         sx={{
           display: "flex",
           flexDirection: "column",
+          height: "min-content",
         }}
       >
         {contextContent.content.map((data, idx) => {
