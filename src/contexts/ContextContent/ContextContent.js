@@ -24,6 +24,7 @@ import {
 } from "firebase/firestore";
 import { getAnalytics, logEvent } from "firebase/analytics";
 import { useNavigate } from "react-router-dom";
+import { getAuth } from "firebase/auth";
 
 const ContextContent = createContext({});
 
@@ -31,6 +32,7 @@ const ContextProviderContent = (props) => {
   const navigate = useNavigate();
   const analytics = getAnalytics();
   const db = getFirestore();
+  const auth = getAuth();
 
   const contextOnboardFlow = useContext(ContextOnboardFlow);
   const contextChannels = useContext(ContextChannels);
@@ -129,13 +131,13 @@ const ContextProviderContent = (props) => {
     }
 
     const likes = data.likes;
-    removeItemByValue(likes, data.id_user);
+    // removeItemByValue(likes, data.id_user);
     const dislikes = data.dislikes;
-    removeItemByValue(dislikes, data.id_user);
+    removeItemByValue(dislikes, auth.currentUser.uid);
 
     const updated_doc = {
       ...data,
-      likes: [...likes, data.id_user],
+      likes: [...likes, auth.currentUser.uid],
       dislikes,
     };
 
@@ -154,13 +156,13 @@ const ContextProviderContent = (props) => {
     }
 
     const likes = data.likes;
-    removeItemByValue(likes, data.id_user);
+    removeItemByValue(likes, auth.currentUser.uid);
     const dislikes = data.dislikes;
-    removeItemByValue(dislikes, data.id_user);
+    // removeItemByValue(dislikes, data.id_user);
 
     const updated_doc = {
       ...data,
-      dislikes: [...dislikes, data.id_user],
+      dislikes: [...dislikes, auth.currentUser.uid],
       likes,
     };
 

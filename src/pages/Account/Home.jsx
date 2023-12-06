@@ -50,7 +50,7 @@ export default function Home() {
   });
 
   const saveUser = () => {
-    if (userName.length < 2 || userName.length > 10) {
+    if (userName.length < 2 || userName.length > 20) {
       setErrorUserName("please, pick a user name");
       return;
     }
@@ -73,10 +73,13 @@ export default function Home() {
             photoURL: `gs://locus-68ed2.appspot.com/avatars/${auth.currentUser.uid}.jpg`,
           });
           setChanged(!changed);
+          window.location.reload();
         })
         .catch((err) => {
           console.log(err);
         });
+    } else {
+      window.location.reload();
     }
   };
 

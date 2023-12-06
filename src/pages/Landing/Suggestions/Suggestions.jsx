@@ -1,8 +1,8 @@
-import { Box, Container, TextField } from "@mui/material";
+import { Box, Container, Link, TextField } from "@mui/material";
 import { useContext } from "react";
 import { ContextTheme } from "../../../contexts/ContextTheme/ContextTheme";
 import LabelOutlined from "../../../components/LabelOutlined/LabelOutlined";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useTheme } from "@emotion/react";
 
 export default function Suggestions() {

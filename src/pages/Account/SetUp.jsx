@@ -24,7 +24,6 @@ export default function SetUp() {
 
   useEffect(() => {
     setErrorUserName("");
-
     const timer = setTimeout(() => {
       // validation
       if (userName.length === 1) {
@@ -50,10 +49,11 @@ export default function SetUp() {
       });
     }
 
-    if (userName.length < 2 || userName.length > 10) {
+    if (userName.length < 2 || userName.length > 20) {
       setErrorUserName("please, pick a user name");
       return;
     }
+
     updateProfile(auth.currentUser, {
       displayName: userName,
     }).then(() => {
