@@ -11,15 +11,12 @@ import {
 } from "@mui/material";
 import { deleteUser, getAuth, signOut, updateProfile } from "firebase/auth";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ContextOnboardFlow } from "../../contexts/ContextOnboardFlow/ContextOnboardFlow";
 
 export default function Home() {
-  const navigate = useNavigate();
   const auth = getAuth();
   const storage = getStorage();
-  const contextOnboardFlow = useContext(ContextOnboardFlow);
 
   const [changed, setChanged] = useState(false);
 
