@@ -25,6 +25,7 @@ import {
 import { getAnalytics, logEvent } from "firebase/analytics";
 import { useNavigate } from "react-router-dom";
 import { getAuth } from "firebase/auth";
+import { ContextPhotos } from "../ContextPhotos/ContextPhotos";
 
 const ContextContent = createContext({});
 
@@ -37,6 +38,7 @@ const ContextProviderContent = (props) => {
   const contextOnboardFlow = useContext(ContextOnboardFlow);
   const contextChannels = useContext(ContextChannels);
   const contextQuotes = useContext(ContextQuotes);
+  const contextPhotos = useContext(ContextPhotos);
 
   const [quote, setQuote] = useState(true);
   const [article, setArticle] = useState(false);
@@ -219,10 +221,22 @@ const ContextProviderContent = (props) => {
         >
           quote
         </Button>
-        <Button startIcon={<NewspaperIcon />} color="active">
+        <Button
+          startIcon={<NewspaperIcon />}
+          onClick={() => {
+            // setDialogAdd(false);
+            // contextPhotos.setDialogAdd(true);
+          }}
+        >
           article
         </Button>
-        <Button startIcon={<PhotoCameraIcon />} color="active">
+        <Button
+          startIcon={<PhotoCameraIcon />}
+          onClick={() => {
+            setDialogAdd(false);
+            contextPhotos.setDialogAdd(true);
+          }}
+        >
           picture
         </Button>
         <Button startIcon={<OndemandVideoIcon />} color="active">

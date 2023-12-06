@@ -1,0 +1,168 @@
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogTitle,
+  IconButton,
+  TextField,
+} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import {
+  collection,
+  doc,
+  getFirestore,
+  limit,
+  setDoc,
+} from "firebase/firestore";
+import { ContextChannels } from "../ContextChannels/ContextChannels";
+import { getAuth } from "firebase/auth";
+import { getAnalytics, logEvent } from "firebase/analytics";
+import { getStorage, ref, uploadBytes } from "firebase/storage";
+
+const { createContext, useState, useEffect, useContext } = require("react");
+
+const ContextPhotos = createContext({});
+
+const DialogAdd = ({ dialogAdd, setDialogAdd }) => {
+  const analytics = getAnalytics();
+  const db = getFirestore();
+  const storage = getStorage();
+  const contextChannels = useContext(ContextChannels);
+  const auth = getAuth();
+  const limitChars = 64;
+
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [text, setText] = useState("");
+  const [textError, setTextError] = useState("");
+  const [charsRemaining, setCharsRemaining] = useState(limitChars);
+
+  useEffect(() => {
+    setCharsRemaining(limitChars - text.length);
+    setTextError("");
+  }, [text]);
+
+  const postPhoto = () => {
+    if (selectedImage) {
+      const newRef = doc(collection(db, "content"));
+      setDoc(newRef, {
+        data: {
+          text: text,
+          url: `gs://locus-68ed2.appspot.com/photos/${newRef.id}.jpg`,
+        },
+        date: Date.now(),
+        id: newRef.id,
+        id_channel: contextChannels.channelCurrent.id,
+        id_user: getAuth().currentUser.uid,
+        name_user: getAuth().currentUser.displayName,
+        likes: [getAuth().currentUser.uid],
+        dislikes: [],
+        type: "photo",
+      }).then(() => {
+        const avatarRef = ref(
+          storage,
+          `gs://locus-68ed2.appspot.com/photos/${newRef.id}.jpg`
+        );
+        uploadBytes(avatarRef, selectedImage).then(() => {
+          setDialogAdd(false);
+          setText("");
+          setSelectedImage(null);
+          logEvent(analytics, "photo_upload");
+        });
+      });
+    }
+  };
+
+  return (
+    <Dialog
+      open={dialogAdd}
+      onClose={() => setDialogAdd(false)}
+      maxWidth={"80vw"}
+    >
+      <DialogTitle
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        New Photo:{" "}
+        <IconButton size="small" onClick={() => setDialogAdd(false)}>
+          <CloseIcon />
+        </IconButton>
+      </DialogTitle>
+      <Box
+        p="1rem"
+        sx={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}
+      >
+        <img
+          src={
+            selectedImage
+              ? URL.createObjectURL(selectedImage)
+              : "/placeholder.jpg"
+          }
+          style={{
+            opacity: selectedImage ? "1.0" : "0.2",
+            height: "30vh",
+            objectFit: "cover",
+          }}
+        />
+        <Button
+          size="small"
+          variant="contained"
+          component="label"
+          color={selectedImage ? "inherit" : "primary"}
+        >
+          upload
+          <input
+            accept="image/*"
+            type="file"
+            name="myPicture"
+            hidden
+            onChange={(e) => {
+              setSelectedImage(e.target.files[0]);
+            }}
+          />
+        </Button>
+        <TextField
+          error={textError.length > 0}
+          multiline
+          fullWidth
+          rows={1}
+          label={
+            charsRemaining == limitChars
+              ? "caption"
+              : `${charsRemaining} characters left`
+          }
+          value={text}
+          onChange={(e) => {
+            if (e.target.value.length <= limitChars) {
+              setText(e.target.value);
+            }
+          }}
+          helperText={textError}
+        />
+        <Button onClick={postPhoto} variant="outlined">
+          post
+        </Button>
+      </Box>
+    </Dialog>
+  );
+};
+
+const ContextProviderPhotos = (props) => {
+  const [dialogAdd, setDialogAdd] = useState(false);
+
+  return (
+    <ContextPhotos.Provider
+      value={{
+        dialogAdd,
+        setDialogAdd,
+      }}
+    >
+      <DialogAdd dialogAdd={dialogAdd} setDialogAdd={setDialogAdd} />
+      {props.children}
+    </ContextPhotos.Provider>
+  );
+};
+
+export { ContextPhotos, ContextProviderPhotos };

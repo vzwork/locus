@@ -21,13 +21,11 @@ export default function ContentWall() {
         }}
       >
         {contextContent.content.map((data, idx) => {
-          if (data.type == "quote") {
-            return (
-              <Box key={idx}>
-                <Post data={data} />
-              </Box>
-            );
-          }
+          return (
+            <Box key={idx}>
+              <Post data={data} />
+            </Box>
+          );
         })}
       </Box>
     </Box>

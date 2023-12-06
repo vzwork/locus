@@ -16,6 +16,10 @@ const themeLight = createTheme({
     active: {
       main: "#756e72",
     },
+    background: {
+      default: "#dae3e3",
+      paper: "#dae3e3",
+    },
     bg: {
       base: "#c8cfcf",
       clear: "rgba(200, 207, 207, 0.8)",

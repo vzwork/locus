@@ -29,17 +29,20 @@ import { ContextProviderChannels } from "./contexts/ContextChannels/ContextChann
 import { ContextProviderContent } from "./contexts/ContextContent/ContextContent";
 import { ContextProviderQuotes } from "./contexts/ContextQuotes/ContextQuotes";
 import { ContextProviderComments } from "./contexts/ContextComments/ContextComments";
+import { ContextProviderPhotos } from "./contexts/ContextPhotos/ContextPhotos";
 
 function WrapperContextsNavigation() {
   return (
     <ContextProviderOnboardFlow>
       <ContextProviderChannels>
         <ContextProviderQuotes>
-          <ContextProviderContent>
-            <ContextProviderComments>
-              <Outlet />
-            </ContextProviderComments>
-          </ContextProviderContent>
+          <ContextProviderPhotos>
+            <ContextProviderContent>
+              <ContextProviderComments>
+                <Outlet />
+              </ContextProviderComments>
+            </ContextProviderContent>
+          </ContextProviderPhotos>
         </ContextProviderQuotes>
       </ContextProviderChannels>
     </ContextProviderOnboardFlow>

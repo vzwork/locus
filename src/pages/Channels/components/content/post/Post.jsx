@@ -12,6 +12,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { getAuth } from "firebase/auth";
 import { ContextContent } from "../../../../../contexts/ContextContent/ContextContent";
 import { doc, getFirestore, setDoc } from "firebase/firestore";
+import Photo from "./Photo/Photo";
 
 const months = [
   "Jan",
@@ -86,16 +87,8 @@ export default function Post(props) {
           </IconButton>
         ) : null}
       </Box>
-      <Box
-        // p="1rem"
-        // bgcolor="bg.easy"
-        borderRadius="1rem 1rem 1rem 1rem"
-        // borderRadius="1rem 1rem 1rem 1rem"
-        // borderRadius="1rem 1rem 1rem 1rem"
-        // color="active.main"
-      >
-        "{props.data.data.text}"<></>
-      </Box>
+      {props.data.type == "quote" ? <Box>{props.data.data.text}</Box> : null}
+      {props.data.type == "photo" ? <Photo data={props.data} /> : null}
       <Box
         pt="0rem"
         // pr="1rem"
