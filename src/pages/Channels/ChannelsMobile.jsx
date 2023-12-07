@@ -94,7 +94,7 @@ export default function ChannelsMobile() {
       </Box>
       <Box pt="1rem" />
       <ContentWall />
-      <Box pb="5rem" />
+      <Box pb="20vh" />
       <Box
         sx={{
           position: "fixed",

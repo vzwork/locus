@@ -20,7 +20,6 @@ export default function Photo(props) {
       <img
         src={imgURL}
         style={{
-          height: "min-content",
           width: "100%",
           objectFit: "contain",
         }}
