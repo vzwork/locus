@@ -26,6 +26,7 @@ import { getAnalytics, logEvent } from "firebase/analytics";
 import { useNavigate } from "react-router-dom";
 import { getAuth } from "firebase/auth";
 import { ContextPhotos } from "../ContextPhotos/ContextPhotos";
+import { ContextArticles } from "../ContextArticles/ContextArticles";
 
 const ContextContent = createContext({});
 
@@ -39,6 +40,7 @@ const ContextProviderContent = (props) => {
   const contextChannels = useContext(ContextChannels);
   const contextQuotes = useContext(ContextQuotes);
   const contextPhotos = useContext(ContextPhotos);
+  const contextArticles = useContext(ContextArticles);
 
   const [quote, setQuote] = useState(true);
   const [article, setArticle] = useState(false);
@@ -224,8 +226,8 @@ const ContextProviderContent = (props) => {
         <Button
           startIcon={<NewspaperIcon />}
           onClick={() => {
-            // setDialogAdd(false);
-            // contextPhotos.setDialogAdd(true);
+            setDialogAdd(false);
+            contextArticles.setDialogAdd(true);
           }}
         >
           article
