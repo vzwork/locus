@@ -13,7 +13,7 @@ export default function ContentBar() {
   const contextContent = useContext(ContextContent);
 
   return (
-    <Box bgcolor="bg.clear" borderRadius="1rem">
+    <Box bgcolor="bg.base" borderRadius="1rem">
       <Tooltip title="quotes" arrow>
         <IconButton
           fontSize="inherit"
@@ -25,7 +25,7 @@ export default function ContentBar() {
           <FormatQuoteIcon fontSize="inherit" />
         </IconButton>
       </Tooltip>
-      <Tooltip title="articles - developing..." arrow>
+      <Tooltip title="articles" arrow>
         <IconButton
           color={contextContent.article ? "primary" : "inactive"}
           onClick={() => {
@@ -35,7 +35,7 @@ export default function ContentBar() {
           <NewspaperIcon fontSize="inherit" />
         </IconButton>
       </Tooltip>
-      <Tooltip title="photos - developing..." arrow>
+      <Tooltip title="photos" arrow>
         <IconButton
           color={contextContent.photo ? "primary" : "inactive"}
           onClick={() => {
@@ -45,7 +45,7 @@ export default function ContentBar() {
           <PhotoCameraIcon fontSize="inherit" />
         </IconButton>
       </Tooltip>
-      <Tooltip title="videos - developing..." arrow>
+      <Tooltip title="videos" arrow>
         <IconButton
           color={contextContent.video ? "primary" : "inactive"}
           onClick={() => {

@@ -32,7 +32,13 @@ export default function Navigation() {
   });
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "0.5rem",
+      }}
+    >
       <Search />
       <Box sx={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
         <IconButton

@@ -38,6 +38,7 @@ export default function ChannelsDesktopCompact() {
               position: "sticky",
               top: "1rem",
               paddingX: "0.5rem",
+              zIndex: 998,
             }}
           >
             <ContentBar />

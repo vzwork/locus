@@ -60,6 +60,7 @@ export default function Article(props) {
       ref={containerRef}
       sx={{
         position: "relative",
+        zIndex: "1",
         width: "100%",
         height: "500px",
         display: "flex",

@@ -20,7 +20,14 @@ export default function ChannelsDesktop() {
     >
       <Grid container>
         <Grid item md={3}>
-          <Box sx={{ paddingX: "0.5rem", position: "sticky", top: "0.5rem" }}>
+          <Box
+            sx={{
+              paddingX: "0.5rem",
+              position: "sticky",
+              top: "0.5rem",
+              zIndex: 2,
+            }}
+          >
             <Navigation />
           </Box>
         </Grid>
@@ -53,6 +60,7 @@ export default function ChannelsDesktop() {
               display: "flex",
               flexDirection: "column",
               alignItems: "end",
+              zIndex: 998,
             }}
           >
             <AppBar />

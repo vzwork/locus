@@ -17,7 +17,7 @@ export default function AppBar() {
   return (
     <Box
       sx={{ display: "flex", alignItems: "center" }}
-      bgcolor="bg.clear"
+      bgcolor="bg.base"
       borderRadius="1rem"
     >
       <IconButton

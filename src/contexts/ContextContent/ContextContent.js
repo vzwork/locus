@@ -43,9 +43,9 @@ const ContextProviderContent = (props) => {
   const contextArticles = useContext(ContextArticles);
 
   const [quote, setQuote] = useState(true);
-  const [article, setArticle] = useState(false);
-  const [photo, setPhoto] = useState(false);
-  const [video, setVideo] = useState(false);
+  const [article, setArticle] = useState(true);
+  const [photo, setPhoto] = useState(true);
+  const [video, setVideo] = useState(true);
   const [stream, setStream] = useState(false);
 
   const [dialogAdd, setDialogAdd] = useState(false);
