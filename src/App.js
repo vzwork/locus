@@ -30,6 +30,7 @@ import { ContextProviderContent } from "./contexts/ContextContent/ContextContent
 import { ContextProviderQuotes } from "./contexts/ContextQuotes/ContextQuotes";
 import { ContextProviderComments } from "./contexts/ContextComments/ContextComments";
 import { ContextProviderPhotos } from "./contexts/ContextPhotos/ContextPhotos";
+import { ContextProviderArticles } from "./contexts/ContextArticles/ContextArticles";
 
 function WrapperContextsNavigation() {
   return (
@@ -37,11 +38,13 @@ function WrapperContextsNavigation() {
       <ContextProviderChannels>
         <ContextProviderQuotes>
           <ContextProviderPhotos>
-            <ContextProviderContent>
-              <ContextProviderComments>
-                <Outlet />
-              </ContextProviderComments>
-            </ContextProviderContent>
+            <ContextProviderArticles>
+              <ContextProviderContent>
+                <ContextProviderComments>
+                  <Outlet />
+                </ContextProviderComments>
+              </ContextProviderContent>
+            </ContextProviderArticles>
           </ContextProviderPhotos>
         </ContextProviderQuotes>
       </ContextProviderChannels>

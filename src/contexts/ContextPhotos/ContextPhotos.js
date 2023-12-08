@@ -58,15 +58,15 @@ const DialogAdd = ({ dialogAdd, setDialogAdd }) => {
         dislikes: [],
         type: "photo",
       }).then(() => {
-        const avatarRef = ref(
+        const photoRef = ref(
           storage,
           `gs://locus-68ed2.appspot.com/photos/${newRef.id}.jpg`
         );
-        uploadBytes(avatarRef, selectedImage).then(() => {
-          setDialogAdd(false);
+        uploadBytes(photoRef, selectedImage).then(() => {
           setText("");
           setSelectedImage(null);
           logEvent(analytics, "photo_upload");
+          setDialogAdd(false);
         });
       });
     }

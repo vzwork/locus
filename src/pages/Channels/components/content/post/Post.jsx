@@ -13,6 +13,7 @@ import { getAuth } from "firebase/auth";
 import { ContextContent } from "../../../../../contexts/ContextContent/ContextContent";
 import { doc, getFirestore, setDoc } from "firebase/firestore";
 import Photo from "./Photo/Photo";
+import Article from "./Article/Article";
 
 const months = [
   "Jan",
@@ -88,6 +89,7 @@ export default function Post(props) {
         ) : null}
       </Box>
       {props.data.type == "quote" ? <Box>{props.data.data.text}</Box> : null}
+      {props.data.type == "article" ? <Article data={props.data} /> : null}
       {props.data.type == "photo" ? <Photo data={props.data} /> : null}
       <Box
         pt="0rem"
