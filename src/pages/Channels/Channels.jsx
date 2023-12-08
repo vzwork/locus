@@ -6,6 +6,15 @@ import ChannelsDesktop from "./ChannelsDesktop";
 import ChannelsMobile from "./ChannelsMobile";
 import ChannelsDesktopCompact from "./ChannelsDesktopCompact";
 
+import { pdfjs } from "react-pdf";
+
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+
+// pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+//   "pdfjs-dist/build/pdf.worker.min.js",
+//   import.meta.url
+// ).toString();
+
 function useWindowSize() {
   const [size, setSize] = useState([0, 0]);
 

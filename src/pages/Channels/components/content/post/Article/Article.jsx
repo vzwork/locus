@@ -7,7 +7,7 @@ import {
   ref,
 } from "firebase/storage";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { pdfjs, Document, Page } from "react-pdf";
+import { Document, Page } from "react-pdf";
 import useResizeObserver from "@react-hook/resize-observer";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
@@ -23,11 +23,6 @@ const useSize = (target) => {
   useResizeObserver(target, (entry) => setSize(entry.contentRect));
   return size;
 };
-
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  "pdfjs-dist/build/pdf.worker.min.js",
-  import.meta.url
-).toString();
 
 const options = {
   cMapUrl: "/cmaps/",
