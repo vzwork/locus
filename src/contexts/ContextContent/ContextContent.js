@@ -27,6 +27,7 @@ import { useNavigate } from "react-router-dom";
 import { getAuth } from "firebase/auth";
 import { ContextPhotos } from "../ContextPhotos/ContextPhotos";
 import { ContextArticles } from "../ContextArticles/ContextArticles";
+import { ContextVideos } from "../ContextVideos/ContextVideos";
 
 const ContextContent = createContext({});
 
@@ -41,6 +42,7 @@ const ContextProviderContent = (props) => {
   const contextQuotes = useContext(ContextQuotes);
   const contextPhotos = useContext(ContextPhotos);
   const contextArticles = useContext(ContextArticles);
+  const contextVideos = useContext(ContextVideos);
 
   const [quote, setQuote] = useState(true);
   const [article, setArticle] = useState(true);
@@ -241,7 +243,13 @@ const ContextProviderContent = (props) => {
         >
           picture
         </Button>
-        <Button startIcon={<OndemandVideoIcon />} color="active">
+        <Button
+          startIcon={<OndemandVideoIcon />}
+          onClick={() => {
+            setDialogAdd(false);
+            contextVideos.setDialogAdd(true);
+          }}
+        >
           video
         </Button>
         <Button startIcon={<PhotoCameraFrontIcon />} color="active">

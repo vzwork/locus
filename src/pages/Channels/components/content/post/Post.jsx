@@ -14,6 +14,7 @@ import { ContextContent } from "../../../../../contexts/ContextContent/ContextCo
 import { doc, getFirestore, setDoc } from "firebase/firestore";
 import Photo from "./Photo/Photo";
 import Article from "./Article/Article";
+import Video from "./Video/Video";
 
 const months = [
   "Jan",
@@ -91,6 +92,7 @@ export default function Post(props) {
       {props.data.type == "quote" ? <Box>{props.data.data.text}</Box> : null}
       {props.data.type == "article" ? <Article data={props.data} /> : null}
       {props.data.type == "photo" ? <Photo data={props.data} /> : null}
+      {props.data.type == "video" ? <Video data={props.data} /> : null}
       <Box
         pt="0rem"
         // pr="1rem"
