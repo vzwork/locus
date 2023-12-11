@@ -35,6 +35,7 @@ export default function Article(props) {
   const containerRef = useRef(null);
   const containerWidth = useSize(containerRef);
 
+  const [error, setError] = useState("");
   const [article, setArticle] = useState(null);
   const [numPages, setNumPages] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
@@ -42,11 +43,16 @@ export default function Article(props) {
   const maxWidth = 800;
 
   useEffect(() => {
-    if (!article) {
-      getBytes(ref(storage, props.data.data.url)).then((bytes) => {
-        const uint8View = new Uint8Array(bytes);
-        setArticle({ data: uint8View });
-      });
+    if (!article && error === "") {
+      getBytes(ref(storage, props.data.data.url))
+        .then((bytes) => {
+          const uint8View = new Uint8Array(bytes);
+          setArticle({ data: uint8View });
+        })
+        .catch((err) => {
+          console.log(err);
+          setError(err);
+        });
     }
   });
 

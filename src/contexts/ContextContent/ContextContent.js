@@ -28,6 +28,7 @@ import { getAuth } from "firebase/auth";
 import { ContextPhotos } from "../ContextPhotos/ContextPhotos";
 import { ContextArticles } from "../ContextArticles/ContextArticles";
 import { ContextVideos } from "../ContextVideos/ContextVideos";
+import { deleteObject, getStorage, ref } from "firebase/storage";
 
 const ContextContent = createContext({});
 
@@ -36,6 +37,7 @@ const ContextProviderContent = (props) => {
   const analytics = getAnalytics();
   const db = getFirestore();
   const auth = getAuth();
+  const storage = getStorage();
 
   const contextOnboardFlow = useContext(ContextOnboardFlow);
   const contextChannels = useContext(ContextChannels);
@@ -91,6 +93,15 @@ const ContextProviderContent = (props) => {
     if (contextQuotes.dialogAdd) {
       return;
     }
+    if (contextArticles.dialogAdd) {
+      return;
+    }
+    if (contextPhotos.dialogAdd) {
+      return;
+    }
+    if (contextVideos.dialogAdd) {
+      return;
+    }
 
     const q = query(
       collection(db, "content"),
@@ -106,19 +117,31 @@ const ContextProviderContent = (props) => {
       });
       setContent(docs);
     });
-  }, [contentFormatsActive, lastQueriedChannel, contextQuotes]);
+  }, [
+    contentFormatsActive,
+    lastQueriedChannel,
+    contextQuotes,
+    contextArticles,
+    contextPhotos,
+    contextVideos,
+  ]);
 
   const deletePost = (data) => {
+    const docs = [];
+    content.forEach((doc, idx) => {
+      if (doc.id != data.id) {
+        docs.push(doc);
+      }
+    });
+    setContent(docs);
     deleteDoc(doc(db, "content", data.id))
       .then((res) => {
-        const docs = [];
-        content.forEach((doc, idx) => {
-          if (doc.id != data.id) {
-            docs.push(data);
-          }
-        });
-        setContent(docs);
         deleteDoc(doc(db, "comments", data.id));
+        if (data.type === "article") {
+          deleteObject(ref(storage, `articles/${data.id}.pdf`));
+        } else if (data.type === "photo") {
+          deleteObject(ref(storage, `photos/${data.id}.jpg`));
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -241,7 +264,7 @@ const ContextProviderContent = (props) => {
             contextPhotos.setDialogAdd(true);
           }}
         >
-          picture
+          photo
         </Button>
         <Button
           startIcon={<OndemandVideoIcon />}

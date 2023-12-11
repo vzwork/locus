@@ -6,17 +6,29 @@ export default function Photo(props) {
   const storage = getStorage();
 
   const [imgURL, setImgURL] = useState(null);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    if (!imgURL) {
-      getDownloadURL(ref(storage, props.data.data.url)).then((thisURL) => {
-        setImgURL(thisURL);
-      });
+    if (!imgURL && error === "") {
+      getDownloadURL(ref(storage, props.data.data.url))
+        .then((thisURL) => {
+          setImgURL(thisURL);
+        })
+        .catch((err) => {
+          console.log(err);
+          setError(err);
+        });
     }
   });
 
   return (
-    <Box sx={{ display: "flex", justifyContent: "center" }}>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        flexDirection: "column",
+      }}
+    >
       <img
         src={imgURL}
         style={{
@@ -24,6 +36,7 @@ export default function Photo(props) {
           objectFit: "contain",
         }}
       />
+      <Box color="inactive.main">{props.data.data.text}</Box>
     </Box>
   );
 }
