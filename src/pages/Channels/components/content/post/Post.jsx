@@ -61,7 +61,9 @@ export default function Post(props) {
   return (
     <Box mt="1.5rem">
       <Snackbar open={deleteInitiated}>
-        <Alert severity="error">Click again to delete the quote!</Alert>
+        <Alert severity="error">
+          Click again to delete the {props.data.type}!
+        </Alert>
       </Snackbar>
       <Box
         pt="0rem"

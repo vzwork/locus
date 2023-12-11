@@ -11,8 +11,6 @@ export default function Video(props) {
     },
   };
 
-  console.log(props.data.data.id_video);
-
   return (
     <Box>
       <YouTube

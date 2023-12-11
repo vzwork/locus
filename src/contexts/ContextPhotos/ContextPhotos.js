@@ -23,23 +23,52 @@ const { createContext, useState, useEffect, useContext } = require("react");
 
 const ContextPhotos = createContext({});
 
+const DialogAddTextPerformance = (props) => {
+  const limitChars = 64;
+
+  const [text, setText] = useState("");
+  const [charsRemaining, setCharsRemaining] = useState(limitChars);
+
+  useEffect(() => {
+    setCharsRemaining(limitChars - text.length);
+  }, [text]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      props.setText(text);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [text]);
+
+  return (
+    <TextField
+      multiline
+      fullWidth
+      rows={1}
+      label={
+        charsRemaining == limitChars
+          ? "caption"
+          : `${charsRemaining} characters left`
+      }
+      value={text}
+      onChange={(e) => {
+        if (e.target.value.length <= limitChars) {
+          setText(e.target.value);
+        }
+      }}
+    />
+  );
+};
+
 const DialogAdd = ({ dialogAdd, setDialogAdd }) => {
   const analytics = getAnalytics();
   const db = getFirestore();
   const storage = getStorage();
   const contextChannels = useContext(ContextChannels);
   const auth = getAuth();
-  const limitChars = 64;
 
   const [selectedImage, setSelectedImage] = useState(null);
   const [text, setText] = useState("");
-  const [textError, setTextError] = useState("");
-  const [charsRemaining, setCharsRemaining] = useState(limitChars);
-
-  useEffect(() => {
-    setCharsRemaining(limitChars - text.length);
-    setTextError("");
-  }, [text]);
 
   const postPhoto = () => {
     if (selectedImage) {
@@ -123,24 +152,7 @@ const DialogAdd = ({ dialogAdd, setDialogAdd }) => {
             }}
           />
         </Button>
-        <TextField
-          error={textError.length > 0}
-          multiline
-          fullWidth
-          rows={1}
-          label={
-            charsRemaining == limitChars
-              ? "caption"
-              : `${charsRemaining} characters left`
-          }
-          value={text}
-          onChange={(e) => {
-            if (e.target.value.length <= limitChars) {
-              setText(e.target.value);
-            }
-          }}
-          helperText={textError}
-        />
+        <DialogAddTextPerformance setText={setText} />
         <Button onClick={postPhoto} variant="outlined">
           post
         </Button>
