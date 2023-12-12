@@ -29,7 +29,7 @@ export default function ContentBar() {
         <IconButton
           color={contextContent.article ? "primary" : "inactive"}
           onClick={() => {
-            // contextContent.setArticle(!contextContent.article);
+            contextContent.setArticle(!contextContent.article);
           }}
         >
           <NewspaperIcon fontSize="inherit" />
@@ -39,7 +39,7 @@ export default function ContentBar() {
         <IconButton
           color={contextContent.photo ? "primary" : "inactive"}
           onClick={() => {
-            // contextContent.setPhoto(!contextContent.photo);
+            contextContent.setPhoto(!contextContent.photo);
           }}
         >
           <PhotoCameraIcon fontSize="inherit" />
@@ -49,7 +49,7 @@ export default function ContentBar() {
         <IconButton
           color={contextContent.video ? "primary" : "inactive"}
           onClick={() => {
-            // contextContent.setVideo(!contextContent.video);
+            contextContent.setVideo(!contextContent.video);
           }}
         >
           <OndemandVideoIcon fontSize="inherit" />
