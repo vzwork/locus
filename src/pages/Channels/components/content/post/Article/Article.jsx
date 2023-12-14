@@ -70,54 +70,68 @@ export default function Article(props) {
         width: "100%",
         height: "500px",
         display: "flex",
+        flexDirection: "column",
         justifyContent: "center",
+        alignItems: "center",
       }}
     >
-      <Box sx={{ position: "absolute", bottom: "0", zIndex: "2" }}>
-        <ButtonGroup>
-          <Button
-            size="small"
-            variant="contained"
-            color="inactive"
-            onClick={() => {
-              if (currentPage > 0) {
-                setCurrentPage(currentPage - 1);
-              }
-            }}
-          >
-            prev
-          </Button>
-          <Button
-            size="small"
-            variant="contained"
-            color="inactive"
-            onClick={() => {
-              if (currentPage + 1 < numPages) {
-                setCurrentPage(currentPage + 1);
-              }
-            }}
-          >
-            next
-          </Button>
-        </ButtonGroup>
-      </Box>
-      {article ? (
-        <Document
-          file={article}
-          options={options}
-          pageIndex={1}
-          onLoadSuccess={onDocumentLoadSuccess}
+      <Box sx={{ position: "relative", zIndex: "2" }}>
+        <Box
+          sx={{
+            position: "absolute",
+            bottom: "0",
+            right: "0",
+            zIndex: "3",
+          }}
         >
-          <Page
-            key={`page_${currentPage + 1}`}
-            pageNumber={currentPage + 1}
-            scale={0.6}
-            width={
-              containerWidth ? Math.min(containerWidth, maxWidth) : maxWidth
-            }
-          />
-        </Document>
-      ) : null}
+          <ButtonGroup>
+            <Button
+              size="small"
+              variant="contained"
+              color="inactive"
+              onClick={() => {
+                if (currentPage > 0) {
+                  setCurrentPage(currentPage - 1);
+                }
+              }}
+            >
+              prev
+            </Button>
+            <Button
+              size="small"
+              variant="contained"
+              color="inactive"
+              onClick={() => {
+                if (currentPage + 1 < numPages) {
+                  setCurrentPage(currentPage + 1);
+                }
+              }}
+            >
+              next
+            </Button>
+          </ButtonGroup>
+        </Box>
+        {article ? (
+          <Document
+            file={article}
+            options={options}
+            pageIndex={1}
+            onLoadSuccess={onDocumentLoadSuccess}
+          >
+            <Page
+              key={`page_${currentPage + 1}`}
+              pageNumber={currentPage + 1}
+              scale={0.6}
+              width={
+                containerWidth ? Math.min(containerWidth, maxWidth) : maxWidth
+              }
+            />
+          </Document>
+        ) : null}
+      </Box>
+      <Box sx={{ width: "100%", display: "flex" }} color="active.main">
+        {props.data.data.text}
+      </Box>
     </Box>
   );
 }

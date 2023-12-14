@@ -53,7 +53,7 @@ const DialogAdd = ({ dialogAdd, setDialogAdd }) => {
   const analytics = getAnalytics();
   const db = getFirestore();
   const contextChannels = useContext(ContextChannels);
-  const limitChars = 128;
+  const limitChars = 64;
 
   const [url, setUrl] = useState("");
   const [urlError, setUrlError] = useState("");
@@ -92,7 +92,9 @@ const DialogAdd = ({ dialogAdd, setDialogAdd }) => {
         id_user: getAuth().currentUser.uid,
         name_user: getAuth().currentUser.displayName,
         likes: [getAuth().currentUser.uid],
+        count_likes: 1,
         dislikes: [],
+        count_dislikes: 0,
         type: "video",
       }).then(() => {
         logEvent(analytics, "video_creation");

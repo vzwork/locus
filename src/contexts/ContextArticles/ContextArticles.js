@@ -50,7 +50,9 @@ const DialogAdd = ({ dialogAdd, setDialogAdd }) => {
         id_user: getAuth().currentUser.uid,
         name_user: getAuth().currentUser.displayName,
         likes: [getAuth().currentUser.uid],
+        count_likes: 1,
         dislikes: [],
+        count_dislikes: 0,
         type: "article",
       }).then(() => {
         const articleRef = ref(

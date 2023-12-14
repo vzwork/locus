@@ -11,11 +11,15 @@ import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 import PhotoCameraFrontIcon from "@mui/icons-material/PhotoCameraFront";
 import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 import {
+  arrayRemove,
+  arrayUnion,
   collection,
   deleteDoc,
   doc,
+  getDoc,
   getDocs,
   getFirestore,
+  increment,
   limit,
   orderBy,
   query,
@@ -29,6 +33,9 @@ import { ContextPhotos } from "../ContextPhotos/ContextPhotos";
 import { ContextArticles } from "../ContextArticles/ContextArticles";
 import { ContextVideos } from "../ContextVideos/ContextVideos";
 import { deleteObject, getStorage, ref } from "firebase/storage";
+
+const LIMIT_LIKES_DISLIKES = 300;
+const LIMIT_COMMENTS = 30;
 
 const ContextContent = createContext({});
 
@@ -103,20 +110,23 @@ const ContextProviderContent = (props) => {
       return;
     }
 
-    const q = query(
-      collection(db, "content"),
-      where("id_channel", "==", lastQueriedChannel),
-      orderBy("date", "desc"),
-      limit(10)
-    );
-    getDocs(q).then((querySnapshot) => {
-      const docs = [];
-      querySnapshot.forEach((doc) => {
-        // console.log(doc.data());
-        docs.push(doc.data());
+    if (contentFormatsActive.length > 0) {
+      const q = query(
+        collection(db, "content"),
+        where("id_channel", "==", lastQueriedChannel),
+        where("type", "in", contentFormatsActive),
+        orderBy("date", "desc"),
+        limit(10)
+      );
+      getDocs(q).then((querySnapshot) => {
+        const docs = [];
+        querySnapshot.forEach((doc) => {
+          // console.log(doc.data());
+          docs.push(doc.data());
+        });
+        setContent(docs);
       });
-      setContent(docs);
-    });
+    }
   }, [
     contentFormatsActive,
     lastQueriedChannel,
@@ -155,19 +165,20 @@ const ContextProviderContent = (props) => {
       return;
     }
 
-    if (data.likes.length > 10) {
+    if (data.likes.length > LIMIT_LIKES_DISLIKES) {
       return;
     }
 
-    const likes = data.likes;
-    // removeItemByValue(likes, data.id_user);
-    const dislikes = data.dislikes;
-    removeItemByValue(dislikes, auth.currentUser.uid);
+    if (data.likes.includes(auth.currentUser.uid)) {
+      return;
+    }
 
     const updated_doc = {
       ...data,
-      likes: [...likes, auth.currentUser.uid],
-      dislikes,
+      dislikes: arrayRemove(auth.currentUser.uid),
+      count_dislikes: increment(-11),
+      likes: arrayUnion(auth.currentUser.uid),
+      count_likes: increment(1),
     };
 
     maintenance_doc_changed(updated_doc);
@@ -180,19 +191,20 @@ const ContextProviderContent = (props) => {
       return;
     }
 
-    if (data.dislikes.length > 10) {
+    if (data.dislikes.length > LIMIT_LIKES_DISLIKES) {
       return;
     }
 
-    const likes = data.likes;
-    removeItemByValue(likes, auth.currentUser.uid);
-    const dislikes = data.dislikes;
-    // removeItemByValue(dislikes, data.id_user);
+    if (data.dislikes.includes(auth.currentUser.uid)) {
+      return;
+    }
 
     const updated_doc = {
       ...data,
-      dislikes: [...dislikes, auth.currentUser.uid],
-      likes,
+      dislikes: arrayUnion(auth.currentUser.uid),
+      count_dislikes: increment(1),
+      likes: arrayRemove(auth.currentUser.uid),
+      count_likes: increment(-1),
     };
 
     maintenance_doc_changed(updated_doc);
@@ -201,16 +213,19 @@ const ContextProviderContent = (props) => {
   const maintenance_doc_changed = (updated_doc) => {
     setDoc(doc(db, "content", updated_doc.id), updated_doc)
       .then(() => {
-        const docs = [];
-        content.forEach((doc) => {
-          // console.log(doc.data());
-          if (doc.id !== updated_doc.id) {
-            docs.push(doc);
-          } else {
-            docs.push(updated_doc);
-          }
+        getDoc(doc(db, "content", updated_doc.id)).then((docSnap) => {
+          const new_doc = docSnap.data();
+          const docs = [];
+          content.forEach((doc) => {
+            // console.log(doc.data());
+            if (doc.id !== new_doc.id) {
+              docs.push(doc);
+            } else {
+              docs.push(new_doc);
+            }
+          });
+          setContent(docs);
         });
-        setContent(docs);
       })
       .catch((err) => {
         console.log(err);

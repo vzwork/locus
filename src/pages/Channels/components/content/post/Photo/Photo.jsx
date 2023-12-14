@@ -36,7 +36,7 @@ export default function Photo(props) {
           objectFit: "contain",
         }}
       />
-      <Box color="inactive.main">{props.data.data.text}</Box>
+      <Box color="active.main">{props.data.data.text}</Box>
     </Box>
   );
 }

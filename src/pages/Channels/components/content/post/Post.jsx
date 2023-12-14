@@ -44,6 +44,10 @@ export default function Post(props) {
   const date = new Date(props.data.date);
 
   useEffect(() => {
+    // console.log(props);
+  });
+
+  useEffect(() => {
     const timer = setTimeout(() => {
       setDeleteInitiated(false);
     }, 4000);
@@ -116,7 +120,8 @@ export default function Post(props) {
             sx={{ padding: 0 }}
             size="small"
             color={
-              props.data.dislikes.includes(auth.currentUser?.uid)
+              props.data.dislikes &&
+              props.data.dislikes.indexOf(auth.currentUser?.uid) > -1
                 ? "error"
                 : "inactive"
             }
@@ -124,12 +129,12 @@ export default function Post(props) {
           >
             <KeyboardDoubleArrowDownIcon fontSize="small" />
           </IconButton>
-          {props.data.likes.length - props.data.dislikes.length}
+          {props.data.likes?.length - props.data.dislikes?.length}
           <IconButton
             sx={{ padding: 0 }}
             size="small"
             color={
-              props.data.likes.includes(auth.currentUser?.uid)
+              props.data.likes.indexOf(auth.currentUser?.uid) > -1
                 ? "success"
                 : "inactive"
             }
