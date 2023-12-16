@@ -176,7 +176,9 @@ const ContextProviderContent = (props) => {
     const updated_doc = {
       ...data,
       dislikes: arrayRemove(auth.currentUser.uid),
-      count_dislikes: increment(-11),
+      count_dislikes: increment(
+        data.dislikes.includes(auth.currentUser.uid) ? -1 : 0
+      ),
       likes: arrayUnion(auth.currentUser.uid),
       count_likes: increment(1),
     };
@@ -204,7 +206,9 @@ const ContextProviderContent = (props) => {
       dislikes: arrayUnion(auth.currentUser.uid),
       count_dislikes: increment(1),
       likes: arrayRemove(auth.currentUser.uid),
-      count_likes: increment(-1),
+      count_likes: increment(
+        data.likes.includes(auth.currentUser.uid) ? -1 : 0
+      ),
     };
 
     maintenance_doc_changed(updated_doc);

@@ -120,8 +120,7 @@ export default function Post(props) {
             sx={{ padding: 0 }}
             size="small"
             color={
-              props.data.dislikes &&
-              props.data.dislikes.indexOf(auth.currentUser?.uid) > -1
+              props.data.dislikes.includes(auth.currentUser?.uid)
                 ? "error"
                 : "inactive"
             }
@@ -134,7 +133,7 @@ export default function Post(props) {
             sx={{ padding: 0 }}
             size="small"
             color={
-              props.data.likes.indexOf(auth.currentUser?.uid) > -1
+              props.data.likes.includes(auth.currentUser?.uid)
                 ? "success"
                 : "inactive"
             }
