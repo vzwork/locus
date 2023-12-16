@@ -24,6 +24,7 @@ import {
   orderBy,
   query,
   setDoc,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { getAnalytics, logEvent } from "firebase/analytics";
@@ -215,7 +216,7 @@ const ContextProviderContent = (props) => {
   };
 
   const maintenance_doc_changed = (updated_doc) => {
-    setDoc(doc(db, "content", updated_doc.id), updated_doc)
+    updateDoc(doc(db, "content", updated_doc.id), updated_doc)
       .then(() => {
         getDoc(doc(db, "content", updated_doc.id)).then((docSnap) => {
           const new_doc = docSnap.data();
