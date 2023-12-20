@@ -26,7 +26,7 @@ export default function Content() {
               }}
             >
               <Box bgcolor={"bg.clear"} p="1rem" borderRadius="1rem">
-                Welcome / guide video.
+                Welcome / guide video (placeholder).
               </Box>
             </Box>
             <img
