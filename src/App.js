@@ -32,25 +32,32 @@ import { ContextProviderComments } from "./contexts/ContextComments/ContextComme
 import { ContextProviderPhotos } from "./contexts/ContextPhotos/ContextPhotos";
 import { ContextProviderArticles } from "./contexts/ContextArticles/ContextArticles";
 import { ContextProviderVideos } from "./contexts/ContextVideos/ContextVideos";
+import { ContextProviderNotifications } from "./contexts/ContextNotifications/ContextNotifications";
+import { ContextProviderChats } from "./contexts/ContextChats/ContextChats";
+import Chats from "./pages/Chats/Chats";
 
 function WrapperContextsNavigation() {
   return (
     <ContextProviderOnboardFlow>
-      <ContextProviderChannels>
-        <ContextProviderQuotes>
-          <ContextProviderPhotos>
-            <ContextProviderArticles>
-              <ContextProviderVideos>
-                <ContextProviderContent>
-                  <ContextProviderComments>
-                    <Outlet />
-                  </ContextProviderComments>
-                </ContextProviderContent>
-              </ContextProviderVideos>
-            </ContextProviderArticles>
-          </ContextProviderPhotos>
-        </ContextProviderQuotes>
-      </ContextProviderChannels>
+      <ContextProviderNotifications>
+        <ContextProviderChats>
+          <ContextProviderChannels>
+            <ContextProviderQuotes>
+              <ContextProviderPhotos>
+                <ContextProviderArticles>
+                  <ContextProviderVideos>
+                    <ContextProviderContent>
+                      <ContextProviderComments>
+                        <Outlet />
+                      </ContextProviderComments>
+                    </ContextProviderContent>
+                  </ContextProviderVideos>
+                </ContextProviderArticles>
+              </ContextProviderPhotos>
+            </ContextProviderQuotes>
+          </ContextProviderChannels>
+        </ContextProviderChats>
+      </ContextProviderNotifications>
     </ContextProviderOnboardFlow>
   );
 }
@@ -78,6 +85,8 @@ const router = createBrowserRouter(
           <Route path="setup" element={<SetUp />} />
           <Route path="home" element={<Home />} />
         </Route>
+        <Route path="/chats/:chatId" element={<Chats />} />
+        <Route path="/chats" element={<Chats />} />
       </Route>
       <Route path="/channels" element={<Channels />} />
       <Route path="/channels/:id" element={<Channels />} />

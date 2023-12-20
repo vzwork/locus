@@ -10,16 +10,22 @@ import {
 import { getAuth } from "firebase/auth";
 import { ContextOnboardFlow } from "../ContextOnboardFlow/ContextOnboardFlow";
 import { useNavigate } from "react-router-dom";
+import { ContextNotifications } from "../ContextNotifications/ContextNotifications";
 
 const ContextComments = createContext({});
 
 const ContextProviderComments = (props) => {
-  const db = getFirestore();
-
-  const auth = getAuth();
-  const contextOnboardFlow = useContext(ContextOnboardFlow);
   const navigate = useNavigate();
+
+  const db = getFirestore();
+  const auth = getAuth();
+
+  const contextOnboardFlow = useContext(ContextOnboardFlow);
+  const contextNotifications = useContext(ContextNotifications);
+
   const [currentOpenId, setCurrentOpenId] = useState("");
+  const [currentOpenOwnerId, setCurrentOpenOwnerId] = useState("");
+  const [currentOpenType, setCurrentOpenType] = useState("");
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
@@ -61,11 +67,26 @@ const ContextProviderComments = (props) => {
     setDoc(doc(db, "comments", currentOpenId), {
       data: new_comments.reverse(),
     });
+    contextNotifications.notifyUserAboutComment(
+      currentOpenOwnerId,
+      currentOpenId,
+      currentOpenType,
+      auth.currentUser.uid,
+      auth.currentUser.displayName,
+      text
+    );
   };
 
   return (
     <ContextComments.Provider
-      value={{ currentOpenId, setCurrentOpenId, comments, newComment }}
+      value={{
+        currentOpenId,
+        setCurrentOpenId,
+        comments,
+        newComment,
+        setCurrentOpenType,
+        setCurrentOpenOwnerId,
+      }}
     >
       {props.children}
       <></>

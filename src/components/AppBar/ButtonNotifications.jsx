@@ -1,14 +1,30 @@
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import { Box, IconButton } from "@mui/material";
+import {
+  Box,
+  IconButton,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+} from "@mui/material";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getAuth, signOut } from "firebase/auth";
+import { ContextNotifications } from "../../contexts/ContextNotifications/ContextNotifications";
+
+import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
+import NewspaperIcon from "@mui/icons-material/Newspaper";
+import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
+import PhotoCameraFrontIcon from "@mui/icons-material/PhotoCameraFront";
+import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
+import CloseIcon from "@mui/icons-material/Close";
 
 export default function ButtonNotifications() {
   const auth = getAuth();
+
+  const contextNotifications = useContext(ContextNotifications);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -41,7 +57,41 @@ export default function ButtonNotifications() {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem>nothing here yet</MenuItem>
+        {contextNotifications.notifications?.comments?.length === 0 ? (
+          <MenuItem>you don't have any notifications</MenuItem>
+        ) : (
+          contextNotifications.notifications?.comments?.map((val, idx) => {
+            return (
+              <MenuItem key={idx} sx={{ padding: 0 }} divider>
+                <ListItemIcon
+                  color="inactive.main"
+                  sx={{ display: "flex", justifyContent: "center" }}
+                >
+                  {val.type_post === "quote" ? <FormatQuoteIcon /> : null}
+                  {val.type_post === "article" ? <NewspaperIcon /> : null}
+                  {val.type_post === "video" ? <OndemandVideoIcon /> : null}
+                  {val.type_post === "photo" ? <PhotoCameraIcon /> : null}
+                </ListItemIcon>
+                <ListItemText sx={{ span: { lineHeight: "0.5rem" } }}>
+                  <Typography color="active.main" lineHeight="0.8rem">
+                    {val.name_user}:
+                  </Typography>
+                  <Typography color="inactive.main" lineHeight="0.8rem">
+                    {val.text.slice(0, 14)}...
+                  </Typography>
+                </ListItemText>
+
+                <IconButton
+                  onClick={() => {
+                    contextNotifications.removeCommentNotification(val);
+                  }}
+                >
+                  <CloseIcon />
+                </IconButton>
+              </MenuItem>
+            );
+          })
+        )}
         {/* <MenuItem onClick={handleClose}>Profile</MenuItem>
         <MenuItem onClick={handleClose}>My account</MenuItem>
         <MenuItem

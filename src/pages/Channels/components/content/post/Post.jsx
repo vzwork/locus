@@ -1,4 +1,12 @@
-import { Alert, Box, Divider, IconButton, Snackbar } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Button,
+  Divider,
+  IconButton,
+  Menu,
+  Snackbar,
+} from "@mui/material";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import { useContext, useEffect, useState } from "react";
 import Comments from "./Comments/Comments";
@@ -11,6 +19,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 import { getAuth } from "firebase/auth";
 import { ContextContent } from "../../../../../contexts/ContextContent/ContextContent";
+import { ContextChats } from "../../../../../contexts/ContextChats/ContextChats";
 import { doc, getFirestore, setDoc } from "firebase/firestore";
 import Photo from "./Photo/Photo";
 import Article from "./Article/Article";
@@ -33,15 +42,31 @@ const months = [
 
 export default function Post(props) {
   // console.log(props);
-  const { currentOpenId, setCurrentOpenId } = useContext(ContextComments);
+  const {
+    currentOpenId,
+    setCurrentOpenId,
+    setCurrentOpenType,
+    setCurrentOpenOwnerId,
+  } = useContext(ContextComments);
   const auth = getAuth();
   const db = getFirestore();
   const contextContent = useContext(ContextContent);
+  const contextChats = useContext(ContextChats);
 
   const [deleteInitiated, setDeleteInitiated] = useState(false);
   // console.log(auth.currentUser.uid == props.data.id_user);
 
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
   const date = new Date(props.data.date);
+
+  const handleAuthorClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   useEffect(() => {
     // console.log(props);
@@ -114,7 +139,33 @@ export default function Post(props) {
           alignItems: "center",
         }}
       >
-        {props.data.name_user}
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          MenuListProps={{
+            "aria-labelledby": "basic-button",
+          }}
+        >
+          <Box p="1">
+            <Button
+              size="small"
+              onClick={() => {
+                contextChats.initiateChat(
+                  auth.currentUser.uid,
+                  props.data.id_user,
+                  props.data.name_user
+                );
+              }}
+            >
+              send message
+            </Button>
+          </Box>
+        </Menu>
+        <Box onClick={handleAuthorClick} sx={{ cursor: "pointer" }}>
+          {props.data.name_user}
+        </Box>
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <IconButton
             sx={{ padding: 0 }}
@@ -149,6 +200,8 @@ export default function Post(props) {
               setCurrentOpenId(
                 props.data.id == currentOpenId ? "" : props.data.id
               );
+              setCurrentOpenType(props.data.type);
+              setCurrentOpenOwnerId(props.data.id_user);
             }}
           >
             <ChatBubbleOutlineIcon fontSize="small" />
