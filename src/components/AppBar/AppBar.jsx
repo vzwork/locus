@@ -1,4 +1,4 @@
-import { Box, IconButton } from "@mui/material";
+import { Box, IconButton, Tooltip } from "@mui/material";
 import ButtonAuth from "./ButtonAuth";
 import ButtonBrightnessMode from "./ButtonBrightnessMode";
 import ButtonNotifications from "./ButtonNotifications";
@@ -7,8 +7,7 @@ import { ContextOnboardFlow } from "../../contexts/ContextOnboardFlow/ContextOnb
 import ButtonAuthRecognized from "./ButtonAuthRecognized";
 import { useNavigate } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
-
-// used in tree page
+import ButtonMessages from "./ButtonMessages";
 
 export default function AppBar() {
   const navigate = useNavigate();
@@ -20,15 +19,18 @@ export default function AppBar() {
       bgcolor="bg.base"
       borderRadius="1rem"
     >
-      <IconButton
-        size="medium"
-        color="primary"
-        onClick={() => {
-          navigate("/");
-        }}
-      >
-        <HomeIcon fontSize="inherit" />
-      </IconButton>
+      <Tooltip title="landing" arrow>
+        <IconButton
+          size="medium"
+          color="primary"
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          <HomeIcon fontSize="inherit" />
+        </IconButton>
+      </Tooltip>
+      <ButtonMessages />
       <ButtonNotifications />
       {contextOnboardFlow.complete ? <ButtonAuthRecognized /> : <ButtonAuth />}
       <ButtonBrightnessMode />
