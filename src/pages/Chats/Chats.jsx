@@ -190,7 +190,7 @@ const ChatContent = () => {
             -- no messages --
           </Box>
         ) : (
-          contextChats.messages?.reverse().map((val, idx) => {
+          [...contextChats.messages].reverse().map((val, idx) => {
             const datetime = new Date(val.timestamp);
             return (
               <Box key={idx}>
@@ -199,7 +199,7 @@ const ChatContent = () => {
                   sx={{ display: "flex", justifyContent: "space-between" }}
                 >
                   <Box fontSize="0.8rem">
-                    {auth.currentUser.uid === contextChats.currentChat?.id_me
+                    {val.sender === contextChats.currentChat?.id_me
                       ? contextChats.currentChat?.name_me
                       : contextChats.currentChat?.name_them}
                   </Box>
