@@ -98,6 +98,7 @@ const DialogAdd = ({ dialogAdd, setDialogAdd }) => {
           setSelectedImage(null);
           logEvent(analytics, "photo_upload");
           setDialogAdd(false);
+          contextChannels.rebalanceContent(newRef.id);
         });
       });
     }

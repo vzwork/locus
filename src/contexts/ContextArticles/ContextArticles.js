@@ -64,6 +64,7 @@ const DialogAdd = ({ dialogAdd, setDialogAdd }) => {
           setText("");
           setSelectedArticle(null);
           setDialogAdd(false);
+          contextChannels.rebalanceContent(newRef.id);
         });
       });
     }

@@ -1,9 +1,11 @@
 import {
   Alert,
   Box,
+  Breadcrumbs,
   Button,
   Divider,
   IconButton,
+  Link,
   Menu,
   Snackbar,
 } from "@mui/material";
@@ -24,6 +26,7 @@ import { doc, getFirestore, setDoc } from "firebase/firestore";
 import Photo from "./Photo/Photo";
 import Article from "./Article/Article";
 import Video from "./Video/Video";
+import { useNavigate } from "react-router-dom";
 
 const months = [
   "Jan",
@@ -41,6 +44,7 @@ const months = [
 ];
 
 export default function Post(props) {
+  const navigate = useNavigate();
   // console.log(props);
   const {
     currentOpenId,
@@ -84,6 +88,7 @@ export default function Post(props) {
       setDeleteInitiated(true);
     } else {
       contextContent.deletePost(props.data);
+      setDeleteInitiated(false);
     }
   };
 
@@ -105,20 +110,53 @@ export default function Post(props) {
         fontSize="0.9rem"
         sx={{
           display: "flex",
-          justifyContent: "right",
+          justifyContent: "space-between",
           alignItems: "center",
         }}
       >
-        {months[date.getMonth()] + " " + date.getDate()}
-        {auth.currentUser?.uid === props.data.id_user ? (
-          <IconButton
-            size="small"
-            color={deleteInitiated ? "error" : "inactive"}
-            onClick={clickedDelete}
-          >
-            <DeleteIcon fontSize="small" />
-          </IconButton>
-        ) : null}
+        <Box>
+          {props.data.name_channel_origin ? (
+            <Box sx={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+              Origin:{" "}
+              <Breadcrumbs aria-label="breadcrumb">
+                <Link
+                  underline="hover"
+                  color="active.main"
+                  component="button"
+                  onClick={() => {
+                    navigate(
+                      `/channels/${props.data.id_channel_origin_parent}`
+                    );
+                  }}
+                >
+                  {props.data.name_channel_origin_parent}
+                </Link>
+                <Link
+                  underline="hover"
+                  color="primary.main"
+                  component="button"
+                  onClick={() => {
+                    navigate(`/channels/${props.data.id_channel_origin}`);
+                  }}
+                >
+                  {props.data.name_channel_origin}
+                </Link>
+              </Breadcrumbs>
+            </Box>
+          ) : null}
+        </Box>
+        <Box>
+          {months[date.getMonth()] + " " + date.getDate()}
+          {auth.currentUser?.uid === props.data.id_user ? (
+            <IconButton
+              size="small"
+              color={deleteInitiated ? "error" : "inactive"}
+              onClick={clickedDelete}
+            >
+              <DeleteIcon fontSize="small" />
+            </IconButton>
+          ) : null}
+        </Box>
       </Box>
       {props.data.type == "quote" ? <Box>{props.data.data.text}</Box> : null}
       {props.data.type == "article" ? <Article data={props.data} /> : null}
