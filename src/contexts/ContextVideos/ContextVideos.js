@@ -101,6 +101,7 @@ const DialogAdd = ({ dialogAdd, setDialogAdd }) => {
         setText("");
         setUrl("");
         setDialogAdd(false);
+        contextChannels.rebalanceContent(newRef.id);
       });
     }
   };

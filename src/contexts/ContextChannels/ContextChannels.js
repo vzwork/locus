@@ -5,7 +5,9 @@ import {
   doc,
   getDoc,
   getFirestore,
+  increment,
   setDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
@@ -145,6 +147,83 @@ const ContextProviderChannels = (props) => {
     }
   };
 
+  const rebalanceContent = async (id) => {
+    let docSnap_content = await getDoc(doc(db, "content", id));
+    if (!docSnap_content.exists()) return;
+
+    let docSnap_channel = await getDoc(
+      doc(db, "channels", docSnap_content.data().id_channel)
+    );
+    if (!docSnap_channel.exists()) return;
+
+    let channel_origin = docSnap_channel.data();
+
+    let posted_in_root = false;
+
+    while (true) {
+      // get parent channel if parent channel is not root
+      if (
+        docSnap_channel.data().id_parent === ID_CHANNEL_ROOT &&
+        posted_in_root
+      )
+        return;
+      if (docSnap_channel.data().id_parent === ID_CHANNEL_ROOT)
+        posted_in_root = true;
+
+      // get parent channel
+      docSnap_channel = await getDoc(
+        doc(db, "channels", docSnap_channel.data().id_parent)
+      );
+      if (!docSnap_channel.exists()) return;
+
+      const newContentRef = doc(collection(db, "content"));
+      const new_content = Object.assign({}, docSnap_content.data());
+      new_content.id = newContentRef.id;
+      new_content.id_channel = docSnap_channel.data().id;
+      new_content.date = Date.now();
+      new_content.id_channel_origin = channel_origin.id;
+      new_content.name_channel_origin = channel_origin.name;
+      new_content.id_channel_origin_parent = channel_origin.id_parent;
+      new_content.name_channel_origin_parent = channel_origin.name_parent;
+
+      // inspect parent channel content count
+      if (!docSnap_channel.data().content_count) {
+        // first rebalance
+        await setDoc(newContentRef, new_content);
+        await updateDoc(doc(db, "channels", docSnap_channel.data().id), {
+          content_count: 1,
+          timestamp_update: Date.now(),
+        });
+      } else {
+        // repeated rebalance
+        if (docSnap_channel.data().content_count < 30) {
+          // create rebalanced content document
+
+          await setDoc(newContentRef, new_content);
+          // update parent channel content count
+          await updateDoc(doc(db, "channels", docSnap_channel.data().id), {
+            content_count: increment(1),
+          });
+        } else {
+          // if time passed since last rebalance is more than 1 day
+          // create rebalanced content document
+          // and update timestamp_update, and recent content count to 1
+          // otherwise end function
+          if (Date.now() - docSnap_channel.data().timestamp_update > 86400000) {
+            await setDoc(newContentRef, new_content);
+            // update parent channel content count
+            await updateDoc(doc(db, "channels", docSnap_channel.data().id), {
+              content_count: 1,
+              timestamp_update: Date.now(),
+            });
+          } else {
+            return;
+          }
+        }
+      }
+    }
+  };
+
   return (
     <ContextChannels.Provider
       value={{
@@ -154,6 +233,7 @@ const ContextProviderChannels = (props) => {
         setDialogDeleteChannel,
         initialNavigation,
         processSetChannelCurrent,
+        rebalanceContent,
       }}
     >
       <ChannelCreation

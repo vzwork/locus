@@ -55,6 +55,7 @@ const DialogAdd = ({ dialogAdd, setDialogAdd }) => {
       logEvent(analytics, "quote_creation");
       setText("");
       setDialogAdd(false);
+      contextChannels.rebalanceContent(newRef.id);
     });
   };
 
