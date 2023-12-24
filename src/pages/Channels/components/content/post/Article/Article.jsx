@@ -1,11 +1,5 @@
 import { Box, Button, ButtonGroup } from "@mui/material";
-import {
-  getBlob,
-  getBytes,
-  getDownloadURL,
-  getStorage,
-  ref,
-} from "firebase/storage";
+import { getBytes, getStorage, ref } from "firebase/storage";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Document, Page } from "react-pdf";
 import useResizeObserver from "@react-hook/resize-observer";

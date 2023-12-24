@@ -69,17 +69,17 @@ const ContextProviderTheme = (props) => {
   useEffect(() => {
     if (localStartup) {
       if (localStorage.getItem("darkMode") !== null) {
-        setDarkMode(localStorage.getItem("darkMode") == "true");
+        setDarkMode(localStorage.getItem("darkMode") === "true");
       }
       setLocalStartup(false);
     }
-  });
+  }, [localStartup]);
 
   useEffect(() => {
     if (!localStartup) {
       localStorage.setItem("darkMode", darkMode);
     }
-  }, [darkMode]);
+  }, [darkMode, localStartup]);
 
   return (
     <ContextTheme.Provider value={{ darkMode, setDarkMode }}>

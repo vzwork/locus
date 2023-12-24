@@ -116,7 +116,7 @@ const DialogAdd = ({ dialogAdd, setDialogAdd }) => {
           rows={1}
           sx={{ width: "70vw" }}
           label={
-            charsRemaining == limitChars
+            charsRemaining === limitChars
               ? "caption"
               : `${charsRemaining} characters left`
           }

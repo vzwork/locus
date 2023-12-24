@@ -76,13 +76,13 @@ const ContextProviderChats = (props) => {
       if (chat.id_a + chat.id_b === params.chatId) {
         setCurrentChat({
           id_me: auth.currentUser.uid,
-          id_them: chat.id_a == auth.currentUser.uid ? chat.id_b : chat.id_a,
+          id_them: chat.id_a === auth.currentUser.uid ? chat.id_b : chat.id_a,
           name_me: auth.currentUser.displayName,
           name_them:
-            chat.id_a == auth.currentUser.uid ? chat.name_b : chat.name_a,
+            chat.id_a === auth.currentUser.uid ? chat.name_b : chat.name_a,
         });
       }
-      if (chat.id_a == auth.currentUser.uid) {
+      if (chat.id_a === auth.currentUser.uid) {
         chats.push({
           id: chat.id_a + chat.id_b,
           name: chat.name_b,
@@ -99,15 +99,15 @@ const ContextProviderChats = (props) => {
         setCurrentChat({
           id_me: auth.currentUser.uid,
           id_them:
-            request.id_a == auth.currentUser.uid ? request.id_b : request.id_a,
+            request.id_a === auth.currentUser.uid ? request.id_b : request.id_a,
           name_me: auth.currentUser.displayName,
           name_them:
-            request.id_a == auth.currentUser.uid
+            request.id_a === auth.currentUser.uid
               ? request.name_b
               : request.name_a,
         });
       }
-      if (request.id_a == auth.currentUser.uid) {
+      if (request.id_a === auth.currentUser.uid) {
         requests.push({
           id: request.id_a + request.id_b,
           name: request.name_b,
@@ -148,7 +148,7 @@ const ContextProviderChats = (props) => {
     if (chatsIds.includes(currentChatId)) {
       const chatsCopy = [...chats];
       const chatsRawCopy = [...chatsRaw];
-      const index = chatsCopy.findIndex((chat) => chat.id == currentChatId);
+      const index = chatsCopy.findIndex((chat) => chat.id === currentChatId);
       const chat = chatsCopy[index];
       const chatRaw = chatsRawCopy[index];
       chatsCopy.splice(index, 1);
@@ -161,7 +161,7 @@ const ContextProviderChats = (props) => {
       const requestsCopy = [...requests];
       const requestsRawCopy = [...requestsRaw];
       const index = requestsCopy.findIndex(
-        (request) => request.id == currentChatId
+        (request) => request.id === currentChatId
       );
       const request = requestsCopy[index];
       const requestRaw = requestsRawCopy[index];

@@ -22,7 +22,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { getAuth } from "firebase/auth";
 import { ContextContent } from "../../../../../contexts/ContextContent/ContextContent";
 import { ContextChats } from "../../../../../contexts/ContextChats/ContextChats";
-import { doc, getFirestore, setDoc } from "firebase/firestore";
 import Photo from "./Photo/Photo";
 import Article from "./Article/Article";
 import Video from "./Video/Video";
@@ -53,7 +52,6 @@ export default function Post(props) {
     setCurrentOpenOwnerId,
   } = useContext(ContextComments);
   const auth = getAuth();
-  const db = getFirestore();
   const contextContent = useContext(ContextContent);
   const contextChats = useContext(ContextChats);
 
@@ -158,10 +156,10 @@ export default function Post(props) {
           ) : null}
         </Box>
       </Box>
-      {props.data.type == "quote" ? <Box>{props.data.data.text}</Box> : null}
-      {props.data.type == "article" ? <Article data={props.data} /> : null}
-      {props.data.type == "photo" ? <Photo data={props.data} /> : null}
-      {props.data.type == "video" ? <Video data={props.data} /> : null}
+      {props.data.type === "quote" ? <Box>{props.data.data.text}</Box> : null}
+      {props.data.type === "article" ? <Article data={props.data} /> : null}
+      {props.data.type === "photo" ? <Photo data={props.data} /> : null}
+      {props.data.type === "video" ? <Video data={props.data} /> : null}
       <Box
         pt="0rem"
         // pr="1rem"
@@ -236,7 +234,7 @@ export default function Post(props) {
             color="inactive"
             onClick={() => {
               setCurrentOpenId(
-                props.data.id == currentOpenId ? "" : props.data.id
+                props.data.id === currentOpenId ? "" : props.data.id
               );
               setCurrentOpenType(props.data.type);
               setCurrentOpenOwnerId(props.data.id_user);

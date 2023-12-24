@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { withSize } from "react-sizeme";
 
 import Circle from "./circle";
 

@@ -29,7 +29,7 @@ export default function Home() {
   useEffect(() => {
     if (auth.currentUser) {
       if (auth.currentUser.photoURL) {
-        if (auth.currentUser.photoURL.slice(0, 2) == "gs") {
+        if (auth.currentUser.photoURL.slice(0, 2) === "gs") {
           getDownloadURL(ref(storage, auth.currentUser.photoURL)).then(
             (thisURL) => {
               setImgURL(thisURL);
@@ -44,7 +44,7 @@ export default function Home() {
         setUserName(auth.currentUser.displayName);
       }
     }
-  });
+  }, [auth.currentUser, storage, userNameInitiated]);
 
   const saveUser = () => {
     if (userName.length < 2 || userName.length > 20) {

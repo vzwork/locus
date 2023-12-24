@@ -14,8 +14,7 @@ import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
 } from "firebase/auth";
-import { useContext, useEffect, useState } from "react";
-import { ContextOnboardFlow } from "../../contexts/ContextOnboardFlow/ContextOnboardFlow";
+import { useEffect, useState } from "react";
 
 const isValidEmail = (email) => {
   return String(email)
@@ -33,7 +32,6 @@ function isValidPassword(password) {
 export default function SignUp() {
   const navigate = useNavigate();
   const auth = getAuth();
-  const contextOnboardFlow = useContext(ContextOnboardFlow);
 
   const [usedEmails, setUsedEmails] = useState([]);
   const [email, setEmail] = useState("");
@@ -56,7 +54,7 @@ export default function SignUp() {
         setEmailError("this email is used");
       }
       if (passwordOne.length > 0 && passwordTwo.length > 0) {
-        if (passwordOne != passwordTwo) {
+        if (passwordOne !== passwordTwo) {
           setPasswordOneError("passwords don't match");
           setPasswordTwoError("passwords don't match");
         } else {
@@ -117,7 +115,6 @@ export default function SignUp() {
       })
       .catch((error) => {
         const errorCode = error.code;
-        const errorMessage = error.message;
         if (errorCode === "auth/email-already-in-use") {
           setUsedEmails((old) => [...old, email]);
         }

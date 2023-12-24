@@ -3,14 +3,10 @@ import Content from "./Content/Content";
 import Search from "./Search/Search";
 import Recents from "./Recents/Recents";
 import Suggestions from "./Suggestions/Suggestions";
-import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { ContextChannels } from "../../contexts/ContextChannels/ContextChannels";
 
-import { getAnalytics, logEvent } from "firebase/analytics";
-
 export default function Landing() {
-  const analytics = getAnalytics();
   const contextChannels = useContext(ContextChannels);
 
   return (

@@ -8,12 +8,11 @@ import {
   MenuList,
   TextField,
 } from "@mui/material";
-import { useContext, useEffect, useLayoutEffect, useState } from "react";
+import { useContext, useLayoutEffect, useState } from "react";
 import { ContextChats } from "../../contexts/ContextChats/ContextChats";
 import { useNavigate } from "react-router-dom";
 
 import CheckIcon from "@mui/icons-material/Check";
-import CloseIcon from "@mui/icons-material/Close";
 
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { arrayUnion, doc, getFirestore, updateDoc } from "firebase/firestore";
@@ -39,7 +38,7 @@ export default function Chats() {
   const contextChats = useContext(ContextChats);
   const navigate = useNavigate();
 
-  const [width, height] = useWindowSize();
+  const [width] = useWindowSize();
 
   return (
     <Grid container component="main" sx={{ height: "100vh" }}>

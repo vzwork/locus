@@ -1,4 +1,4 @@
-import { Box, IconButton } from "@mui/material";
+import { IconButton } from "@mui/material";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { useContext } from "react";
 import { ContextOnboardFlow } from "../../contexts/ContextOnboardFlow/ContextOnboardFlow";

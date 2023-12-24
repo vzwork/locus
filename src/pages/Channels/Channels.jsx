@@ -33,7 +33,7 @@ export default function Channels() {
   const contextChannels = useContext(ContextChannels);
   const params = useParams();
 
-  const [width, height] = useWindowSize();
+  const [width] = useWindowSize();
 
   useEffect(() => {
     contextChannels.processSetChannelCurrent(params.id);

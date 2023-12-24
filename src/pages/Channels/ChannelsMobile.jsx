@@ -1,4 +1,4 @@
-import { Box, Button, Container, Dialog, IconButton } from "@mui/material";
+import { Box, Button, Dialog, IconButton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { ContextOnboardFlow } from "../../contexts/ContextOnboardFlow/ContextOnboardFlow";
 import { ContextContent } from "../../contexts/ContextContent/ContextContent";

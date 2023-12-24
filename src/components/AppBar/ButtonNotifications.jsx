@@ -1,29 +1,23 @@
-import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import {
-  Box,
   IconButton,
   ListItemIcon,
   ListItemText,
   Typography,
 } from "@mui/material";
-import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import { useContext, useEffect, useState } from "react";
-import { getAuth, signOut } from "firebase/auth";
+import { useContext, useState } from "react";
 import { ContextNotifications } from "../../contexts/ContextNotifications/ContextNotifications";
 
 import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
 import NewspaperIcon from "@mui/icons-material/Newspaper";
 import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
-import PhotoCameraFrontIcon from "@mui/icons-material/PhotoCameraFront";
 import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 import CloseIcon from "@mui/icons-material/Close";
 
 export default function ButtonNotifications() {
-  const auth = getAuth();
-
   const contextNotifications = useContext(ContextNotifications);
 
   const [anchorEl, setAnchorEl] = useState(null);

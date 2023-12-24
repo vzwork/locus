@@ -1,24 +1,17 @@
-import { createContext, useEffect, useState } from "react";
-import {
-  collection,
-  deleteDoc,
-  doc,
-  getDoc,
-  getFirestore,
-  setDoc,
-} from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { collection, doc, getFirestore, setDoc } from "firebase/firestore";
 import { Box, Button, Dialog, DialogTitle, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-const ID_CHANNEL_ROOT = "wJwdi4XKGfFV3oTaCYFv";
+// const ID_CHANNEL_ROOT = "wJwdi4XKGfFV3oTaCYFv";
 const FIREBASE_NAME_CHANNELS = "channels";
-const CHANNEL_PARENT_ROOT_DEAD_END = {
-  id: ID_CHANNEL_ROOT,
-  name: "locus",
-  id_parent: ID_CHANNEL_ROOT,
-  name_parent: "locus",
-  children: { [ID_CHANNEL_ROOT]: "locus" },
-};
+// const CHANNEL_PARENT_ROOT_DEAD_END = {
+//   id: ID_CHANNEL_ROOT,
+//   name: "locus",
+//   id_parent: ID_CHANNEL_ROOT,
+//   name_parent: "locus",
+//   children: { [ID_CHANNEL_ROOT]: "locus" },
+// };
 
 export default function ChannelCreation({
   channelCurrent,

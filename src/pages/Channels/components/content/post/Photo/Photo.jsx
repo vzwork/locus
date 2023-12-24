@@ -30,6 +30,7 @@ export default function Photo(props) {
       }}
     >
       <img
+        alt="img"
         src={imgURL}
         style={{
           width: "100%",

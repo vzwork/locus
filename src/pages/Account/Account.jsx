@@ -5,13 +5,7 @@ import { IconButton } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 export default function Account() {
-  const [value, setValue] = React.useState(0);
-
   const navigate = useNavigate();
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
 
   return (
     <Grid container component="main" sx={{ height: "100vh" }}>

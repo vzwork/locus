@@ -3,7 +3,6 @@ import {
   arrayRemove,
   arrayUnion,
   doc,
-  getDoc,
   getFirestore,
   onSnapshot,
   setDoc,
@@ -43,7 +42,7 @@ const ContextProviderNotifications = (props) => {
         }
       );
     }, 500);
-  }, [auth]);
+  });
 
   const setupNotificationsStorage = async () => {
     await setDoc(

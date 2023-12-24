@@ -7,13 +7,7 @@ import {
   TextField,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import {
-  collection,
-  doc,
-  getFirestore,
-  limit,
-  setDoc,
-} from "firebase/firestore";
+import { collection, doc, getFirestore, setDoc } from "firebase/firestore";
 import { ContextChannels } from "../ContextChannels/ContextChannels";
 import { getAuth } from "firebase/auth";
 import { getAnalytics, logEvent } from "firebase/analytics";
@@ -38,7 +32,7 @@ const DialogAddTextPerformance = (props) => {
       props.setText(text);
     }, 300);
     return () => clearTimeout(timer);
-  }, [text]);
+  }, [text, props]);
 
   return (
     <TextField
@@ -46,7 +40,7 @@ const DialogAddTextPerformance = (props) => {
       fullWidth
       rows={1}
       label={
-        charsRemaining == limitChars
+        charsRemaining === limitChars
           ? "caption"
           : `${charsRemaining} characters left`
       }
@@ -65,7 +59,6 @@ const DialogAdd = ({ dialogAdd, setDialogAdd }) => {
   const db = getFirestore();
   const storage = getStorage();
   const contextChannels = useContext(ContextChannels);
-  const auth = getAuth();
 
   const [selectedImage, setSelectedImage] = useState(null);
   const [text, setText] = useState("");
@@ -127,6 +120,7 @@ const DialogAdd = ({ dialogAdd, setDialogAdd }) => {
         sx={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}
       >
         <img
+          alt="upload"
           src={
             selectedImage
               ? URL.createObjectURL(selectedImage)

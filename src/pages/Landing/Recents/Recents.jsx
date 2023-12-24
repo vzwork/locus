@@ -46,6 +46,7 @@ export default function Recents() {
                     </Link>
                   );
                 }
+                return null;
               })}
             </Box>
           </LabelOutlined>

@@ -1,16 +1,8 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  Grid,
-  TextField,
-  Typography,
-  Link,
-} from "@mui/material";
+import { Avatar, Box, Button, Typography } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Copyright from "./Copyright";
 import { getAuth, sendEmailVerification } from "firebase/auth";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { ContextOnboardFlow } from "../../contexts/ContextOnboardFlow/ContextOnboardFlow";
 
 export default function EmailVerify() {

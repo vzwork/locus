@@ -148,7 +148,7 @@ const DialogAdd = ({ dialogAdd, setDialogAdd }) => {
           rows={1}
           sx={{ width: "70vw" }}
           label={
-            text.length == 0 ? "caption" : `${charsRemaining} characters left`
+            text.length === 0 ? "caption" : `${charsRemaining} characters left`
           }
           value={text}
           onChange={(e) => {

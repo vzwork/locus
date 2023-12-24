@@ -1,7 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import {
   collection,
-  deleteDoc,
   doc,
   getDoc,
   getFirestore,

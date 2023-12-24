@@ -21,11 +21,11 @@ const ContextProviderOnboardFlow = (props) => {
 
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
-      if (user?.email != authUser?.email) {
+      if (user?.email !== authUser?.email) {
         if (authUser) {
           // analytics, logging
           setUserId(analytics, authUser.uid);
-          if (location.pathname == "/account/signin") {
+          if (location.pathname === "/account/signin") {
             navigate(-1);
           }
           check();

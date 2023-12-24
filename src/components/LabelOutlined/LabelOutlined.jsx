@@ -29,27 +29,29 @@ export default function LabelOutlined({
             borderBottom: `1px solid ${borderColor}`,
             borderLeft: `1px solid ${borderColor}`,
             borderRadius: `${borderRadius} 0 0 ${borderRadius}`,
-            width: horizontal == "left" ? "10px" : "100%",
+            width: horizontal === "left" ? "10px" : "100%",
           }}
         />
         <div
           style={{
             position: "relative",
-            borderBottom: vertical == "top" ? `1px solid ${borderColor}` : null,
-            borderTop: vertical == "bottom" ? `1px solid ${borderColor}` : null,
+            borderBottom:
+              vertical === "top" ? `1px solid ${borderColor}` : null,
+            borderTop:
+              vertical === "bottom" ? `1px solid ${borderColor}` : null,
             paddingLeft: "5px",
             paddingRight: "5px",
             width: "maxContent",
             display: "flex",
             flexDirection: "column",
-            justifyContent: vertical == "top" ? "start" : "end",
+            justifyContent: vertical === "top" ? "start" : "end",
           }}
         >
           <div
             style={{
               position: "relative",
               transform:
-                vertical == "top" ? "translate(0, -50%)" : "translate(0, 50%)",
+                vertical === "top" ? "translate(0, -50%)" : "translate(0, 50%)",
               fontSize: "0.8rem",
               color: `${borderColor}`,
               whiteSpace: "nowrap",
@@ -65,7 +67,7 @@ export default function LabelOutlined({
             borderRight: `1px solid ${borderColor}`,
             borderBottom: `1px solid ${borderColor}`,
             borderRadius: `0 ${borderRadius} ${borderRadius} 0`,
-            width: horizontal == "right" ? "10px" : "100%",
+            width: horizontal === "right" ? "10px" : "100%",
           }}
         />
       </div>
