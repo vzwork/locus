@@ -192,6 +192,7 @@ class ManagerContent {
   ) {
     if (!this.db) return;
     if (!this.channelCurrent) return;
+    if (!this.account) return;
 
     const parent = await this.managerChannels?.getChannelOptimized(
       this.channelCurrent.idParent
@@ -262,6 +263,7 @@ class ManagerContent {
   ) {
     if (!this.db) return;
     if (!this.channelCurrent) return;
+    if (!this.account) return;
 
     const parent = await this.managerChannels?.getChannelOptimized(
       this.channelCurrent.idParent
@@ -347,6 +349,7 @@ class ManagerContent {
   ) {
     if (!this.db) return;
     if (!this.channelCurrent) return;
+    if (!this.account) return;
 
     const parent = await this.managerChannels?.getChannelOptimized(
       this.channelCurrent.idParent
@@ -432,6 +435,7 @@ class ManagerContent {
   ) {
     if (!this.db) return;
     if (!this.channelCurrent) return;
+    if (!this.account) return;
 
     const parent = await this.managerChannels?.getChannelOptimized(
       this.channelCurrent.idParent
@@ -498,6 +502,7 @@ class ManagerContent {
   public async addStarPost(post: IPost) {
     if (!this.db) return;
     if (!this.channelCurrent) return;
+    if (!this.account) return;
 
     const docRef = doc(this.db, stateCollections.posts, post.id);
 
@@ -547,6 +552,7 @@ class ManagerContent {
   public async removeStarPost(post: IPost) {
     if (!this.db) return;
     if (!this.channelCurrent) return;
+    if (!this.account) return;
 
     const docRef = doc(this.db, stateCollections.posts, post.id);
     const data: any = {};
@@ -593,6 +599,7 @@ class ManagerContent {
   public async addBookPost(post: IPost) {
     if (!this.db) return;
     if (!this.channelCurrent) return;
+    if (!this.account) return;
 
     const docRef = doc(this.db, stateCollections.posts, post.id);
 
@@ -643,6 +650,7 @@ class ManagerContent {
   public async removeBookPost(post: IPost) {
     if (!this.db) return;
     if (!this.channelCurrent) return;
+    if (!this.account) return;
 
     const docRef = doc(this.db, stateCollections.posts, post.id);
     const data: any = {};
@@ -731,7 +739,9 @@ class ManagerContent {
     querySnapshot.forEach((doc) => {
       const post = doc.data() as IPost;
       post.countViews++;
-      updateDoc(doc.ref, { countViews: increment(1) });
+      if (this.account) {
+        updateDoc(doc.ref, { countViews: increment(1) });
+      }
       content.push(post);
     });
     this.content = content;
@@ -754,7 +764,9 @@ class ManagerContent {
     querySnapshot.forEach((doc) => {
       const post = doc.data() as IPost;
       post.countViews++;
-      updateDoc(doc.ref, { countViews: increment(1) });
+      if (this.account) {
+        updateDoc(doc.ref, { countViews: increment(1) });
+      }
       content.push(post);
     });
     this.content = content;
@@ -777,7 +789,9 @@ class ManagerContent {
     querySnapshot.forEach((doc) => {
       const post = doc.data() as IPost;
       post.countViews++;
-      updateDoc(doc.ref, { countViews: increment(1) });
+      if (this.account) {
+        updateDoc(doc.ref, { countViews: increment(1) });
+      }
       content.push(post);
     });
     this.content = content;
@@ -844,7 +858,9 @@ class ManagerContent {
     querySnapshot.forEach((doc) => {
       const post = doc.data() as IPost;
       post.countViews++;
-      updateDoc(doc.ref, { countViews: increment(1) });
+      if (this.account) {
+        updateDoc(doc.ref, { countViews: increment(1) });
+      }
       content.push(post);
     });
     this.content = content;
