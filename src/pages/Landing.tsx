@@ -32,6 +32,14 @@ export default function Landing() {
   const themeMode = useThemeMode();
   const managerTheme = ManagerTheme;
 
+  const handleTriggerFunction = () => {
+    fetch(
+      "http://127.0.0.1:5001/locus-68ed2/us-central1/testCounterInteractionsUpdateDaily"
+    ).then((res) => {
+      res.json().then((data) => console.log(data));
+    });
+  };
+
   return (
     <>
       <Box>
@@ -100,6 +108,7 @@ export default function Landing() {
         >
           root channel
         </Button>
+        <Button onClick={handleTriggerFunction}>trigger function</Button>
       </Box>
     </>
   );
