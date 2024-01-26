@@ -12,15 +12,22 @@ import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 import ClearIcon from "@mui/icons-material/Clear";
 import ManagerNotificationsUser from "../../data/_3_ManagerNotificationsUser/ManagerNotificationsUser";
 import { useNavigate } from "react-router-dom";
+import useAccount from "../../data/_1_ManagerAccount/useAccount";
 
 export default function ButtonNotifications() {
+  const account = useAccount();
   const navigate = useNavigate();
   const managerNotificationsUser = ManagerNotificationsUser;
   const notifications = useNotifications();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) =>
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    if (!account) {
+      navigate("/signin");
+      return;
+    }
     setAnchorEl(event.currentTarget);
+  };
 
   const handleClose = () => setAnchorEl(null);
 

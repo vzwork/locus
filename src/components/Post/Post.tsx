@@ -304,6 +304,8 @@ export default function Post({
 }
 
 function Comments({ post }: { post: IPost }) {
+  const account = useAccount();
+  const navigate = useNavigate();
   const managerComments = ManagerComments;
   const comments = useComments(post.id, Date.now().toString());
 
@@ -333,7 +335,10 @@ function Comments({ post }: { post: IPost }) {
             setTextComment(e.target.value.slice(0, 1000));
           }}
           onKeyDown={(e) => {
-            // console.log("key down");
+            if (!account) {
+              navigate("/signin");
+              return;
+            }
             if (e.key === "Shift") {
               setShiftDown(true);
             }

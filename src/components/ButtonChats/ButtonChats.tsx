@@ -37,6 +37,10 @@ export default function ButtonChats() {
       <></>
       <IconButton
         onClick={(e) => {
+          if (!account) {
+            navigate("/signin");
+            return;
+          }
           setAnchorEl(e.currentTarget);
         }}
       >

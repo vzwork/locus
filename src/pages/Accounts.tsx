@@ -54,6 +54,11 @@ export default function Accounts() {
 
   useEffect(() => {
     if (!params.idAccount) {
+      if (!account) {
+        navigate("/");
+        navigate("/signin");
+        return;
+      }
       setThisAccount(account);
     } else {
       managerAccount.getAccountOptimized(params.idAccount).then((account) => {

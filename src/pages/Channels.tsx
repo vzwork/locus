@@ -33,6 +33,7 @@ import NewspaperIcon from "@mui/icons-material/Newspaper";
 import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 import PhotoCameraFrontIcon from "@mui/icons-material/PhotoCameraFront";
 import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
 
 import { IChannel } from "../data/channel";
 import ManagerContent from "../data/_9_ManagerContent/ManagerContent";
@@ -1004,7 +1005,17 @@ function ChannelsNavigation() {
         </IconButton>
         <ButtonChats />
         <ButtonNotifications />
-        <ButtonSignedInSmall />
+        {account ? (
+          <ButtonSignedInSmall />
+        ) : (
+          <IconButton
+            onClick={() => {
+              navigate("/signin");
+            }}
+          >
+            <PersonAddIcon />
+          </IconButton>
+        )}
       </Box>
     </>
   );
