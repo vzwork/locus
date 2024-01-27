@@ -51,10 +51,21 @@ exports.counterInteractionsUpdateDaily = onSchedule(
 // });
 
 import { onRequest } from "firebase-functions/v2/https";
+import { QuerySnapshot } from "firebase-admin/firestore";
 
 exports.testCounterInteractionsUpdateDaily = onRequest(async (req, res) => {
-  // grab the text parameter.
-  const original = req.query.text;
-  res.json({ result: `Hello ${original}` });
-  res.send();
+  const idsDocs: string[] = [];
+
+  await admin
+    .firestore()
+    .collection("posts")
+    .where("statistics.timestampWorkloadNext", "<", Date.now())
+    .get()
+    .then((querySnapshot: QuerySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        idsDocs.push(doc.data().id);
+      });
+    });
+
+  res.send(idsDocs);
 });

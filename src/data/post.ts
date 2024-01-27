@@ -22,12 +22,16 @@ interface IPost {
     idChannelOriginParent: string;
     nameChannelOriginParent: string;
     idChannelPossibleRebalance: string;
-    timestampWorkloadNext: number;
     idsChannelLocationDay: string[];
+    timestampUpdatedChannelLocationDay: number;
     idsChannelLocationWeek: string[];
+    timestampUpdatedChannelLocationWeek: number;
     idsChannelLocationMonth: string[];
+    timestampUpdatedChannelLocationMonth: number;
     idsChannelLocationYear: string[];
+    timestampUpdatedChannelLocationYear: number;
     idsChannelLocationAll: string[];
+    timestampUpdatedChannelLocationAll: number;
   };
   statistics: {
     timestampWorkloadNext: number;

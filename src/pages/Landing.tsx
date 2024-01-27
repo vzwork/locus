@@ -24,6 +24,8 @@ import PersonIcon from "@mui/icons-material/Person";
 import { useState } from "react";
 import { idRoot } from "../data/db";
 import { ButtonSignedInBig } from "../components/ButtonSignedIn/ButtonSignedIn";
+import { collection, getFirestore, where } from "@firebase/firestore";
+import { query } from "express";
 
 export default function Landing() {
   const account = useAccount();
@@ -38,6 +40,11 @@ export default function Landing() {
     ).then((res) => {
       res.json().then((data) => console.log(data));
     });
+  };
+
+  const handleTestQuery = () => {
+    const db = getFirestore();
+    const now = Date.now();
   };
 
   return (
@@ -109,6 +116,7 @@ export default function Landing() {
           root channel
         </Button>
         <Button onClick={handleTriggerFunction}>trigger function</Button>
+        <Button onClick={handleTestQuery}>test query</Button>
       </Box>
     </>
   );
