@@ -1334,61 +1334,69 @@ function Tree() {
               gap: "0.3rem",
             }}
           >
-            {sortedParentChildren?.map((channel, idx) => (
-              <Box key={idx} sx={{ display: "flex" }}>
-                <Button
-                  variant={
-                    channel.id === channelCurrent?.id ? "contained" : "outlined"
-                  }
-                  fullWidth
-                  color={channel.id === channelCurrent?.id ? "primary" : "info"}
-                  size="small"
-                  sx={{
-                    overflow: "hidden",
-                    whiteSpace: "nowrap",
-                    display: "flex",
-                    justifyContent: "left",
-                    borderRadius: "2rem",
-                  }}
-                  onClick={() => {
-                    navigate(`/channels/${channel.id}`);
-                  }}
-                >
-                  {order === "views" && timeframe === "day"
-                    ? channel?.statistics?.countViewsDay
-                    : null}
-                  {order === "views" && timeframe === "week"
-                    ? channel?.statistics?.countViewsWeek
-                    : null}
-                  {order === "views" && timeframe === "month"
-                    ? channel?.statistics?.countViewsMonth
-                    : null}
-                  {order === "views" && timeframe === "year"
-                    ? channel?.statistics?.countViewsYear
-                    : null}
-                  {order === "views" && timeframe === "all"
-                    ? channel?.statistics?.countViewsAll
-                    : null}
-                  {order === "posts" && timeframe === "day"
-                    ? formatNumber(channel?.statistics?.countPostsDay)
-                    : null}
-                  {order === "posts" && timeframe === "week"
-                    ? formatNumber(channel?.statistics?.countPostsWeek)
-                    : null}
-                  {order === "posts" && timeframe === "month"
-                    ? formatNumber(channel?.statistics?.countPostsMonth)
-                    : null}
-                  {order === "posts" && timeframe === "year"
-                    ? formatNumber(channel?.statistics?.countPostsYear)
-                    : null}
-                  {order === "posts" && timeframe === "all"
-                    ? formatNumber(channel?.statistics?.countPostsAll)
-                    : null}
-                  {order !== "alphabetical" ? " " : null}
-                  {channel.name}
-                </Button>
-              </Box>
-            ))}
+            <Box
+              sx={{ display: "flex", flexDirection: "column", gap: "0.3rem" }}
+            >
+              {sortedParentChildren?.map((channel, idx) => (
+                <Box key={idx} sx={{ display: "flex" }}>
+                  <Button
+                    variant={
+                      channel.id === channelCurrent?.id
+                        ? "contained"
+                        : "outlined"
+                    }
+                    fullWidth
+                    color={
+                      channel.id === channelCurrent?.id ? "primary" : "info"
+                    }
+                    size="small"
+                    sx={{
+                      overflow: "hidden",
+                      whiteSpace: "nowrap",
+                      display: "flex",
+                      justifyContent: "left",
+                      borderRadius: "2rem",
+                    }}
+                    onClick={() => {
+                      navigate(`/channels/${channel.id}`);
+                    }}
+                  >
+                    {order === "views" && timeframe === "day"
+                      ? channel?.statistics?.countViewsDay
+                      : null}
+                    {order === "views" && timeframe === "week"
+                      ? channel?.statistics?.countViewsWeek
+                      : null}
+                    {order === "views" && timeframe === "month"
+                      ? channel?.statistics?.countViewsMonth
+                      : null}
+                    {order === "views" && timeframe === "year"
+                      ? channel?.statistics?.countViewsYear
+                      : null}
+                    {order === "views" && timeframe === "all"
+                      ? channel?.statistics?.countViewsAll
+                      : null}
+                    {order === "posts" && timeframe === "day"
+                      ? formatNumber(channel?.statistics?.countPostsDay)
+                      : null}
+                    {order === "posts" && timeframe === "week"
+                      ? formatNumber(channel?.statistics?.countPostsWeek)
+                      : null}
+                    {order === "posts" && timeframe === "month"
+                      ? formatNumber(channel?.statistics?.countPostsMonth)
+                      : null}
+                    {order === "posts" && timeframe === "year"
+                      ? formatNumber(channel?.statistics?.countPostsYear)
+                      : null}
+                    {order === "posts" && timeframe === "all"
+                      ? formatNumber(channel?.statistics?.countPostsAll)
+                      : null}
+                    {order !== "alphabetical" ? " " : null}
+                    {channel.name}
+                  </Button>
+                </Box>
+              ))}
+            </Box>
             <Box p={2} />
             <Button
               fullWidth
@@ -1414,59 +1422,65 @@ function Tree() {
               gap: "0.3rem",
             }}
           >
-            {sortedCurrentChildren?.map((channel, idx) => (
-              <Box key={idx} sx={{ display: "flex" }}>
-                <Button
-                  variant="outlined"
-                  fullWidth
-                  color={channel.id === channelCurrent?.id ? "primary" : "info"}
-                  size="small"
-                  sx={{
-                    overflow: "hidden",
-                    whiteSpace: "nowrap",
-                    display: "flex",
-                    justifyContent: "left",
-                    borderRadius: "2rem",
-                  }}
-                  onClick={() => {
-                    navigate(`/channels/${channel.id}`);
-                  }}
-                >
-                  {order === "views" && timeframe === "day"
-                    ? channel?.statistics?.countViewsDay
-                    : null}
-                  {order === "views" && timeframe === "week"
-                    ? channel?.statistics?.countViewsWeek
-                    : null}
-                  {order === "views" && timeframe === "month"
-                    ? channel?.statistics?.countViewsMonth
-                    : null}
-                  {order === "views" && timeframe === "year"
-                    ? channel?.statistics?.countViewsYear
-                    : null}
-                  {order === "views" && timeframe === "all"
-                    ? channel?.statistics?.countViewsAll
-                    : null}
-                  {order === "posts" && timeframe === "day"
-                    ? formatNumber(channel?.statistics?.countPostsDay)
-                    : null}
-                  {order === "posts" && timeframe === "week"
-                    ? formatNumber(channel?.statistics?.countPostsWeek)
-                    : null}
-                  {order === "posts" && timeframe === "month"
-                    ? formatNumber(channel?.statistics?.countPostsMonth)
-                    : null}
-                  {order === "posts" && timeframe === "year"
-                    ? formatNumber(channel?.statistics?.countPostsYear)
-                    : null}
-                  {order === "posts" && timeframe === "all"
-                    ? formatNumber(channel?.statistics?.countPostsAll)
-                    : null}
-                  {order !== "alphabetical" ? " " : null}
-                  {channel.name}
-                </Button>
-              </Box>
-            ))}
+            <Box
+              sx={{ display: "flex", flexDirection: "column", gap: "0.3rem" }}
+            >
+              {sortedCurrentChildren?.map((channel, idx) => (
+                <Box key={idx} sx={{ display: "flex" }}>
+                  <Button
+                    variant="outlined"
+                    fullWidth
+                    color={
+                      channel.id === channelCurrent?.id ? "primary" : "info"
+                    }
+                    size="small"
+                    sx={{
+                      overflow: "hidden",
+                      whiteSpace: "nowrap",
+                      display: "flex",
+                      justifyContent: "left",
+                      borderRadius: "2rem",
+                    }}
+                    onClick={() => {
+                      navigate(`/channels/${channel.id}`);
+                    }}
+                  >
+                    {order === "views" && timeframe === "day"
+                      ? channel?.statistics?.countViewsDay
+                      : null}
+                    {order === "views" && timeframe === "week"
+                      ? channel?.statistics?.countViewsWeek
+                      : null}
+                    {order === "views" && timeframe === "month"
+                      ? channel?.statistics?.countViewsMonth
+                      : null}
+                    {order === "views" && timeframe === "year"
+                      ? channel?.statistics?.countViewsYear
+                      : null}
+                    {order === "views" && timeframe === "all"
+                      ? channel?.statistics?.countViewsAll
+                      : null}
+                    {order === "posts" && timeframe === "day"
+                      ? formatNumber(channel?.statistics?.countPostsDay)
+                      : null}
+                    {order === "posts" && timeframe === "week"
+                      ? formatNumber(channel?.statistics?.countPostsWeek)
+                      : null}
+                    {order === "posts" && timeframe === "month"
+                      ? formatNumber(channel?.statistics?.countPostsMonth)
+                      : null}
+                    {order === "posts" && timeframe === "year"
+                      ? formatNumber(channel?.statistics?.countPostsYear)
+                      : null}
+                    {order === "posts" && timeframe === "all"
+                      ? formatNumber(channel?.statistics?.countPostsAll)
+                      : null}
+                    {order !== "alphabetical" ? " " : null}
+                    {channel.name}
+                  </Button>
+                </Box>
+              ))}
+            </Box>
             <Box p={2} />
             <Button
               fullWidth

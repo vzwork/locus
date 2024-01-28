@@ -17,6 +17,7 @@ declare module "@mui/material/styles" {
   interface TypeBackground {
     transperent?: string;
     transperentHover?: string;
+    transperentLight?: string;
   }
   interface TypeInfo {
     darker?: string;
@@ -31,6 +32,7 @@ const themeLight = createTheme({
       default: "#c9d0d1",
       transperent: "rgba(255, 255, 255, 0.6)",
       transperentHover: "rgba(255, 255, 255, 0.4)",
+      transperentLight: "rgba(255, 255, 255, 0.3)",
     },
     primary: {
       main: "#577894",
@@ -53,6 +55,7 @@ const themeDark = createTheme({
       default: "#000",
       transperent: "rgba(30, 30, 30, 0.7)",
       transperentHover: "rgba(20, 20, 20, 0.7)",
+      transperentLight: "rgba(30, 30, 30, 0.4)",
     },
     primary: {
       main: "#90caf9",

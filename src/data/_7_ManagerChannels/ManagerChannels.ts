@@ -102,6 +102,7 @@ class ManagerChannels {
 
     const channel: IChannel = {
       version: "1.0.1",
+      depth: this.channelCurrent.depth + 1,
       id: "",
       idParent: this.channelCurrent.id,
       idsChildren: [],

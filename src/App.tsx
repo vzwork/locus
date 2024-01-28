@@ -85,9 +85,18 @@ export default function App() {
     <>
       <Theme>
         <Box
-          sx={{ width: "100vw", height: "100vh" }}
+          sx={{
+            width: "100vw",
+            height: "100vh",
+            position: "fixed",
+            overflowY: "auto",
+            top: 0,
+          }}
           bgcolor="background.default"
+        />
+        <Box
           color="text.primary"
+          sx={{ position: "relative", top: "0", zIndex: "1" }}
         >
           <RouterProvider router={router} />
         </Box>

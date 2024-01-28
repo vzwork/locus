@@ -35,6 +35,7 @@ interface IPost {
   };
   statistics: {
     timestampWorkloadNext: number;
+    timestampWorkloadLast: number;
     countPositiveDay: number;
     countPositiveWeek: number;
     countPositiveMonth: number;

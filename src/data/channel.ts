@@ -1,5 +1,6 @@
 interface IChannel {
   version: string;
+  depth: number;
   id: string;
   idParent: string;
   idsChildren: string[];

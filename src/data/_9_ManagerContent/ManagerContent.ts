@@ -233,6 +233,7 @@ class ManagerContent {
       },
       statistics: {
         timestampWorkloadNext: Date.now() + 1000 * 60 * 60 * 24,
+        timestampWorkloadLast: Date.now(),
         countPositiveDay: 0,
         countPositiveWeek: 0,
         countPositiveMonth: 0,
@@ -309,6 +310,7 @@ class ManagerContent {
       },
       statistics: {
         timestampWorkloadNext: Date.now() + 1000 * 60 * 60 * 24,
+        timestampWorkloadLast: Date.now(),
         countPositiveDay: 0,
         countPositiveWeek: 0,
         countPositiveMonth: 0,
@@ -399,6 +401,7 @@ class ManagerContent {
       },
       statistics: {
         timestampWorkloadNext: Date.now() + 1000 * 60 * 60 * 24,
+        timestampWorkloadLast: Date.now(),
         countPositiveDay: 0,
         countPositiveWeek: 0,
         countPositiveMonth: 0,
@@ -489,6 +492,7 @@ class ManagerContent {
       },
       statistics: {
         timestampWorkloadNext: Date.now() + 1000 * 60 * 60 * 24,
+        timestampWorkloadLast: Date.now(),
         countPositiveDay: 0,
         countPositiveWeek: 0,
         countPositiveMonth: 0,
@@ -537,6 +541,20 @@ class ManagerContent {
         }
       }
     }
+    data["statistics.countPositiveAll"] = increment(1);
+    if (this.timeframe !== QueryTimeframe.all) {
+      data["statistics.countPositiveYear"] = increment(1);
+      if (this.timeframe !== QueryTimeframe.year) {
+        data["statistics.countPositiveMonth"] = increment(1);
+        if (this.timeframe !== QueryTimeframe.month) {
+          data["statistics.countPositiveWeek"] = increment(1);
+          if (this.timeframe !== QueryTimeframe.week) {
+            data["statistics.countPositiveDay"] = increment(1);
+          }
+        }
+      }
+    }
+
     const newPost = post;
 
     newPost.statistics.countStarsAll++;
@@ -552,6 +570,20 @@ class ManagerContent {
         }
       }
     }
+    newPost.statistics.countPositiveAll++;
+    if (this.timeframe !== QueryTimeframe.all) {
+      newPost.statistics.countPositiveYear++;
+      if (this.timeframe !== QueryTimeframe.year) {
+        newPost.statistics.countPositiveMonth++;
+        if (this.timeframe !== QueryTimeframe.month) {
+          newPost.statistics.countPositiveWeek++;
+          if (this.timeframe !== QueryTimeframe.week) {
+            newPost.statistics.countPositiveDay++;
+          }
+        }
+      }
+    }
+
     this.updatePostLocally(newPost);
     this.notifyListenersContent();
 
@@ -586,6 +618,20 @@ class ManagerContent {
         }
       }
     }
+    data["statistics.countPositiveAll"] = increment(-1);
+    if (this.timeframe !== QueryTimeframe.all) {
+      data["statistics.countPositiveYear"] = increment(-1);
+      if (this.timeframe !== QueryTimeframe.year) {
+        data["statistics.countPositiveMonth"] = increment(-1);
+        if (this.timeframe !== QueryTimeframe.month) {
+          data["statistics.countPositiveWeek"] = increment(-1);
+          if (this.timeframe !== QueryTimeframe.week) {
+            data["statistics.countPositiveDay"] = increment(-1);
+          }
+        }
+      }
+    }
+
     const newPost = post;
 
     newPost.statistics.countStarsAll--;
@@ -597,6 +643,19 @@ class ManagerContent {
           newPost.statistics.countStarsWeek--;
           if (this.timeframe !== QueryTimeframe.week) {
             newPost.statistics.countStarsDay--;
+          }
+        }
+      }
+    }
+    newPost.statistics.countPositiveAll--;
+    if (this.timeframe !== QueryTimeframe.all) {
+      newPost.statistics.countPositiveYear--;
+      if (this.timeframe !== QueryTimeframe.year) {
+        newPost.statistics.countPositiveMonth--;
+        if (this.timeframe !== QueryTimeframe.month) {
+          newPost.statistics.countPositiveWeek--;
+          if (this.timeframe !== QueryTimeframe.week) {
+            newPost.statistics.countPositiveDay--;
           }
         }
       }
@@ -634,6 +693,19 @@ class ManagerContent {
         }
       }
     }
+    data["statistics.countPositiveAll"] = increment(1);
+    if (this.timeframe !== QueryTimeframe.all) {
+      data["statistics.countPositiveYear"] = increment(1);
+      if (this.timeframe !== QueryTimeframe.year) {
+        data["statistics.countPositiveMonth"] = increment(1);
+        if (this.timeframe !== QueryTimeframe.month) {
+          data["statistics.countPositiveWeek"] = increment(1);
+          if (this.timeframe !== QueryTimeframe.week) {
+            data["statistics.countPositiveDay"] = increment(1);
+          }
+        }
+      }
+    }
 
     const newPost = post;
 
@@ -650,6 +722,20 @@ class ManagerContent {
         }
       }
     }
+    newPost.statistics.countPositiveAll++;
+    if (this.timeframe !== QueryTimeframe.all) {
+      newPost.statistics.countPositiveYear++;
+      if (this.timeframe !== QueryTimeframe.year) {
+        newPost.statistics.countPositiveMonth++;
+        if (this.timeframe !== QueryTimeframe.month) {
+          newPost.statistics.countPositiveWeek++;
+          if (this.timeframe !== QueryTimeframe.week) {
+            newPost.statistics.countPositiveDay++;
+          }
+        }
+      }
+    }
+
     this.updatePostLocally(newPost);
     this.notifyListenersContent();
 
@@ -684,6 +770,19 @@ class ManagerContent {
         }
       }
     }
+    data["statistics.countPositiveAll"] = increment(-1);
+    if (this.timeframe !== QueryTimeframe.all) {
+      data["statistics.countPositiveYear"] = increment(-1);
+      if (this.timeframe !== QueryTimeframe.year) {
+        data["statistics.countPositiveMonth"] = increment(-1);
+        if (this.timeframe !== QueryTimeframe.month) {
+          data["statistics.countPositiveWeek"] = increment(-1);
+          if (this.timeframe !== QueryTimeframe.week) {
+            data["statistics.countPositiveDay"] = increment(-1);
+          }
+        }
+      }
+    }
 
     const newPost = post;
 
@@ -696,6 +795,19 @@ class ManagerContent {
           newPost.statistics.countBooksWeek--;
           if (this.timeframe !== QueryTimeframe.week) {
             newPost.statistics.countBooksDay--;
+          }
+        }
+      }
+    }
+    newPost.statistics.countPositiveAll--;
+    if (this.timeframe !== QueryTimeframe.all) {
+      newPost.statistics.countPositiveYear--;
+      if (this.timeframe !== QueryTimeframe.year) {
+        newPost.statistics.countPositiveMonth--;
+        if (this.timeframe !== QueryTimeframe.month) {
+          newPost.statistics.countPositiveWeek--;
+          if (this.timeframe !== QueryTimeframe.week) {
+            newPost.statistics.countPositiveDay--;
           }
         }
       }
