@@ -262,6 +262,9 @@ function randomCommentsLabel(): string {
 }
 
 function DialogAddContent() {
+  const account = useAccount();
+  const navigate = useNavigate();
+
   const [dialogAddContent, setDialogAddContent] = useState(false);
   const [dialogAddQuote, setDialogAddQuote] = useState(false);
   const [dialogAddArticle, setDialogAddArticle] = useState(false);
@@ -292,7 +295,13 @@ function DialogAddContent() {
         fullWidth
         variant="outlined"
         color="primary"
-        onClick={() => setDialogAddContent(true)}
+        onClick={() => {
+          if (!account) {
+            navigate("/signin");
+            return;
+          }
+          setDialogAddContent(true);
+        }}
         sx={{
           marginTop: "0.4rem",
           marginBottom: "0.3rem",
@@ -848,7 +857,7 @@ function ContentFilterOrder() {
 
   const [order, setOrder] = useState<QueryOrder>(QueryOrder.popular);
   const [timeframe, setTimeframe] = useState<QueryTimeframe>(
-    QueryTimeframe.week
+    QueryTimeframe.day
   );
 
   useEffect(() => {

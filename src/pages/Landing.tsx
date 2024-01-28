@@ -42,7 +42,7 @@ export default function Landing() {
     localStorage.getItem("showPresentation") === "false" ? false : true
   );
 
-  const handleTriggerFunction = () => {
+  const interactions = () => {
     fetch(
       "http://127.0.0.1:5001/locus-68ed2/us-central1/testCounterInteractionsUpdateDaily"
     ).then((res) => {
@@ -268,7 +268,7 @@ export default function Landing() {
       >
         root channel
       </Button>
-      <Button onClick={handleTriggerFunction}>trigger function</Button>
+      <Button onClick={interactions}>interactions</Button>
       <Button
         onClick={() => {
           handleTriggerFunctionRebalance();
