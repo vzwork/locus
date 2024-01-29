@@ -55,6 +55,9 @@ class ManagerSearch {
     const referencesChannels = localStorage.getItem("referencesChannels");
     if (referencesChannels) {
       this.referencesChannels = JSON.parse(referencesChannels);
+      this.referencesChannels.forEach((referenceChannel) => {
+        this.setIdsChannels.add(referenceChannel.id);
+      });
     }
 
     managerChannels.addListenerChannelCurrent((channel: IChannel) => {
@@ -79,11 +82,13 @@ class ManagerSearch {
         });
       }
     );
-    managerChannels.addListenerChannelParentChildren((channels: IChannel[]) => {
-      channels.forEach((channel) => {
-        this.addReferenceChannel(channel.name, channel.id);
-      });
-    });
+    managerChannels.addListenerChannelParentChildren(
+      (channels: IChannel[]) => {
+        channels.forEach((channel) => {
+          this.addReferenceChannel(channel.name, channel.id);
+        });
+      }
+    );
   }
 
   private addReferenceChannel(name: string, id: string) {
@@ -146,9 +151,8 @@ class ManagerSearch {
   public removeListenerReferencesChannels(
     listener: (referencesChannels: IReferenceChannel[]) => void
   ) {
-    this.listenersReferencesChannels = this.listenersReferencesChannels.filter(
-      (l) => l !== listener
-    );
+    this.listenersReferencesChannels =
+      this.listenersReferencesChannels.filter((l) => l !== listener);
   }
   // state
   // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
