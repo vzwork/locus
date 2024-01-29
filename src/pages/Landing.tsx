@@ -7,6 +7,9 @@ import {
   Container,
   Grid,
   IconButton,
+  Link,
+  List,
+  ListItem,
   Toolbar,
   Typography,
   useTheme,
@@ -30,6 +33,7 @@ import PhotoCameraFrontIcon from "@mui/icons-material/PhotoCameraFront";
 import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import CloseIcon from "@mui/icons-material/Close";
+import usePopularChannels from "../data/_7_ManagerChannels/usePopularChannels";
 
 export default function Landing() {
   const account = useAccount();
@@ -75,9 +79,9 @@ export default function Landing() {
     <Box>
       <Container>
         <Box
-          mt="1rem"
-          p="0.5rem"
-          borderRadius="0.5rem"
+          mt='1rem'
+          p='0.5rem'
+          borderRadius='0.5rem'
           bgcolor={theme.palette.background.transperent}
           sx={{
             width: "100%",
@@ -88,13 +92,15 @@ export default function Landing() {
             backdropFilter: "blur(2px)",
           }}
         >
-          <Box sx={{ display: "flex", alignItems: "bottom" }}>
-            <Typography variant="h5">Locus</Typography>
-            <Typography variant="h6" color="info.main">
+          <Box sx={{ display: "flex" }}>
+            <Typography variant='h5'>Locus</Typography>
+            <Typography variant='h6' color='info.main'>
               .news
             </Typography>
           </Box>
-          <Box sx={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
+          <Box
+            sx={{ display: "flex", gap: "0.5rem", alignItems: "center" }}
+          >
             <Collapse in={!showPresentation}>
               {/* <Box
               // borderRadius="0.5rem"
@@ -111,7 +117,7 @@ export default function Landing() {
               {/* </Box> */}
             </Collapse>
             <IconButton
-              color="secondary"
+              color='secondary'
               onClick={() => {
                 managerTheme.toggleTheme();
               }}
@@ -122,10 +128,16 @@ export default function Landing() {
               <ButtonSignedInBig />
             ) : (
               <ButtonGroup>
-                <Button onClick={() => navigate("/signin")} variant="contained">
+                <Button
+                  onClick={() => navigate("/signin")}
+                  variant='contained'
+                >
                   sign in
                 </Button>
-                <Button onClick={() => navigate("/signup")} variant="outlined">
+                <Button
+                  onClick={() => navigate("/signup")}
+                  variant='outlined'
+                >
                   sign up
                 </Button>
               </ButtonGroup>
@@ -136,7 +148,14 @@ export default function Landing() {
 
       <Box></Box>
 
-      <Container sx={{ paddingY: "2rem" }}>
+      <Container
+        sx={{
+          paddingY: "2rem",
+          display: "flex",
+          flexDirection: "column",
+          gap: "1rem",
+        }}
+      >
         <Collapse in={showPresentation}>
           <Box
             sx={{
@@ -146,7 +165,7 @@ export default function Landing() {
             }}
           >
             <Box
-              borderRadius="0.5rem"
+              borderRadius='0.5rem'
               bgcolor={theme.palette.background.transperentLight}
               sx={{ width: "min-content" }}
             >
@@ -160,43 +179,55 @@ export default function Landing() {
             </Box>
           </Box>
           <Box
-            px="2rem"
+            px='2rem'
+            pb='2rem'
             sx={{ display: "flex", flexDirection: "column", gap: "2rem" }}
           >
             <Grid
               container
               bgcolor={"background.transperentLight"}
-              borderRadius="0.5rem"
-              padding="0.5rem"
+              borderRadius='0.5rem'
+              padding='0.5rem'
               sx={{ backdropFilter: "blur(2px)" }}
             >
               <Grid item xs={12}>
-                <Typography variant="h4">What is locus?</Typography>
+                <Typography variant='h4'>What is locus?</Typography>
               </Grid>
-              <Grid item xs={12} md={6} p="0.5rem">
+              <Grid item xs={12} md={6} p='0.5rem'>
                 <Box>Locus - a news sharing platform.</Box>
                 <Box>Supporting different types of content.</Box>
-                <Box p="0.3rem" />
+                <Box p='0.3rem' />
                 <Box>Providing an outlet for all sorts of ideas.</Box>
               </Grid>
-              <Grid item xs={12} md={6} p="0.5rem">
-                <Box sx={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
-                  <Button variant="outlined" startIcon={<FormatQuoteIcon />}>
+              <Grid item xs={12} md={6} p='0.5rem'>
+                <Box
+                  sx={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}
+                >
+                  <Button
+                    variant='outlined'
+                    startIcon={<FormatQuoteIcon />}
+                  >
                     quotes
                   </Button>
-                  <Button variant="outlined" startIcon={<NewspaperIcon />}>
+                  <Button variant='outlined' startIcon={<NewspaperIcon />}>
                     articles
                   </Button>
-                  <Button variant="outlined" startIcon={<PhotoCameraIcon />}>
+                  <Button
+                    variant='outlined'
+                    startIcon={<PhotoCameraIcon />}
+                  >
                     photos
                   </Button>
-                  <Button variant="outlined" startIcon={<OndemandVideoIcon />}>
+                  <Button
+                    variant='outlined'
+                    startIcon={<OndemandVideoIcon />}
+                  >
                     videos
                   </Button>
                   <Button
-                    variant="outlined"
+                    variant='outlined'
                     startIcon={<PhotoCameraFrontIcon />}
-                    color="info"
+                    color='info'
                   >
                     streaming
                   </Button>
@@ -206,62 +237,65 @@ export default function Landing() {
             <Grid
               container
               bgcolor={"background.transperentLight"}
-              borderRadius="0.5rem"
-              padding="0.5rem"
+              borderRadius='0.5rem'
+              padding='0.5rem'
               sx={{ backdropFilter: "blur(2px)" }}
             >
               <Grid item xs={12}>
-                <Typography variant="h4">Channels...</Typography>
+                <Typography variant='h4'>Channels...</Typography>
               </Grid>
-              <Grid item xs={12} md={6} p="0.5rem">
+              <Grid item xs={12} md={6} p='0.5rem'>
                 <Box>Thanks to a "tree-like" structure</Box>
                 <Box>You can find a channel for any topic.</Box>
-                <Box p="0.3rem" />
+                <Box p='0.3rem' />
                 <Box>You can use search to find any channel.</Box>
                 <Box>Or you can use navigation window.</Box>
               </Grid>
-              <Grid item xs={12} md={6} p="0.5rem">
+              <Grid item xs={12} md={6} p='0.5rem'>
                 <img
-                  alt="tree"
-                  src="/channels.png"
-                  width="100%"
-                  height="160px"
+                  alt='tree'
+                  src='/channels.png'
+                  width='100%'
+                  height='160px'
                 />
               </Grid>
             </Grid>
             <Grid
               container
               bgcolor={"background.transperentLight"}
-              borderRadius="0.5rem"
-              padding="0.5rem"
+              borderRadius='0.5rem'
+              padding='0.5rem'
               sx={{ backdropFilter: "blur(2px)" }}
             >
               <Grid item xs={12}>
-                <Typography variant="h4">Content...</Typography>
+                <Typography variant='h4'>Content...</Typography>
               </Grid>
-              <Grid item xs={12} md={6} p="0.5rem">
+              <Grid item xs={12} md={6} p='0.5rem'>
                 <Box>Thanks to the tree structure</Box>
                 <Box>We can rebalance content.</Box>
-                <Box p="0.3rem" />
+                <Box p='0.3rem' />
                 <Box>That means at the very top you will see</Box>
                 <Box>Only the most important news.</Box>
-                <Box p="0.3rem" />
+                <Box p='0.3rem' />
                 <Box>3 best posts are promoted from each channel up.</Box>
               </Grid>
-              <Grid item xs={12} md={6} p="0.5rem">
+              <Grid item xs={12} md={6} p='0.5rem'>
                 <img
-                  alt="promotion"
-                  src="/promotion.png"
-                  width="100%"
-                  height="160px"
+                  alt='promotion'
+                  src='/promotion.png'
+                  width='100%'
+                  height='160px'
                 />
               </Grid>
             </Grid>
           </Box>
         </Collapse>
+
+        <PopularChannels />
+        <Info />
       </Container>
 
-      <Button
+      {/* <Button
         onClick={() => {
           navigate(`/channels/${idRoot}`);
         }}
@@ -276,7 +310,106 @@ export default function Landing() {
       >
         trigger function rebalance
       </Button>
-      <Button onClick={handleTestQuery}>test query</Button>
+      <Button onClick={handleTestQuery}>test query</Button> */}
     </Box>
+  );
+}
+
+function PopularChannels() {
+  const navigate = useNavigate();
+  const popularChannels = usePopularChannels();
+
+  return (
+    <>
+      <></>
+      <></>
+      <Container>
+        <Box
+          padding='1rem'
+          borderRadius='0.5rem'
+          sx={{ backdropFilter: "blur(2px)" }}
+          bgcolor={"background.transperentLight"}
+        >
+          <Typography variant='h6'>Popular channels - views</Typography>
+          <Box
+            sx={{
+              display: "flex",
+              overflowX: "auto",
+              gap: "0.5rem",
+              paddingBottom: "1rem",
+            }}
+          >
+            {popularChannels.map((channel) => (
+              <Button
+                key={channel.id}
+                variant={"outlined"}
+                fullWidth
+                color={"info"}
+                size='small'
+                sx={{
+                  minWidth: "6rem",
+                  overflow: "hidden",
+                  whiteSpace: "nowrap",
+                  display: "flex",
+                  justifyContent: "left",
+                  borderRadius: "2rem",
+                  gap: "0.2rem",
+                }}
+                onClick={() => {
+                  navigate(`/channels/${channel.id}`);
+                }}
+              >
+                <Box>{channel.statistics.countViewsAll}</Box>
+                <Box>{channel.name}</Box>
+              </Button>
+            ))}
+          </Box>
+        </Box>
+      </Container>
+    </>
+  );
+}
+
+function Info() {
+  const navigate = useNavigate();
+  const popularChannels = usePopularChannels();
+
+  return (
+    <>
+      <></>
+      <></>
+      <Container>
+        <Box
+          padding='1rem'
+          borderRadius='0.5rem'
+          sx={{ backdropFilter: "blur(2px)" }}
+          bgcolor={"background.transperentLight"}
+        >
+          <Typography variant='h6'>Info:</Typography>
+          <List>
+            <ListItem>
+              <Box sx={{ display: "flex", gap: "0.5rem" }}>
+                <Box>Contact -</Box>
+
+                <Link href='mailto: support@locus.news'>
+                  support@locus.news
+                </Link>
+              </Box>
+            </ListItem>
+            <ListItem>
+              <Box sx={{ display: "flex", gap: "0.5rem" }}>
+                <Box>This project was developed by a single person -</Box>
+                <Box>
+                  <Link href='https://www.linkedin.com/in/vzwork'>
+                    vzwork
+                  </Link>
+                </Box>
+              </Box>
+            </ListItem>
+            <ListItem>Mobile version is in the development.</ListItem>
+          </List>
+        </Box>
+      </Container>
+    </>
   );
 }

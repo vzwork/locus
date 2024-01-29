@@ -52,7 +52,14 @@ export default function Accounts() {
     undefined
   );
 
+  const [firstLoad, setFirstLoad] = useState(true);
+
   useEffect(() => {
+    if (firstLoad) {
+      setFirstLoad(false);
+      return;
+    }
+
     if (!params.idAccount) {
       if (!account) {
         navigate("/");
@@ -61,11 +68,13 @@ export default function Accounts() {
       }
       setThisAccount(account);
     } else {
-      managerAccount.getAccountOptimized(params.idAccount).then((account) => {
-        if (account) {
-          setThisAccount(account);
-        }
-      });
+      managerAccount
+        .getAccountOptimized(params.idAccount)
+        .then((account) => {
+          if (account) {
+            setThisAccount(account);
+          }
+        });
     }
   }, [params.idAccount, account]);
 
@@ -77,14 +86,16 @@ export default function Accounts() {
     <>
       <></>
       <></>
-      <Container maxWidth="md">
-        <Box pt="1rem" />
-        <Box sx={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+      <Container maxWidth='md'>
+        <Box pt='1rem' />
+        <Box
+          sx={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}
+        >
           <Box sx={{ display: "flex", gap: "0.5rem" }}>
             <Box
-              borderRadius="0.5rem"
-              padding="0.5rem"
-              bgcolor="background.transperent"
+              borderRadius='0.5rem'
+              padding='0.5rem'
+              bgcolor='background.transperent'
               sx={{ backdropFilter: "blur(2px)", height: "min-content" }}
             >
               <IconButton
@@ -100,9 +111,9 @@ export default function Accounts() {
                 <></>
                 <></>
                 <Box
-                  borderRadius="0.5rem"
-                  padding="0.5rem"
-                  bgcolor="background.transperent"
+                  borderRadius='0.5rem'
+                  padding='0.5rem'
+                  bgcolor='background.transperent'
                   sx={{
                     backdropFilter: "blur(2px)",
                     flex: 1,
@@ -126,37 +137,42 @@ export default function Accounts() {
                   <Box>
                     <Box sx={{ display: "flex", gap: "0.5rem" }}>
                       <Button
-                        size="small"
-                        variant="outlined"
-                        color="info"
+                        size='small'
+                        variant='outlined'
+                        color='info'
                         startIcon={<StarOutlineIcon />}
                         sx={{
                           borderRadius: "2rem",
-                          backgroundColor: theme.palette.background.transperent,
+                          backgroundColor:
+                            theme.palette.background.transperent,
                         }}
                       >
                         {formatNumber(statsUser?.countStarsByOtherUsers)}
                       </Button>
                       <Button
-                        size="small"
-                        variant="outlined"
-                        color="info"
+                        size='small'
+                        variant='outlined'
+                        color='info'
                         startIcon={<MenuBookIcon />}
                         sx={{
                           borderRadius: "2rem",
-                          backgroundColor: theme.palette.background.transperent,
+                          backgroundColor:
+                            theme.palette.background.transperent,
                         }}
                       >
-                        {formatNumber(statsUser?.countBooksByOtherUsers || 0)}
+                        {formatNumber(
+                          statsUser?.countBooksByOtherUsers || 0
+                        )}
                       </Button>
                       <Button
-                        size="small"
-                        variant="outlined"
-                        color="info"
+                        size='small'
+                        variant='outlined'
+                        color='info'
                         startIcon={<ChatBubbleOutlineIcon />}
                         sx={{
                           borderRadius: "2rem",
-                          backgroundColor: theme.palette.background.transperent,
+                          backgroundColor:
+                            theme.palette.background.transperent,
                         }}
                       >
                         {formatNumber(statsUser?.countUpvotesComments || 0)}
@@ -225,7 +241,7 @@ function ContentFilterOrder({
       <></>
       <></>
       <Box
-        bgcolor="background.transperent"
+        bgcolor='background.transperent'
         sx={{
           width: "100%",
           padding: "0.5rem",
@@ -234,10 +250,10 @@ function ContentFilterOrder({
           justifyContent: "space-between",
           backdropFilter: "blur(2px)",
         }}
-        borderRadius="0.5rem"
+        borderRadius='0.5rem'
       >
         <Box>
-          <Tooltip title="quotes" arrow>
+          <Tooltip title='quotes' arrow>
             <IconButton
               color={filterQuotes ? "info" : "primary"}
               onClick={() => {
@@ -251,7 +267,7 @@ function ContentFilterOrder({
               <FormatQuoteIcon />
             </IconButton>
           </Tooltip>
-          <Tooltip title="articles" arrow>
+          <Tooltip title='articles' arrow>
             <IconButton
               color={filterArticles ? "info" : "primary"}
               onClick={() => {
@@ -265,7 +281,7 @@ function ContentFilterOrder({
               <NewspaperIcon />
             </IconButton>
           </Tooltip>
-          <Tooltip title="photos" arrow>
+          <Tooltip title='photos' arrow>
             <IconButton
               color={filterPhotos ? "info" : "primary"}
               onClick={() => {
@@ -279,7 +295,7 @@ function ContentFilterOrder({
               <PhotoCameraIcon />
             </IconButton>
           </Tooltip>
-          <Tooltip title="videos" arrow>
+          <Tooltip title='videos' arrow>
             <IconButton
               color={filterVideos ? "info" : "primary"}
               onClick={() => {
@@ -293,7 +309,7 @@ function ContentFilterOrder({
               <OndemandVideoIcon />
             </IconButton>
           </Tooltip>
-          <Tooltip title="developing..." arrow>
+          <Tooltip title='developing...' arrow>
             {/* <IconButton color={filterStreams ? "info" : "primary"}> */}
             <IconButton color={"info"}>
               <PhotoCameraFrontIcon />
@@ -302,8 +318,8 @@ function ContentFilterOrder({
         </Box>
         <Box sx={{ display: "flex", gap: "0.5rem" }}>
           <Select
-            variant="standard"
-            size="small"
+            variant='standard'
+            size='small'
             value={option}
             onChange={(e) => setOption(e.target.value)}
           >

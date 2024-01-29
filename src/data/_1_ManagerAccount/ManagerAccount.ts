@@ -93,7 +93,9 @@ class ManagerAccount {
     const accounts = JSON.parse(accountsString);
     const account = accounts[idAccount];
 
-    const timestampUpdatedAccount = JSON.parse(timestampUpdatedAccountString);
+    const timestampUpdatedAccount = JSON.parse(
+      timestampUpdatedAccountString
+    );
     const timestampUpdated = timestampUpdatedAccount[idAccount];
 
     if (
@@ -142,7 +144,9 @@ class ManagerAccount {
     accounts[account.id] = account;
     localStorage.setItem("accounts", JSON.stringify(accounts));
 
-    const timestampUpdatedAccount = JSON.parse(timestampUpdatedAccountString!);
+    const timestampUpdatedAccount = JSON.parse(
+      timestampUpdatedAccountString!
+    );
     timestampUpdatedAccount[account.id] = Date.now();
     localStorage.setItem(
       "timestampUpdatedAccount",
@@ -178,7 +182,10 @@ class ManagerAccount {
   // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
   // account
   private notifyListenersAccount() {
-    this.subscribersAccount.forEach((subscriber) => subscriber(this.account));
+    // console.log(this.account);
+    this.subscribersAccount.forEach((subscriber) =>
+      subscriber(this.account)
+    );
   }
 
   public addListenerAccount(
@@ -191,7 +198,9 @@ class ManagerAccount {
     return listener;
   }
 
-  public removeListenerAccount(listener: (account: IAccount | null) => void) {
+  public removeListenerAccount(
+    listener: (account: IAccount | null) => void
+  ) {
     this.subscribersAccount = this.subscribersAccount.filter(
       (subscriber) => subscriber !== listener
     );

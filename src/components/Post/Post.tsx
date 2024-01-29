@@ -4,6 +4,7 @@ import {
   Collapse,
   Divider,
   IconButton,
+  Link,
   Menu,
   MenuItem,
   TextField,
@@ -38,6 +39,8 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import useComments from "../../data/_10_ManagerComments/useComments";
 import Article from "../Article/Article";
 import ManagerChats from "../../data/_5_ManagerChats/ManagerChats";
+import { IChannel } from "../../data/channel";
+import ManagerChannels from "../../data/_7_ManagerChannels/ManagerChannels";
 
 export default function Post({
   post,
@@ -48,9 +51,9 @@ export default function Post({
   propExpanded?: boolean;
   propOpenComments?: boolean;
 }) {
-  const params = useParams();
-
   // general
+  const managerChannes = ManagerChannels;
+  const params = useParams();
   const theme = useTheme();
   const navigate = useNavigate();
   const managerContent = ManagerContent;
@@ -77,7 +80,35 @@ export default function Post({
   const managerChats = ManagerChats;
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
-  const handleClickBox = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  // origin
+  const [channelOrigin, setChannelOrigin] = useState<IChannel | null>(null);
+  const [channelOriginParent, setChannelOriginParent] =
+    useState<IChannel | null>(null);
+
+  useEffect(() => {
+    if (post.navigation.idChannelOrigin) {
+      managerChannes
+        .getChannelOptimized(post.navigation.idChannelOrigin)
+        .then((channel) => {
+          if (channel) {
+            setChannelOrigin(channel);
+          }
+        });
+    }
+    if (post.navigation.idChannelOriginParent) {
+      managerChannes
+        .getChannelOptimized(post.navigation.idChannelOriginParent)
+        .then((channel) => {
+          if (channel) {
+            setChannelOriginParent(channel);
+          }
+        });
+    }
+  }, []);
+
+  const handleClickBox = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
     if (e.target !== refUser.current) {
       setExpanded(!expanded);
     }
@@ -88,9 +119,9 @@ export default function Post({
       <></>
       <></>
       <Box
-        p="0.5rem"
+        p='0.5rem'
         bgcolor={"background.transperent"}
-        borderRadius="0.5rem"
+        borderRadius='0.5rem'
         sx={{
           display: "flex",
           flexDirection: "column",
@@ -110,11 +141,14 @@ export default function Post({
         }}
         onClick={(e) => handleClickBox(e)}
       >
-        <Box color="info.main" sx={{ display: "flex", alignItems: "center" }}>
+        <Box
+          color='info.main'
+          sx={{ display: "flex", alignItems: "center" }}
+        >
           <Button
-            size="small"
-            variant="outlined"
-            color="info"
+            size='small'
+            variant='outlined'
+            color='info'
             onClick={(e) => {
               e.stopPropagation();
               setAnchorEl(e.currentTarget);
@@ -155,7 +189,9 @@ export default function Post({
                 }
               }}
             >
-              {post.idCreator !== account?.id ? "send message" : "this is you"}
+              {post.idCreator !== account?.id
+                ? "send message"
+                : "this is you"}
             </MenuItem>
           </Menu>
           <Divider sx={{ flex: "1", marginX: "1rem" }} />
@@ -167,12 +203,12 @@ export default function Post({
           >
             <VisibilityIcon sx={{ fontSize: "1rem" }} />
             <Box>{formatNumber(post.countViews)}</Box>
-            <IconButton size="small" color="info">
+            <IconButton size='small' color='info'>
               <MoreVertIcon sx={{ fontSize: "1.2rem" }} />
             </IconButton>
             <IconButton
-              size="small"
-              color="info"
+              size='small'
+              color='info'
               onClick={() => {
                 navigate(`/channels/${params.idChannel}/posts/${post.id}`);
               }}
@@ -194,10 +230,50 @@ export default function Post({
         <Box
           sx={{
             display: "flex",
-            justifyContent: "right",
+            justifyContent: "space-between",
             alignItems: "center",
           }}
         >
+          <Box
+            sx={{
+              display: "flex",
+              fontSize: "0.8rem",
+              gap: "0.5rem",
+              alignItems: "center",
+            }}
+          >
+            <Box color='info.main'>origin:</Box>
+            <Box sx={{ display: "flex" }}>
+              {channelOrigin?.id !== channelOriginParent?.id ? (
+                <>
+                  <Link
+                    color='info.main'
+                    component='button'
+                    sx={{ paddingRight: "0.2rem" }}
+                    onClick={() => {
+                      if (channelOriginParent) {
+                        navigate(`/channels/${channelOriginParent.id}`);
+                      }
+                    }}
+                  >
+                    /{channelOriginParent?.name}
+                  </Link>
+                </>
+              ) : null}
+              <Link
+                color='primary.main'
+                sx={{ paddingRight: "0.2rem" }}
+                component='button'
+                onClick={() => {
+                  if (channelOrigin) {
+                    navigate(`/channels/${channelOrigin.id}`);
+                  }
+                }}
+              >
+                /{channelOrigin?.name}
+              </Link>
+            </Box>
+          </Box>
           {/* <Divider sx={{ flex: "1", marginRight: "1rem" }} /> */}
           <Box
             sx={{ display: "flex", gap: "0.5rem" }}
@@ -206,9 +282,9 @@ export default function Post({
             }}
           >
             <Button
-              size="small"
-              variant="outlined"
-              color="info"
+              size='small'
+              variant='outlined'
+              color='info'
               onClick={() => {
                 if (!account) {
                   navigate("/signin");
@@ -236,9 +312,9 @@ export default function Post({
               {formatNumber(post.statistics.countStarsAll)}
             </Button>
             <Button
-              size="small"
-              variant="outlined"
-              color="info"
+              size='small'
+              variant='outlined'
+              color='info'
               onClick={() => {
                 if (!account) {
                   navigate("/signin");
@@ -264,9 +340,9 @@ export default function Post({
               {formatNumber(post.statistics.countBooksAll)}
             </Button>
             <Button
-              size="small"
-              variant="outlined"
-              color="info"
+              size='small'
+              variant='outlined'
+              color='info'
               onClick={() => {
                 setOpenComments(!openComments);
               }}
@@ -314,7 +390,7 @@ function Comments({ post }: { post: IPost }) {
 
   return (
     <Box
-      mt="1rem"
+      mt='1rem'
       sx={{
         display: "flex",
         flexDirection: "column",
@@ -324,11 +400,11 @@ function Comments({ post }: { post: IPost }) {
     >
       <Box>
         <TextField
-          size="small"
+          size='small'
           fullWidth
           multiline
           maxRows={6}
-          variant="filled"
+          variant='filled'
           label={"comment..."}
           value={textComment}
           onChange={(e) => {
@@ -375,7 +451,13 @@ function Comments({ post }: { post: IPost }) {
   );
 }
 
-function Comment({ comment, post }: { comment: ICommentBuilt; post: IPost }) {
+function Comment({
+  comment,
+  post,
+}: {
+  comment: ICommentBuilt;
+  post: IPost;
+}) {
   const account = useAccount();
   const theme = useTheme();
   const managerComments = ManagerComments;
@@ -394,7 +476,7 @@ function Comment({ comment, post }: { comment: ICommentBuilt; post: IPost }) {
       <></>
       <Box>
         <Box
-          color="info.main"
+          color='info.main'
           sx={{ display: "flex", gap: "0.5rem", alignItems: "center" }}
         >
           <Box>{comment.nameAuthor}</Box>
@@ -404,14 +486,14 @@ function Comment({ comment, post }: { comment: ICommentBuilt; post: IPost }) {
           </Box>
         </Box>
         <Collapse in={minimized}>
-          <IconButton onClick={() => setMinimized(false)} size="small">
-            <OpenInFullIcon fontSize="small" />
+          <IconButton onClick={() => setMinimized(false)} size='small'>
+            <OpenInFullIcon fontSize='small' />
           </IconButton>
         </Collapse>
         <Collapse in={!minimized}>
           <Box sx={{ display: "flex" }}>
             <Divider
-              orientation="vertical"
+              orientation='vertical'
               flexItem
               sx={{
                 paddingLeft: "3px",
@@ -426,7 +508,7 @@ function Comment({ comment, post }: { comment: ICommentBuilt; post: IPost }) {
             />
             <Box
               sx={{ flex: 1, display: "flex", flexDirection: "column" }}
-              pl="0.5rem"
+              pl='0.5rem'
             >
               <Box>{comment.text}</Box>
               <Box
@@ -439,7 +521,7 @@ function Comment({ comment, post }: { comment: ICommentBuilt; post: IPost }) {
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <IconButton
                     // sx={{ paddingRight: "0" }}
-                    size="small"
+                    size='small'
                     color={
                       comment.idsUpvotes?.includes(account?.id ?? "")
                         ? "success"
@@ -447,20 +529,32 @@ function Comment({ comment, post }: { comment: ICommentBuilt; post: IPost }) {
                     }
                     onClick={() => {
                       if (comment.idsUpvotes?.includes(account?.id ?? "")) {
-                        managerComments.unUpvoteComment(post.id, comment.id);
+                        managerComments.unUpvoteComment(
+                          post.id,
+                          comment.id
+                        );
                       } else {
                         managerComments.upvoteComment(post.id, comment.id);
                       }
-                      if (comment.idsDownvotes?.includes(account?.id ?? "")) {
-                        managerComments.unDownvoteComment(post.id, comment.id);
+                      if (
+                        comment.idsDownvotes?.includes(account?.id ?? "")
+                      ) {
+                        managerComments.unDownvoteComment(
+                          post.id,
+                          comment.id
+                        );
                       }
                     }}
                   >
-                    <KeyboardDoubleArrowUpIcon fontSize="small" />
+                    <KeyboardDoubleArrowUpIcon fontSize='small' />
                   </IconButton>
                   <Box
-                    color="info.main"
-                    sx={{ width: "3px", left: "-3px", position: "relative" }}
+                    color='info.main'
+                    sx={{
+                      width: "3px",
+                      left: "-3px",
+                      position: "relative",
+                    }}
                   >
                     {formatNumber(
                       comment.countUpvotes - comment.countDownvotes
@@ -468,30 +562,41 @@ function Comment({ comment, post }: { comment: ICommentBuilt; post: IPost }) {
                   </Box>
                   <IconButton
                     // sx={{ paddingLeft: "0" }}
-                    size="small"
+                    size='small'
                     color={
                       comment.idsDownvotes?.includes(account?.id ?? "")
                         ? "error"
                         : "info"
                     }
                     onClick={() => {
-                      if (comment.idsDownvotes?.includes(account?.id ?? "")) {
-                        managerComments.unDownvoteComment(post.id, comment.id);
+                      if (
+                        comment.idsDownvotes?.includes(account?.id ?? "")
+                      ) {
+                        managerComments.unDownvoteComment(
+                          post.id,
+                          comment.id
+                        );
                       } else {
-                        managerComments.downvoteComment(post.id, comment.id);
+                        managerComments.downvoteComment(
+                          post.id,
+                          comment.id
+                        );
                       }
                       if (comment.idsUpvotes?.includes(account?.id ?? "")) {
-                        managerComments.unUpvoteComment(post.id, comment.id);
+                        managerComments.unUpvoteComment(
+                          post.id,
+                          comment.id
+                        );
                       }
                     }}
                   >
-                    <KeyboardDoubleArrowDownIcon fontSize="small" />
+                    <KeyboardDoubleArrowDownIcon fontSize='small' />
                   </IconButton>
                   <Box
-                    color="info.main"
-                    borderColor="info.main"
-                    borderBottom="solid 1px"
-                    marginRight="0.5rem"
+                    color='info.main'
+                    borderColor='info.main'
+                    borderBottom='solid 1px'
+                    marginRight='0.5rem'
                     onClick={() => setOpenReply(!openReply)}
                     sx={{ cursor: "pointer" }}
                   >
@@ -503,9 +608,9 @@ function Comment({ comment, post }: { comment: ICommentBuilt; post: IPost }) {
                 <Collapse in={openReply}>
                   <TextField
                     sx={{ paddingBottom: "0.5rem" }}
-                    variant="filled"
-                    size="small"
-                    label="reply..."
+                    variant='filled'
+                    size='small'
+                    label='reply...'
                     fullWidth
                     multiline
                     maxRows={3}
@@ -518,8 +623,16 @@ function Comment({ comment, post }: { comment: ICommentBuilt; post: IPost }) {
                       if (e.key === "Shift") {
                         setShiftDown(true);
                       }
-                      if (e.key === "Enter" && !shiftDown && textReply !== "") {
-                        managerComments.addReply(post, comment.id, textReply);
+                      if (
+                        e.key === "Enter" &&
+                        !shiftDown &&
+                        textReply !== ""
+                      ) {
+                        managerComments.addReply(
+                          post,
+                          comment.id,
+                          textReply
+                        );
                         setTextReply("");
                         e.preventDefault();
                       }
@@ -584,7 +697,7 @@ function Photo({ post, expanded }: { post: IPost; expanded: boolean }) {
       <Collapse in={!expanded}>
         <Box sx={{ display: "flex" }}>
           <img
-            alt="img"
+            alt='img'
             src={imgURL}
             style={{
               // width: "320px",
@@ -592,13 +705,13 @@ function Photo({ post, expanded }: { post: IPost; expanded: boolean }) {
               objectFit: "cover",
             }}
           />
-          <Box pl="1rem">{post.data.caption}</Box>
+          <Box pl='1rem'>{post.data.caption}</Box>
         </Box>
       </Collapse>
       <Collapse in={expanded}>
         <Box>
           <img
-            alt="img"
+            alt='img'
             src={imgURL}
             style={{
               width: "100%",
@@ -606,7 +719,7 @@ function Photo({ post, expanded }: { post: IPost; expanded: boolean }) {
               objectFit: "cover",
             }}
           />
-          <Box py="0.5rem">{post.data.caption}</Box>
+          <Box py='0.5rem'>{post.data.caption}</Box>
         </Box>
       </Collapse>
     </Box>
@@ -642,10 +755,10 @@ function Video({ post, expanded }: { post: IPost; expanded: boolean }) {
                   autoplay: 0,
                 },
               }}
-              id="video"
+              id='video'
               //
             />
-            <Box color="active.main" pl="1rem" sx={{ textWrap: "wrap" }}>
+            <Box color='active.main' pl='1rem' sx={{ textWrap: "wrap" }}>
               {data.caption}
             </Box>
           </Box>
@@ -661,10 +774,10 @@ function Video({ post, expanded }: { post: IPost; expanded: boolean }) {
                 autoplay: 0,
               },
             }}
-            id="video"
+            id='video'
             //
           />
-          <Box color="active.main" py="0.5rem" sx={{ textWrap: "wrap" }}>
+          <Box color='active.main' py='0.5rem' sx={{ textWrap: "wrap" }}>
             {data.caption}
           </Box>
         </Collapse>

@@ -6,8 +6,12 @@ import {
   deleteDoc,
   doc,
   getDoc,
+  getDocs,
   getFirestore,
   increment,
+  limit,
+  orderBy,
+  query,
   setDoc,
   updateDoc,
 } from "firebase/firestore";
@@ -36,13 +40,19 @@ class ManagerChannels {
 
   // channels current children
   private channelCurrentChildren: IChannel[] = [];
-  private listenersChannelCurrentChildren: ((channels: IChannel[]) => void)[] =
-    [];
+  private listenersChannelCurrentChildren: ((
+    channels: IChannel[]
+  ) => void)[] = [];
 
   // channels parent children
   private channelParentChildren: IChannel[] = [];
-  private listenersChannelParentChildren: ((channels: IChannel[]) => void)[] =
-    [];
+  private listenersChannelParentChildren: ((
+    channels: IChannel[]
+  ) => void)[] = [];
+
+  // popular channels
+  private popularChannels: IChannel[] = [];
+  private listenersPopularChannels: ((channels: IChannel[]) => void)[] = [];
 
   private constructor() {
     // Initialize the manager
@@ -64,6 +74,31 @@ class ManagerChannels {
     managerAccount.addListenerAccount((account) => {
       this.account = account;
     });
+
+    this.getPopularChannels();
+    setInterval(() => {
+      this.getPopularChannels();
+    }, 1000 * 60 * 15);
+  }
+
+  private async getPopularChannels() {
+    if (!this.db) return;
+    const channels: IChannel[] = [];
+
+    const q = query(
+      collection(this.db, stateCollections.channels),
+      orderBy("statistics.countViewsAll", "desc"),
+      limit(10)
+    );
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((doc) => {
+      const channel = doc.data() as IChannel;
+      channels.push(channel);
+    });
+
+    this.popularChannels = channels;
+    this.notifyListenersPopularChannels();
   }
   // init
   // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
@@ -214,7 +249,9 @@ class ManagerChannels {
     this.notifyListenersChannelParentChildren();
   }
 
-  public async getChannelOptimized(id: string): Promise<IChannel | undefined> {
+  public async getChannelOptimized(
+    id: string
+  ): Promise<IChannel | undefined> {
     // check local storage
     // if found and not expired, return
     // else, check firestore
@@ -240,12 +277,17 @@ class ManagerChannels {
     if (!id) return undefined;
     if (!this.db) return undefined;
 
-    const docSnap = await getDoc(doc(this.db, stateCollections.channels, id));
+    const docSnap = await getDoc(
+      doc(this.db, stateCollections.channels, id)
+    );
 
     if (docSnap.exists()) {
       const channel = docSnap.data() as IChannel;
       localStorage.setItem(`channel-${id}`, JSON.stringify(channel));
-      localStorage.setItem(`channel-${id}-date-updated`, Date.now().toString());
+      localStorage.setItem(
+        `channel-${id}-date-updated`,
+        Date.now().toString()
+      );
       if (channel) {
         return channel;
       }
@@ -276,7 +318,9 @@ class ManagerChannels {
     return listener;
   }
 
-  public removeListenerChannelCurrent(listener: (channel: IChannel) => void) {
+  public removeListenerChannelCurrent(
+    listener: (channel: IChannel) => void
+  ) {
     this.listenersChannelCurrent = this.listenersChannelCurrent.filter(
       (l) => l !== listener
     );
@@ -306,7 +350,9 @@ class ManagerChannels {
     return listener;
   }
 
-  public removeListenerChannelParent(listener: (channel: IChannel) => void) {
+  public removeListenerChannelParent(
+    listener: (channel: IChannel) => void
+  ) {
     this.listenersChannelParent = this.listenersChannelParent.filter(
       (l) => l !== listener
     );
@@ -339,9 +385,8 @@ class ManagerChannels {
   public removeListenerChannelGrandParent(
     listener: (channel: IChannel) => void
   ) {
-    this.listenersChannelGrandParent = this.listenersChannelGrandParent.filter(
-      (l) => l !== listener
-    );
+    this.listenersChannelGrandParent =
+      this.listenersChannelGrandParent.filter((l) => l !== listener);
   }
   // state channelGrandParent
   // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
@@ -394,6 +439,32 @@ class ManagerChannels {
       this.listenersChannelParentChildren.filter((l) => l !== listener);
   }
   // state channelParentChildren
+  // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
+
+  // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
+  // state popularChannels
+  private notifyListenersPopularChannels() {
+    this.listenersPopularChannels.forEach((listener) => {
+      listener(this.popularChannels);
+    });
+  }
+  public addListenerPopularChannels(
+    listener: (channels: IChannel[]) => void
+  ): (channels: IChannel[]) => void {
+    this.listenersPopularChannels.push(listener);
+
+    listener(this.popularChannels);
+
+    return listener;
+  }
+  public removeListenerPopularChannels(
+    listener: (channels: IChannel[]) => void
+  ) {
+    this.listenersPopularChannels = this.listenersPopularChannels.filter(
+      (l) => l !== listener
+    );
+  }
+  // state popularChannels
   // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
 }
 

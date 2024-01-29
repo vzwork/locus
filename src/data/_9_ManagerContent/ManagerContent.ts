@@ -6,6 +6,7 @@ import {
   getDocs,
   getFirestore,
   increment,
+  limit,
   orderBy,
   query,
   setDoc,
@@ -858,7 +859,8 @@ class ManagerContent {
     const q = query(
       collection(this.db, stateCollections.posts),
       where("idCreator", "==", this.idUser),
-      where("type", "in", this.typesContentActive)
+      where("type", "in", this.typesContentActive),
+      limit(20)
     );
 
     const querySnapshot = await getDocs(q);
@@ -880,23 +882,33 @@ class ManagerContent {
     if (!this.db) return;
     if (!this.idUser) return;
 
-    const q = query(
-      collection(this.db, stateCollections.posts),
-      where("id", "in", this.idsPostsUsersStars),
-      where("type", "in", this.typesContentActive)
-    );
-
-    const querySnapshot = await getDocs(q);
-
     const content: IPost[] = [];
-    querySnapshot.forEach((doc) => {
-      const post = doc.data() as IPost;
+    let countPostsDownloaded = 0;
+    let countAttempts = 0;
+
+    for (let i = 0; i < this.idsPostsUsersStars.length; i++) {
+      countAttempts++;
+      const docSnapshot = await getDoc(
+        doc(this.db, stateCollections.posts, this.idsPostsUsersStars[i])
+      ).catch((error) => {
+        console.log(error.message);
+      });
+      if (!docSnapshot) continue;
+      if (!docSnapshot.exists()) continue;
+      const post = docSnapshot.data() as IPost;
       post.countViews++;
       if (this.account) {
-        updateDoc(doc.ref, { countViews: increment(1) });
+        updateDoc(docSnapshot.ref, { countViews: increment(1) });
       }
-      content.push(post);
-    });
+      if (post.type in this.typesContentActive) {
+        content.push(post);
+        countPostsDownloaded++;
+      }
+
+      if (countPostsDownloaded === 10) break;
+      if (countAttempts === 20) break;
+    }
+
     this.content = content;
 
     this.notifyListenersContent();
@@ -905,23 +917,33 @@ class ManagerContent {
     if (!this.db) return;
     if (!this.idUser) return;
 
-    const q = query(
-      collection(this.db, stateCollections.posts),
-      where("id", "in", this.idsPostsUsersBooks),
-      where("type", "in", this.typesContentActive)
-    );
-
-    const querySnapshot = await getDocs(q);
-
     const content: IPost[] = [];
-    querySnapshot.forEach((doc) => {
-      const post = doc.data() as IPost;
+    let countPostsDownloaded = 0;
+    let countAttempts = 0;
+
+    for (let i = 0; i < this.idsPostsUsersBooks.length; i++) {
+      countAttempts++;
+      const docSnapshot = await getDoc(
+        doc(this.db, stateCollections.posts, this.idsPostsUsersBooks[i])
+      ).catch((error) => {
+        console.log(error.message);
+      });
+      if (!docSnapshot) continue;
+      if (!docSnapshot.exists()) continue;
+      const post = docSnapshot.data() as IPost;
       post.countViews++;
       if (this.account) {
-        updateDoc(doc.ref, { countViews: increment(1) });
+        updateDoc(docSnapshot.ref, { countViews: increment(1) });
       }
-      content.push(post);
-    });
+      if (post.type in this.typesContentActive) {
+        content.push(post);
+        countPostsDownloaded++;
+      }
+
+      if (countPostsDownloaded === 10) break;
+      if (countAttempts === 20) break;
+    }
+
     this.content = content;
 
     this.notifyListenersContent();
@@ -977,6 +999,7 @@ class ManagerContent {
         this.channelCurrent.id
       ),
       where("type", "in", this.typesContentActive),
+      limit(20),
       orderBy(orderField, "desc")
     );
 
