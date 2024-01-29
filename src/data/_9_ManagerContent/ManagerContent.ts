@@ -1,6 +1,7 @@
 import {
   Firestore,
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -20,6 +21,7 @@ import ManagerChannels from "../_7_ManagerChannels/ManagerChannels";
 import { IPost, TypePost } from "../post";
 import {
   FirebaseStorage,
+  deleteObject,
   getStorage,
   ref,
   uploadBytes,
@@ -186,6 +188,40 @@ class ManagerContent {
 
   // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
   // actions content
+  public async deletePost(post: IPost) {
+    if (!this.db) return;
+    if (!this.channelCurrent) return;
+    if (!this.account) return;
+
+    const docRef = doc(this.db, stateCollections.posts, post.id);
+
+    await deleteDoc(docRef).catch((error) => {
+      console.error("Error deleting post: ", error.message);
+    });
+
+    if (post.type === TypePost.Article) {
+      const storageRef = ref(
+        this.storage!,
+        `${stateStorage.articles}/${post.id}.pdf`
+      );
+      deleteObject(storageRef).catch((error) => {
+        console.error("Error deleting file: ", error.message);
+      });
+    }
+
+    if (post.type === TypePost.Photo) {
+      const storageRef = ref(
+        this.storage!,
+        `${stateStorage.photos}/${post.id}.jpg`
+      );
+      deleteObject(storageRef).catch((error) => {
+        console.error("Error deleting file: ", error.message);
+      });
+    }
+
+    this.queryContent();
+  }
+
   public async addQuote(
     caption: string,
     idCreator: string,

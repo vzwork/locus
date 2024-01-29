@@ -80,6 +80,11 @@ export default function Post({
   const managerChats = ManagerChats;
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
+  // post menu
+  const [anchorElPost, setAnchorElPost] = useState<null | HTMLElement>(
+    null
+  );
+
   // origin
   const [channelOrigin, setChannelOrigin] = useState<IChannel | null>(null);
   const [channelOriginParent, setChannelOriginParent] =
@@ -203,9 +208,34 @@ export default function Post({
           >
             <VisibilityIcon sx={{ fontSize: "1rem" }} />
             <Box>{formatNumber(post.countViews)}</Box>
-            <IconButton size='small' color='info'>
+            <IconButton
+              size='small'
+              color='info'
+              onClick={(e) => {
+                setAnchorElPost(e.currentTarget);
+              }}
+            >
               <MoreVertIcon sx={{ fontSize: "1.2rem" }} />
             </IconButton>
+            <Menu
+              anchorEl={anchorElPost}
+              open={!!anchorElPost}
+              onClose={(e) => {
+                setAnchorElPost(null);
+              }}
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+            >
+              <MenuItem
+                onClick={() => {
+                  managerContent.deletePost(post);
+                  setAnchorElPost(null);
+                }}
+              >
+                delete
+              </MenuItem>
+            </Menu>
             <IconButton
               size='small'
               color='info'
