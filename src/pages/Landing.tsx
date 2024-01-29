@@ -101,6 +101,14 @@ export default function Landing() {
           <Box
             sx={{ display: "flex", gap: "0.5rem", alignItems: "center" }}
           >
+            <Button
+              variant='outlined'
+              onClick={() => {
+                navigate(`/channels/${idRoot}`);
+              }}
+            >
+              root chanel
+            </Button>
             <Collapse in={!showPresentation}>
               {/* <Box
               // borderRadius="0.5rem"
