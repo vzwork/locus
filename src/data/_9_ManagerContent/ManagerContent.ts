@@ -259,6 +259,8 @@ class ManagerContent {
     await setDoc(docRef, quote).catch((error) => {
       console.error("Error publishing quote: ", error.message);
     });
+
+    this.queryContent();
   }
 
   public async addArticle(
@@ -350,6 +352,8 @@ class ManagerContent {
       .catch((error) => {
         console.error("Error publishing article: ", error.message);
       });
+
+    this.queryContent();
   }
 
   public async addPhoto(
@@ -441,6 +445,8 @@ class ManagerContent {
       .catch((error) => {
         console.error("Error publishing photo: ", error.message);
       });
+
+    this.queryContent();
   }
 
   public async addVideo(
@@ -518,6 +524,8 @@ class ManagerContent {
     await setDoc(docRef, video).catch((error) => {
       console.error("Error publishing video: ", error.message);
     });
+
+    this.queryContent();
   }
 
   public async addStarPost(post: IPost) {
