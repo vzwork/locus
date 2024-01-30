@@ -15,7 +15,12 @@ import { useNavigate } from "react-router-dom";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useEffect, useState } from "react";
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import {
+  GoogleAuthProvider,
+  createUserWithEmailAndPassword,
+  getAuth,
+  signInWithPopup,
+} from "firebase/auth";
 import { IAccount } from "../data/account";
 import ManagerAccount from "../data/_1_ManagerAccount/ManagerAccount";
 import useAccount from "../data/_1_ManagerAccount/useAccount";
@@ -78,6 +83,34 @@ export default function SignUp() {
     // navigate(-2);
   };
 
+  const handleGoogle = async () => {
+    const provider = new GoogleAuthProvider();
+    const auth = getAuth();
+    const res = await signInWithPopup(auth, provider);
+
+    if (!res) return;
+    if (!res.user.email) return;
+    if (!res.user.displayName) return;
+
+    const newAccount: IAccount = {
+      version: VERSION_ACCOUNT,
+      email: res.user.email,
+      id: res.user.uid,
+      username: "user",
+      firstName: "Mr.",
+      lastName: "Anonymous",
+      urlAvatar: "",
+      role: "user",
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      countStars: 0,
+      countBooks: 0,
+      countPosts: 0,
+    };
+
+    managerAccount.setAccount(newAccount);
+  };
+
   useEffect(() => {
     setErrorEmail("");
   }, [email, password]);
@@ -112,7 +145,7 @@ export default function SignUp() {
   };
 
   return (
-    <Grid container component="main" sx={{ height: "100vh" }}>
+    <Grid container component='main' sx={{ height: "100vh" }}>
       <Grid item xs={false} sm={4} md={6} lg={7} xl={8} />
       <Grid
         item
@@ -130,7 +163,7 @@ export default function SignUp() {
       >
         <Box>
           <IconButton onClick={() => navigate(-1)}>
-            <ArrowBackIcon fontSize="large" />
+            <ArrowBackIcon fontSize='large' />
           </IconButton>
         </Box>
         <Box
@@ -140,10 +173,10 @@ export default function SignUp() {
             alignItems: "center",
           }}
         >
-          <Typography variant="h4">Sign Up</Typography>
+          <Typography variant='h4'>Sign Up</Typography>
           <Stepper
             activeStep={activeStep}
-            orientation="vertical"
+            orientation='vertical'
             sx={{ maxWidth: "400px", width: "100%" }}
           >
             <Step>
@@ -167,9 +200,9 @@ export default function SignUp() {
                       fullWidth
                       error={errorEmail !== ""}
                       helperText={errorEmail}
-                      label="email*"
-                      variant="outlined"
-                      type="email"
+                      label='email*'
+                      variant='outlined'
+                      type='email'
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                     />
@@ -177,32 +210,30 @@ export default function SignUp() {
                       fullWidth
                       error={errorPassword !== ""}
                       helperText={errorPassword}
-                      label="password*"
-                      variant="outlined"
-                      type="password"
+                      label='password*'
+                      variant='outlined'
+                      type='password'
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                     />
                   </Box>
                   <Box sx={{ display: "flex", justifyContent: "end" }}>
-                    <Button onClick={handleProceed} variant="contained">
+                    <Button onClick={handleProceed} variant='contained'>
                       proceed
                     </Button>
                   </Box>
                   <Divider>or</Divider>
                   <Button
-                    type="submit"
+                    type='submit'
                     fullWidth
-                    variant="contained"
-                    color="inherit"
-                    onClick={() => {
-                      // signInGoogle();
-                    }}
+                    variant='contained'
+                    color='inherit'
+                    onClick={handleGoogle}
                   >
                     <img
-                      src="/Google__G__Logo.svg.png"
-                      alt="google"
-                      width="20px"
+                      src='/Google__G__Logo.svg.png'
+                      alt='google'
+                      width='20px'
                       style={{ paddingRight: "0.6rem" }}
                     />
                     account
@@ -224,12 +255,12 @@ export default function SignUp() {
                     fullWidth
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    label="username*"
-                    variant="outlined"
-                    type="text"
+                    label='username*'
+                    variant='outlined'
+                    type='text'
                   />
                   <Box sx={{ display: "flex", justifyContent: "end" }}>
-                    <Button variant="contained" onClick={handleSave}>
+                    <Button variant='contained' onClick={handleSave}>
                       save
                     </Button>
                   </Box>
