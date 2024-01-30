@@ -121,7 +121,6 @@ export default function SignUp() {
 
   useEffect(() => {
     if (account) {
-      console.log(account);
       setActiveStep(1);
     }
   }, [account]);
@@ -138,8 +137,10 @@ export default function SignUp() {
 
   const handleSave = () => {
     if (errorUsername === "" && account) {
-      account.username = username;
-      managerAccount.setAccount(account);
+      console.log("save");
+      const newAccount = JSON.parse(JSON.stringify(account));
+      newAccount.username = username;
+      managerAccount.setAccount(newAccount);
       navigate("/");
     }
   };

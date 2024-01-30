@@ -50,6 +50,9 @@ class ManagerAccount {
     this.db = getFirestore();
     this.auth = getAuth();
     onAuthStateChanged(this.auth, (user) => {
+      // console.log("auth state changed");
+      // console.log(user);
+
       if (!user) {
         this.setAccount(null);
         return;
@@ -59,7 +62,7 @@ class ManagerAccount {
         .then((docSnap) => {
           if (!docSnap.exists()) {
             this.setAccount(null);
-            deleteUser(user);
+            // deleteUser(user);
             return;
           }
 
@@ -155,7 +158,13 @@ class ManagerAccount {
   }
 
   public async setAccount(account: IAccount | null) {
-    if (this.account === account) return;
+    console.log(this.account);
+    console.log(account);
+
+    if (JSON.stringify(this.account) === JSON.stringify(account))
+      console.log("identical");
+    if (JSON.stringify(this.account) === JSON.stringify(account)) return;
+    if (!this.db) console.log("database");
     if (!this.db) return;
 
     this.account = account;
@@ -164,7 +173,12 @@ class ManagerAccount {
       signOut(this.auth!);
     }
 
+    if (account !== null) {
+      console.log(account);
+    }
+
     if (account) {
+      console.log(account);
       await setDoc(
         doc(this.db, stateCollections.accounts, account.id),
         account

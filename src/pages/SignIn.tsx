@@ -46,17 +46,19 @@ export default function SignIn() {
 
   const handleSignIn = async () => {
     console.log("handleSignIn");
-    const res = await signInWithEmailAndPassword(auth, email, password).catch(
-      (error) => {
-        if (error.code === "auth/invalid-credential") {
-          setErrorEmail("Wrong email or password!");
-        } else if (error.code === "auth/missing-password") {
-          setErrorPassword("Password is required!");
-        } else {
-          setErrorEmail("Something went wrong!");
-        }
+    const res = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    ).catch((error) => {
+      if (error.code === "auth/invalid-credential") {
+        setErrorEmail("Wrong email or password!");
+      } else if (error.code === "auth/missing-password") {
+        setErrorPassword("Password is required!");
+      } else {
+        setErrorEmail("Something went wrong!");
       }
-    );
+    });
 
     if (!res) return;
 
@@ -90,7 +92,6 @@ export default function SignIn() {
     ).catch((error) => {
       console.log(error);
       setErrorEmail("Account doesn't exist!");
-      deleteUser(auth.currentUser!);
     });
 
     if (!docSnap?.data()) {
@@ -119,7 +120,7 @@ export default function SignIn() {
   };
 
   return (
-    <Grid container component="main" sx={{ height: "100vh" }}>
+    <Grid container component='main' sx={{ height: "100vh" }}>
       <Grid item xs={false} sm={4} md={6} lg={7} xl={8} />
       <Grid
         item
@@ -137,7 +138,7 @@ export default function SignIn() {
       >
         <Box>
           <IconButton onClick={() => navigate(-1)}>
-            <ArrowBackIcon fontSize="large" />
+            <ArrowBackIcon fontSize='large' />
           </IconButton>
         </Box>
         <Box
@@ -156,11 +157,11 @@ export default function SignIn() {
               gap: "0.8rem",
             }}
           >
-            <Typography variant="h4">Sign In</Typography>
+            <Typography variant='h4'>Sign In</Typography>
             <TextField
               fullWidth
-              label="email*"
-              type="email"
+              label='email*'
+              type='email'
               value={email}
               onChange={(e) => {
                 setEmail(e.target.value);
@@ -171,8 +172,8 @@ export default function SignIn() {
             />
             <TextField
               fullWidth
-              label="password*"
-              type="password"
+              label='password*'
+              type='password'
               value={password}
               onChange={(e) => {
                 setPassword(e.target.value);
@@ -181,7 +182,7 @@ export default function SignIn() {
               error={errorPassword !== ""}
               helperText={errorPassword}
             />
-            <Button onClick={handleSignIn} variant="contained" fullWidth>
+            <Button onClick={handleSignIn} variant='contained' fullWidth>
               sign in
             </Button>
             <Box
@@ -191,35 +192,46 @@ export default function SignIn() {
               }}
             >
               <Box
-                sx={{ width: "50%", display: "flex", justifyContent: "center" }}
+                sx={{
+                  width: "50%",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
               >
                 <Link
-                  component="button"
+                  component='button'
                   onClick={() => navigate("/resetpassword")}
                 >
                   forgot password
                 </Link>
               </Box>
               <Box
-                sx={{ width: "50%", display: "flex", justifyContent: "center" }}
+                sx={{
+                  width: "50%",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
               >
-                <Link component="button" onClick={() => navigate("/signup")}>
+                <Link
+                  component='button'
+                  onClick={() => navigate("/signup")}
+                >
                   sign up
                 </Link>
               </Box>
             </Box>
             <Divider sx={{ width: "100%", paddingY: "1rem" }}>or</Divider>
             <Button
-              type="submit"
+              type='submit'
               fullWidth
-              variant="contained"
-              color="inherit"
+              variant='contained'
+              color='inherit'
               onClick={handleSignInGoogle}
             >
               <img
-                src="/Google__G__Logo.svg.png"
-                alt="google"
-                width="20px"
+                src='/Google__G__Logo.svg.png'
+                alt='google'
+                width='20px'
                 style={{ paddingRight: "0.6rem" }}
               />
               account
