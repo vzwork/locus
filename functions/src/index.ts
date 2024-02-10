@@ -1400,6 +1400,14 @@ exports.rebalanceTreeTimeframeDay = onSchedule(
     // - traverse up
     // - traverse down
 
+    const getWorkloadTomorrow = (): number => {
+      // 4:00 AM
+      const date = new Date();
+      date.setDate(date.getDate() + 1);
+      date.setHours(4, 0, 0, 0);
+      return date.getTime();
+    };
+
     const setIdsChannelTraversedUp: Set<string> = new Set();
     const stackChannels: IChannel[] = [];
 
@@ -1431,6 +1439,21 @@ exports.rebalanceTreeTimeframeDay = onSchedule(
           .get();
 
         snapshot.docs.forEach(async (doc) => {
+          if (
+            !doc
+              .data()
+              .navigation.idsChannelLocationDay.includes(channel.id)
+          ) {
+            await admin
+              .firestore()
+              .collection("channels")
+              .doc(channel.id)
+              .update({
+                "statistics.countPostsDay":
+                  admin.firestore.FieldValue.increment(1),
+                "statistics.timestampWorkloadNext": getWorkloadTomorrow(),
+              });
+          }
           await admin
             .firestore()
             .collection("posts")
