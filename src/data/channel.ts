@@ -9,6 +9,8 @@ interface IChannel {
   nameCreator: string;
   timestampCreation: number;
   statistics: {
+    timestampWorkloadNext: number;
+    timestampWorkloadLast: number;
     countPostsDay: number;
     countPostsWeek: number;
     countPostsMonth: number;
