@@ -12,9 +12,9 @@ import {
 import ManagerAccount from "../_1_ManagerAccount/ManagerAccount";
 import { IAccount } from "../account";
 import { stateCollections } from "../db";
-import { error } from "console";
 import { IPost } from "../post";
 import { IStats } from "../stats";
+import { QueryTimeframe } from "../query";
 
 class ManagerTraceUser {
   private static instance: ManagerTraceUser;
@@ -24,11 +24,14 @@ class ManagerTraceUser {
   // state
   private statsUser: IStats | null = null;
   private setStars: Set<string> = new Set();
+  private mapDatesStars: Map<string, string> = new Map();
   private setBooks: Set<string> = new Set();
+  private mapDatesBooks: Map<string, string> = new Map();
   private setComments: Set<string> = new Set();
 
   // listeners
-  private listenersStatsUser: Array<(statsUser: IStats | null) => void> = [];
+  private listenersStatsUser: Array<(statsUser: IStats | null) => void> =
+    [];
   private listenersStars: Array<(stars: Set<string>) => void> = [];
 
   private constructor() {
@@ -70,7 +73,11 @@ class ManagerTraceUser {
       console.log("Error getting document:", error);
     });
     if (docStarsRef && docStarsRef.exists()) {
-      this.setStars = new Set(docStarsRef.data().stars);
+      docStarsRef.data().stars.forEach((star: string) => {
+        const starData = star.split("-");
+        this.setStars.add(starData[0]);
+        this.mapDatesStars.set(starData[0], starData[1]);
+      });
       this.notifyListenersStars();
     } else {
       await setDoc(
@@ -87,7 +94,11 @@ class ManagerTraceUser {
       console.log("Error getting document:", error);
     });
     if (docBooksRef && docBooksRef.exists()) {
-      this.setBooks = new Set(docBooksRef.data().books);
+      docBooksRef.data().books.forEach((book: string) => {
+        const bookData = book.split("-");
+        this.setBooks.add(bookData[0]);
+        this.mapDatesBooks.set(bookData[0], bookData[1]);
+      });
       this.notifyListenersBooks();
     } else {
       await setDoc(
@@ -146,17 +157,19 @@ class ManagerTraceUser {
 
   // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
   // user actions
-  public async addStar(post: IPost) {
+  public async addStar(post: IPost, timeframe: QueryTimeframe) {
     if (!this.db || !this.account) return;
     if (this.setStars.has(post.id)) return;
 
     this.setStars.add(post.id);
+    const dateOfStar = Date.now().toString();
+    this.mapDatesStars.set(post.id, dateOfStar);
     this.notifyListenersStars();
 
     await updateDoc(
       doc(this.db, stateCollections.traceUserStars, this.account.id),
       {
-        stars: arrayUnion(post.id),
+        stars: arrayUnion(post.id + "-" + dateOfStar),
       }
     ).catch((error) => {
       console.log(error.message);
@@ -164,9 +177,12 @@ class ManagerTraceUser {
 
     if (this.account.id !== post.idCreator) {
       await this.makeSureStatsUserExist(post.idCreator);
-      await updateDoc(doc(this.db, stateCollections.stats, post.idCreator), {
-        countStarsByOtherUsers: increment(1),
-      });
+      await updateDoc(
+        doc(this.db, stateCollections.stats, post.idCreator),
+        {
+          countStarsByOtherUsers: increment(1),
+        }
+      );
     }
 
     this.notifyListenersStars();
@@ -177,44 +193,58 @@ class ManagerTraceUser {
     if (!this.setStars.has(post.id)) return;
 
     this.setStars.delete(post.id);
+    const dateOfStar = this.mapDatesStars.get(post.id);
+    this.mapDatesStars.delete(post.id);
     this.notifyListenersStars();
 
     await updateDoc(
       doc(this.db, stateCollections.traceUserStars, this.account.id),
       {
-        stars: arrayRemove(post.id),
+        stars: arrayRemove(post.id + "-" + dateOfStar),
       }
     );
 
     if (this.account.id !== post.idCreator) {
       await this.makeSureStatsUserExist(post.idCreator);
-      await updateDoc(doc(this.db, stateCollections.stats, post.idCreator), {
-        countStarsByOtherUsers: increment(-1),
-      });
+      await updateDoc(
+        doc(this.db, stateCollections.stats, post.idCreator),
+        {
+          countStarsByOtherUsers: increment(-1),
+        }
+      );
     }
 
     this.notifyListenersStars();
   }
 
-  public async addBook(post: IPost) {
+  public getDateStar(id: string): string | undefined {
+    return this.mapDatesStars.get(id);
+  }
+
+  public async addBook(post: IPost, timeframe: QueryTimeframe) {
     if (!this.db || !this.account) return;
     if (this.setBooks.has(post.id)) return;
 
     this.setBooks.add(post.id);
+    const dateOfBook = Date.now().toString();
+    this.mapDatesBooks.set(post.id, dateOfBook);
     this.notifyListenersBooks();
 
     await updateDoc(
       doc(this.db, stateCollections.traceUserBooks, this.account.id),
       {
-        books: arrayUnion(post.id),
+        books: arrayUnion(post.id + "-" + dateOfBook),
       }
     );
 
     if (this.account.id !== post.idCreator) {
       await this.makeSureStatsUserExist(post.idCreator);
-      await updateDoc(doc(this.db, stateCollections.stats, post.idCreator), {
-        countBooksByOtherUsers: increment(1),
-      });
+      await updateDoc(
+        doc(this.db, stateCollections.stats, post.idCreator),
+        {
+          countBooksByOtherUsers: increment(1),
+        }
+      );
 
       this.notifyListenersBooks();
     }
@@ -225,23 +255,32 @@ class ManagerTraceUser {
     if (!this.setBooks.has(post.id)) return;
 
     this.setBooks.delete(post.id);
+    const dateOfBook = this.mapDatesBooks.get(post.id);
+    this.mapDatesBooks.delete(post.id);
     this.notifyListenersBooks();
 
     await updateDoc(
       doc(this.db, stateCollections.traceUserBooks, this.account.id),
       {
-        books: arrayRemove(post.id),
+        books: arrayRemove(post.id + "-" + dateOfBook),
       }
     );
 
     if (this.account.id !== post.idCreator) {
       await this.makeSureStatsUserExist(post.idCreator);
-      await updateDoc(doc(this.db, stateCollections.stats, post.idCreator), {
-        countBooksByOtherUsers: increment(-1),
-      });
+      await updateDoc(
+        doc(this.db, stateCollections.stats, post.idCreator),
+        {
+          countBooksByOtherUsers: increment(-1),
+        }
+      );
     }
 
     this.notifyListenersBooks();
+  }
+
+  public getDateBook(id: string): string | undefined {
+    return this.mapDatesBooks.get(id);
   }
 
   private async makeSureStatsUserExist(idUser: string) {
@@ -311,7 +350,9 @@ class ManagerTraceUser {
     listener(this.statsUser);
     return listener;
   }
-  public removeListenerStatsUser(listener: (statsUser: IStats | null) => void) {
+  public removeListenerStatsUser(
+    listener: (statsUser: IStats | null) => void
+  ) {
     this.listenersStatsUser = this.listenersStatsUser.filter(
       (l) => l !== listener
     );

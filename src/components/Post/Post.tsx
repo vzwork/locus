@@ -322,10 +322,8 @@ export default function Post({
                 }
                 if (!stars?.has(post.id)) {
                   managerContent.addStarPost(post);
-                  managerTraceUser.addStar(post);
                 } else {
                   managerContent.removeStarPost(post);
-                  managerTraceUser.removeStar(post);
                 }
               }}
               sx={{
@@ -352,10 +350,8 @@ export default function Post({
                 }
                 if (!books?.has(post.id)) {
                   managerContent.addBookPost(post);
-                  managerTraceUser.addBook(post);
                 } else {
                   managerContent.removeBookPost(post);
-                  managerTraceUser.removeBook(post);
                 }
               }}
               startIcon={<MenuBookIcon />}

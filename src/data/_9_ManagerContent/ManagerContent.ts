@@ -29,6 +29,7 @@ import {
 import ManagerCompetencyUser from "../_6_ManagerCompetencyUser/ManagerCompetencyUser";
 import ManagerAccount from "../_1_ManagerAccount/ManagerAccount";
 import { IAccount } from "../account";
+import ManagerTraceUser from "../_4_ManagerTraceUser/ManagerTraceUser";
 
 function arraysEqual(a: any, b: any) {
   if (a === b) return true;
@@ -73,7 +74,7 @@ class ManagerContent {
   private order: QueryOrder = QueryOrder.popular;
 
   // timeframe
-  private timeframe: QueryTimeframe = QueryTimeframe.week;
+  private timeframe: QueryTimeframe = QueryTimeframe.day;
 
   private constructor() {
     // Private constructor to prevent instantiation
@@ -636,6 +637,8 @@ class ManagerContent {
       .then(() => {
         const managerCompetencyUser = ManagerCompetencyUser;
         managerCompetencyUser.starAnotherUser(post);
+        const managerTraceUser = ManagerTraceUser;
+        managerTraceUser.addStar(post, this.timeframe);
       })
       .catch((error) => {
         console.error("Error starring post: ", error.message);
@@ -647,59 +650,50 @@ class ManagerContent {
     if (!this.channelCurrent) return;
     if (!this.account) return;
 
+    const managerTraceUser = ManagerTraceUser;
+    const dateStar = managerTraceUser.getDateStar(post.id);
+    if (!dateStar) return;
+
     const docRef = doc(this.db, stateCollections.posts, post.id);
     const data: any = {};
-
-    data["statistics.countStarsAll"] = increment(-1);
-    if (this.timeframe !== QueryTimeframe.all) {
-      data["statistics.countStarsYear"] = increment(-1);
-      if (this.timeframe !== QueryTimeframe.year) {
-        data["statistics.countStarsMonth"] = increment(-1);
-        if (this.timeframe !== QueryTimeframe.month) {
-          data["statistics.countStarsWeek"] = increment(-1);
-          if (this.timeframe !== QueryTimeframe.week) {
-            data["statistics.countStarsDay"] = increment(-1);
-          }
-        }
-      }
-    }
-    data["statistics.countPositiveAll"] = increment(-1);
-    if (this.timeframe !== QueryTimeframe.all) {
-      data["statistics.countPositiveYear"] = increment(-1);
-      if (this.timeframe !== QueryTimeframe.year) {
-        data["statistics.countPositiveMonth"] = increment(-1);
-        if (this.timeframe !== QueryTimeframe.month) {
-          data["statistics.countPositiveWeek"] = increment(-1);
-          if (this.timeframe !== QueryTimeframe.week) {
-            data["statistics.countPositiveDay"] = increment(-1);
-          }
-        }
-      }
-    }
-
     const newPost = post;
 
+    const date = new Date(dateStar);
+    const dateNow = new Date();
+    const diff = dateNow.getTime() - date.getTime();
+    const diffDays = Math.ceil(diff / (1000 * 3600 * 24));
+
+    data["statistics.countStarsAll"] = increment(-1);
     newPost.statistics.countStarsAll--;
-    if (this.timeframe !== QueryTimeframe.all) {
+    if (diffDays < 365) {
+      data["statistics.countStarsYear"] = increment(-1);
       newPost.statistics.countStarsYear--;
-      if (this.timeframe !== QueryTimeframe.year) {
+      if (diffDays < 30) {
+        data["statistics.countStarsMonth"] = increment(-1);
         newPost.statistics.countStarsMonth--;
-        if (this.timeframe !== QueryTimeframe.month) {
+        if (diffDays < 7) {
+          data["statistics.countStarsWeek"] = increment(-1);
           newPost.statistics.countStarsWeek--;
-          if (this.timeframe !== QueryTimeframe.week) {
+          if (diffDays < 1) {
+            data["statistics.countStarsDay"] = increment(-1);
             newPost.statistics.countStarsDay--;
           }
         }
       }
     }
+    data["statistics.countPositiveAll"] = increment(-1);
     newPost.statistics.countPositiveAll--;
-    if (this.timeframe !== QueryTimeframe.all) {
+    if (diffDays < 365) {
+      data["statistics.countPositiveYear"] = increment(-1);
       newPost.statistics.countPositiveYear--;
-      if (this.timeframe !== QueryTimeframe.year) {
+      if (diffDays < 30) {
+        data["statistics.countPositiveMonth"] = increment(-1);
         newPost.statistics.countPositiveMonth--;
-        if (this.timeframe !== QueryTimeframe.month) {
+        if (diffDays < 7) {
+          data["statistics.countPositiveWeek"] = increment(-1);
           newPost.statistics.countPositiveWeek--;
-          if (this.timeframe !== QueryTimeframe.week) {
+          if (diffDays < 1) {
+            data["statistics.countPositiveDay"] = increment(-1);
             newPost.statistics.countPositiveDay--;
           }
         }
@@ -710,7 +704,10 @@ class ManagerContent {
     this.notifyListenersContent();
 
     await updateDoc(docRef, data)
-      .then(() => {})
+      .then(() => {
+        const managerTraceUser = ManagerTraceUser;
+        managerTraceUser.removeStar(post);
+      })
       .catch((error) => {
         console.error("Error unstarring post: ", error.message);
       });
@@ -788,6 +785,8 @@ class ManagerContent {
       .then(() => {
         const managerCompetencyUser = ManagerCompetencyUser;
         managerCompetencyUser.bookAnotherUser(post);
+        const managerTraceUser = ManagerTraceUser;
+        managerTraceUser.addBook(post, this.timeframe);
       })
       .catch((error) => {
         console.error("Error booking post: ", error.message);
@@ -799,61 +798,42 @@ class ManagerContent {
     if (!this.channelCurrent) return;
     if (!this.account) return;
 
+    const managerTraceUser = ManagerTraceUser;
+    const dateBook = managerTraceUser.getDateBook(post.id);
+    if (!dateBook) return;
+
     const docRef = doc(this.db, stateCollections.posts, post.id);
     const data: any = {};
-
-    data["statistics.countBooksAll"] = increment(-1);
-    if (this.timeframe !== QueryTimeframe.all) {
-      data["statistics.countBooksYear"] = increment(-1);
-      if (this.timeframe !== QueryTimeframe.year) {
-        data["statistics.countBooksMonth"] = increment(-1);
-        if (this.timeframe !== QueryTimeframe.month) {
-          data["statistics.countBooksWeek"] = increment(-1);
-          if (this.timeframe !== QueryTimeframe.week) {
-            data["statistics.countBooksDay"] = increment(-1);
-          }
-        }
-      }
-    }
-    data["statistics.countPositiveAll"] = increment(-1);
-    if (this.timeframe !== QueryTimeframe.all) {
-      data["statistics.countPositiveYear"] = increment(-1);
-      if (this.timeframe !== QueryTimeframe.year) {
-        data["statistics.countPositiveMonth"] = increment(-1);
-        if (this.timeframe !== QueryTimeframe.month) {
-          data["statistics.countPositiveWeek"] = increment(-1);
-          if (this.timeframe !== QueryTimeframe.week) {
-            data["statistics.countPositiveDay"] = increment(-1);
-          }
-        }
-      }
-    }
-
     const newPost = post;
 
+    const date = new Date(dateBook);
+    const dateNow = new Date();
+    const diff = dateNow.getTime() - date.getTime();
+    const diffDays = Math.ceil(diff / (1000 * 3600 * 24));
+
+    data["statistics.countBooksAll"] = increment(-1);
     newPost.statistics.countBooksAll--;
-    if (this.timeframe !== QueryTimeframe.all) {
-      newPost.statistics.countBooksYear--;
-      if (this.timeframe !== QueryTimeframe.year) {
-        newPost.statistics.countBooksMonth--;
-        if (this.timeframe !== QueryTimeframe.month) {
-          newPost.statistics.countBooksWeek--;
-          if (this.timeframe !== QueryTimeframe.week) {
-            newPost.statistics.countBooksDay--;
-          }
-        }
-      }
-    }
+    data["statistics.countPositiveAll"] = increment(-1);
     newPost.statistics.countPositiveAll--;
-    if (this.timeframe !== QueryTimeframe.all) {
-      newPost.statistics.countPositiveYear--;
-      if (this.timeframe !== QueryTimeframe.year) {
-        newPost.statistics.countPositiveMonth--;
-        if (this.timeframe !== QueryTimeframe.month) {
-          newPost.statistics.countPositiveWeek--;
-          if (this.timeframe !== QueryTimeframe.week) {
-            newPost.statistics.countPositiveDay--;
-          }
+    if (diffDays < 365) data["statistics.countBooksYear"] = increment(-1);
+    newPost.statistics.countBooksYear--;
+    data["statistics.countPositiveYear"] = increment(-1);
+    newPost.statistics.countPositiveYear--;
+    if (diffDays < 30) {
+      data["statistics.countBooksMonth"] = increment(-1);
+      newPost.statistics.countBooksMonth--;
+      data["statistics.countPositiveMonth"] = increment(-1);
+      newPost.statistics.countPositiveMonth--;
+      if (diffDays < 7) {
+        data["statistics.countBooksWeek"] = increment(-1);
+        newPost.statistics.countBooksWeek--;
+        data["statistics.countPositiveWeek"] = increment(-1);
+        newPost.statistics.countPositiveWeek--;
+        if (diffDays < 1) {
+          data["statistics.countBooksDay"] = increment(-1);
+          newPost.statistics.countBooksDay--;
+          data["statistics.countPositiveDay"] = increment(-1);
+          newPost.statistics.countPositiveDay--;
         }
       }
     }
@@ -862,7 +842,10 @@ class ManagerContent {
     this.notifyListenersContent();
 
     await updateDoc(docRef, data)
-      .then(() => {})
+      .then(() => {
+        const managerTraceUser = ManagerTraceUser;
+        managerTraceUser.removeBook(post);
+      })
       .catch((error) => {
         console.error("Error unbooking post: ", error.message);
       });
