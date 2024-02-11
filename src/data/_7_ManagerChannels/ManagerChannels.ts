@@ -146,6 +146,8 @@ class ManagerChannels {
       nameCreator,
       timestampCreation: Date.now(),
       statistics: {
+        timestampWorkloadLast: Date.now(),
+        timestampWorkloadNext: Date.now() + 1000 * 60 * 60 * 24 * 7,
         countPostsDay: 0,
         countPostsWeek: 0,
         countPostsMonth: 0,
