@@ -1,11 +1,3 @@
-// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
-// The idea behind managers is that every click
-// of a button is handled by a manager.
-//
-// This provides a single point of entry for all actions
-// and allows a very granular control over the application.
-// ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
-
 import {
   Firestore,
   doc,

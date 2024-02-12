@@ -31,10 +31,10 @@ function ButtonSignedInBig() {
   return (
     <>
       <Fab
-        variant="extended"
-        size="small"
+        variant='extended'
+        size='small'
         onClick={handleClick}
-        color="secondary"
+        color='secondary'
       >
         <PersonIcon />
         account
@@ -42,7 +42,7 @@ function ButtonSignedInBig() {
       <Menu open={open} anchorEl={anchorEl} onClose={handleClose}>
         <MenuItem
           onClick={() => {
-            navigate("/account");
+            navigate(`/account/${account?.id}`);
           }}
         >
           my page
@@ -77,13 +77,13 @@ function ButtonSignedInSmall() {
 
   return (
     <>
-      <IconButton size="small" onClick={handleClick}>
+      <IconButton size='small' onClick={handleClick}>
         <ManageAccountsIcon />
       </IconButton>
       <Menu open={open} anchorEl={anchorEl} onClose={handleClose}>
         <MenuItem
           onClick={() => {
-            navigate("/account");
+            navigate(`/account/${account?.id}`);
           }}
         >
           my page

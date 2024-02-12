@@ -58,12 +58,10 @@ class ManagerContent {
 
   // state
   private account: IAccount | null = null;
-  private idUser: string | null = null;
+  private idUserSpecific: string | null = null;
   private queryUsersPosts: boolean = false;
   private queryUsersStars: boolean = false;
-  private idsPostsUsersStars: string[] = [];
   private queryUsersBooks: boolean = false;
-  private idsPostsUsersBooks: string[] = [];
   private listenersContent: ((posts: IPost[]) => void)[] = [];
   private content: IPost[] = [];
 
@@ -108,55 +106,25 @@ class ManagerContent {
 
   // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
   // actions order
-  public setQueryUsersPosts(idUser: string) {
-    this.idUser = idUser;
+  public setIdQueryUsers(idUserSpecific: string) {
+    this.idUserSpecific = idUserSpecific;
+  }
+  public setQueryUsersPosts() {
     this.queryUsersPosts = true;
     this.queryUsersStars = false;
     this.queryUsersBooks = false;
     this.queryContentUsersPosts();
   }
-  public async setQueryUsersStars(idUser: string) {
-    this.idUser = idUser;
+  public async setQueryUsersStars() {
     this.queryUsersPosts = false;
     this.queryUsersStars = true;
     this.queryUsersBooks = false;
-
-    // retrieve idsPosts
-    if (!this.db) return;
-    const docSnapshot = await getDoc(
-      doc(this.db, stateCollections.traceUserStars, idUser)
-    ).catch((error) => {
-      console.log(error.message);
-    });
-    if (!docSnapshot) return;
-    if (!docSnapshot.exists()) return;
-    const data = docSnapshot.data();
-    if (!data) return;
-    const idsPosts = data.stars;
-    this.idsPostsUsersStars = idsPosts;
-
     this.queryContentUsersStars();
   }
-  public async setQueryUsersBooks(idUser: string) {
-    this.idUser = idUser;
+  public async setQueryUsersBooks() {
     this.queryUsersPosts = false;
     this.queryUsersStars = false;
     this.queryUsersBooks = true;
-
-    // retrieve idsPosts
-    if (!this.db) return;
-    const docSnapshot = await getDoc(
-      doc(this.db, stateCollections.traceUserBooks, idUser)
-    ).catch((error) => {
-      console.log(error.message);
-    });
-    if (!docSnapshot) return;
-    if (!docSnapshot.exists()) return;
-    const data = docSnapshot.data();
-    if (!data) return;
-    const idsPosts = data.books;
-    this.idsPostsUsersBooks = idsPosts;
-
     this.queryContentUsersBooks();
   }
   public setTypesContentActive(types: string[]) {
@@ -878,14 +846,13 @@ class ManagerContent {
 
   // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
   // query
-
   private async queryContentUsersPosts() {
     if (!this.db) return;
-    if (!this.idUser) return;
+    if (!this.idUserSpecific) return;
 
     const q = query(
       collection(this.db, stateCollections.posts),
-      where("idCreator", "==", this.idUser),
+      where("idCreator", "==", this.idUserSpecific),
       where("type", "in", this.typesContentActive),
       limit(20)
     );
@@ -907,16 +874,18 @@ class ManagerContent {
   }
   private async queryContentUsersStars() {
     if (!this.db) return;
-    if (!this.idUser) return;
-
+    if (!this.idUserSpecific) return;
+    const managerTraceUser = ManagerTraceUser;
+    const idsPostsUsersStars = await managerTraceUser.getStarsSpecificUser(
+      this.idUserSpecific
+    );
     const content: IPost[] = [];
     let countPostsDownloaded = 0;
     let countAttempts = 0;
-
-    for (let i = 0; i < this.idsPostsUsersStars.length; i++) {
+    for (let i = 0; i < idsPostsUsersStars.length; i++) {
       countAttempts++;
       const docSnapshot = await getDoc(
-        doc(this.db, stateCollections.posts, this.idsPostsUsersStars[i])
+        doc(this.db, stateCollections.posts, idsPostsUsersStars[i])
       ).catch((error) => {
         console.log(error.message);
       });
@@ -931,27 +900,26 @@ class ManagerContent {
         content.push(post);
         countPostsDownloaded++;
       }
-
       if (countPostsDownloaded === 10) break;
       if (countAttempts === 20) break;
     }
-
     this.content = content;
-
     this.notifyListenersContent();
   }
   private async queryContentUsersBooks() {
     if (!this.db) return;
-    if (!this.idUser) return;
-
+    if (!this.idUserSpecific) return;
+    const managerTraceUser = ManagerTraceUser;
+    const idsPostsUsersBooks = await managerTraceUser.getBooksSpecificUser(
+      this.idUserSpecific
+    );
     const content: IPost[] = [];
     let countPostsDownloaded = 0;
     let countAttempts = 0;
-
-    for (let i = 0; i < this.idsPostsUsersBooks.length; i++) {
+    for (let i = 0; i < idsPostsUsersBooks.length; i++) {
       countAttempts++;
       const docSnapshot = await getDoc(
-        doc(this.db, stateCollections.posts, this.idsPostsUsersBooks[i])
+        doc(this.db, stateCollections.posts, idsPostsUsersBooks[i])
       ).catch((error) => {
         console.log(error.message);
       });
@@ -966,13 +934,10 @@ class ManagerContent {
         content.push(post);
         countPostsDownloaded++;
       }
-
       if (countPostsDownloaded === 10) break;
       if (countAttempts === 20) break;
     }
-
     this.content = content;
-
     this.notifyListenersContent();
   }
   private async queryContent() {

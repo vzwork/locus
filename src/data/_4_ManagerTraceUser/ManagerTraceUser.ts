@@ -221,6 +221,25 @@ class ManagerTraceUser {
     return this.mapDatesStars.get(id);
   }
 
+  public async getStarsSpecificUser(
+    idUserSpecific: string
+  ): Promise<string[]> {
+    const outIdsStars: string[] = [];
+    if (!this.db) return outIdsStars;
+
+    const docSnap = await getDoc(
+      doc(this.db, stateCollections.traceUserStars, idUserSpecific)
+    );
+    if (!docSnap.exists()) return outIdsStars;
+
+    docSnap.data().stars.forEach((star: string) => {
+      const starData = star.split("-");
+      outIdsStars.push(starData[0]);
+    });
+
+    return outIdsStars;
+  }
+
   public async addBook(post: IPost, timeframe: QueryTimeframe) {
     if (!this.db || !this.account) return;
     if (this.setBooks.has(post.id)) return;
@@ -281,6 +300,25 @@ class ManagerTraceUser {
 
   public getDateBook(id: string): string | undefined {
     return this.mapDatesBooks.get(id);
+  }
+
+  public async getBooksSpecificUser(
+    idUserSpecific: string
+  ): Promise<string[]> {
+    const outIdsBooks: string[] = [];
+    if (!this.db) return outIdsBooks;
+
+    const docSnap = await getDoc(
+      doc(this.db, stateCollections.traceUserBooks, idUserSpecific)
+    );
+    if (!docSnap.exists()) return outIdsBooks;
+
+    docSnap.data().books.forEach((book: string) => {
+      const bookData = book.split("-");
+      outIdsBooks.push(bookData[0]);
+    });
+
+    return outIdsBooks;
   }
 
   private async makeSureStatsUserExist(idUser: string) {

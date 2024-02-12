@@ -45,41 +45,19 @@ export default function Accounts() {
   const params = useParams();
   const navigate = useNavigate();
   const account = useAccount();
-  const managerAccount = ManagerAccount;
-  const statsUser = useStatsUser();
+  const managerContent = ManagerContent;
+
+  // const statsUser = useStatsUser();
+
   const theme = useTheme();
   const [thisAccount, setThisAccount] = useState<IAccount | undefined>(
     undefined
   );
 
-  const [firstLoad, setFirstLoad] = useState(true);
-
   useEffect(() => {
-    if (firstLoad) {
-      setFirstLoad(false);
-      return;
+    if (params.idAccount) {
+      managerContent.setIdQueryUsers(params.idAccount);
     }
-
-    if (!params.idAccount) {
-      if (!account) {
-        navigate("/");
-        navigate("/signin");
-        return;
-      }
-      setThisAccount(account);
-    } else {
-      managerAccount
-        .getAccountOptimized(params.idAccount)
-        .then((account) => {
-          if (account) {
-            setThisAccount(account);
-          }
-        });
-    }
-  }, [params.idAccount, account]);
-
-  useEffect(() => {
-    // console.log(statsUser);
   });
 
   return (
@@ -147,7 +125,7 @@ export default function Accounts() {
                             theme.palette.background.transperent,
                         }}
                       >
-                        {formatNumber(statsUser?.countStarsByOtherUsers)}
+                        {/* {formatNumber(statsUser?.countStarsByOtherUsers)} */}
                       </Button>
                       <Button
                         size='small'
@@ -160,9 +138,9 @@ export default function Accounts() {
                             theme.palette.background.transperent,
                         }}
                       >
-                        {formatNumber(
+                        {/* {formatNumber(
                           statsUser?.countBooksByOtherUsers || 0
-                        )}
+                        )} */}
                       </Button>
                       <Button
                         size='small'
@@ -175,7 +153,7 @@ export default function Accounts() {
                             theme.palette.background.transperent,
                         }}
                       >
-                        {formatNumber(statsUser?.countUpvotesComments || 0)}
+                        {/* {formatNumber(statsUser?.countUpvotesComments || 0)} */}
                       </Button>
                     </Box>
                   </Box>
@@ -197,7 +175,6 @@ function ContentFilterOrder({
   thisAccount: IAccount | undefined;
 }) {
   const managerContent = ManagerContent;
-  const account = useAccount();
 
   const [filterQuotes, setFilterQuotes] = useState(
     localStorage.getItem("filterQuotes") === "true" ? true : false
@@ -228,11 +205,11 @@ function ContentFilterOrder({
 
   useEffect(() => {
     if (option === "user posts") {
-      if (thisAccount) managerContent.setQueryUsersPosts(thisAccount.id);
+      if (thisAccount) managerContent.setQueryUsersPosts();
     } else if (option === "starred") {
-      if (thisAccount) managerContent.setQueryUsersStars(thisAccount.id);
+      if (thisAccount) managerContent.setQueryUsersStars();
     } else if (option === "booked") {
-      if (thisAccount) managerContent.setQueryUsersBooks(thisAccount.id);
+      if (thisAccount) managerContent.setQueryUsersBooks();
     }
   }, [option, thisAccount]);
 
