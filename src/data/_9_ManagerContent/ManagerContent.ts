@@ -896,7 +896,9 @@ class ManagerContent {
       if (this.account) {
         updateDoc(docSnapshot.ref, { countViews: increment(1) });
       }
-      if (post.type in this.typesContentActive) {
+      console.log(post.type);
+      console.log(this.typesContentActive);
+      if (this.typesContentActive.includes(post.type)) {
         content.push(post);
         countPostsDownloaded++;
       }
@@ -930,7 +932,7 @@ class ManagerContent {
       if (this.account) {
         updateDoc(docSnapshot.ref, { countViews: increment(1) });
       }
-      if (post.type in this.typesContentActive) {
+      if (this.typesContentActive.includes(post.type)) {
         content.push(post);
         countPostsDownloaded++;
       }

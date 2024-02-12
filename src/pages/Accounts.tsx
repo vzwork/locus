@@ -54,11 +54,35 @@ export default function Accounts() {
     undefined
   );
 
+  console.log("hello");
+
   useEffect(() => {
+    if (params.idAccount !== thisAccount?.id) {
+      loadAccount();
+    }
     if (params.idAccount) {
       managerContent.setIdQueryUsers(params.idAccount);
     }
   });
+
+  const loadAccount = async () => {
+    if (params.idAccount) {
+      const managerAccount = ManagerAccount;
+      const data = await managerAccount.getAccountOptimized(
+        params.idAccount
+      );
+      if (data) {
+        setThisAccount(data);
+      }
+    }
+    if (params.idAccount) {
+      managerContent.setIdQueryUsers(params.idAccount);
+    }
+  };
+
+  useEffect(() => {
+    console.log(thisAccount);
+  }, [thisAccount]);
 
   return (
     <>

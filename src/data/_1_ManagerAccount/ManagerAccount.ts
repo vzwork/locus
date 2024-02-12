@@ -150,11 +150,8 @@ class ManagerAccount {
   }
 
   public async setAccount(account: IAccount | null) {
-    console.log(this.account);
-    console.log(account);
-
-    if (JSON.stringify(this.account) === JSON.stringify(account))
-      console.log("identical");
+    // if (JSON.stringify(this.account) === JSON.stringify(account))
+    //   console.log("identical");
     if (JSON.stringify(this.account) === JSON.stringify(account)) return;
     if (!this.db) console.log("database");
     if (!this.db) return;
@@ -166,11 +163,11 @@ class ManagerAccount {
     }
 
     if (account !== null) {
-      console.log(account);
+      // console.log(account);
     }
 
     if (account) {
-      console.log(account);
+      // console.log(account);
       await setDoc(
         doc(this.db, stateCollections.accounts, account.id),
         account
