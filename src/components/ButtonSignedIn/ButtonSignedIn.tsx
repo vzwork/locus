@@ -42,7 +42,7 @@ function ButtonSignedInBig() {
       <Menu open={open} anchorEl={anchorEl} onClose={handleClose}>
         <MenuItem
           onClick={() => {
-            navigate(`/account/${account?.id}`);
+            navigate(`/accounts/${account?.id}`);
           }}
         >
           my page
@@ -83,7 +83,7 @@ function ButtonSignedInSmall() {
       <Menu open={open} anchorEl={anchorEl} onClose={handleClose}>
         <MenuItem
           onClick={() => {
-            navigate(`/account/${account?.id}`);
+            navigate(`/accounts/${account?.id}`);
           }}
         >
           my page
