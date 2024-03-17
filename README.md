@@ -26,8 +26,7 @@ Systems:
   - API testing - postman, NodeJS scripts
 - Front-end
   - NextJS for static side generation and SEO
-  - overly simplistic design
+  - overly simplistic design (every input from user that can be avoided, should be)
 - Content mining
-  - A cluster of workers that take workloads from a queue
-  - Workloads represent an activity of mining content from other platforms
-  
+  - Periodic lookup of other platforms
+  - API endpoint for different forms of content and their placement
