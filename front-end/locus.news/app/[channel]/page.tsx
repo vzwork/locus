@@ -6,7 +6,7 @@ export default async function Home({
   params,
 }: {
   params: Promise<{ channel: string }>
-}){
+}) {
   return (
     <div className="flex">
       <div style={{ background: '#777', width: '200px', height: '100vh', position: 'sticky', top: '0' }}>
@@ -19,7 +19,7 @@ export default async function Home({
   );
 }
 
-let children = [
+const children = [
   {
     name: 'politics',
     url: 'politics',
