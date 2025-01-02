@@ -11,7 +11,7 @@ console.log('process.env.NEXT_PUBLIC_FIREBASE_API_KEY');
 console.log(process.env.NEXT_PUBLIC_FIREBASE_API_KEY);
 
 const firebaseConfig = {
-  apiKey: "AIzaSyACgXQnJK1RsvRUtI9_3fti25no8N35Bs0",
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: "locus-new.firebaseapp.com",
   projectId: "locus-new",
   storageBucket: "locus-new.firebasestorage.app",
