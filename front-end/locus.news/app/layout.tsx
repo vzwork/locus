@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { getStaticProps } from "./firebaseConfig";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -18,11 +19,14 @@ export const metadata: Metadata = {
   description: "News website",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  await getStaticProps();
+
   return (
     <html lang="en">
       <body

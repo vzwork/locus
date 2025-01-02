@@ -1,0 +1,21 @@
+
+@media (max-width: 550px) {
+  .post {
+    padding: 0 1rem;
+    padding-bottom: 2rem;
+  }
+  .contentPost {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+}
+
+@media (min-width: 550px) {
+  .post{
+    padding: 0 1rem;
+    padding-bottom: 2rem;
+  }
+  .contentPost {
+    display: flex;
+  }
+}

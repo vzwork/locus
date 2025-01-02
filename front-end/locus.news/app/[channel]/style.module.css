@@ -1,0 +1,12 @@
+
+@media (min-width: 860px) {
+  .containerRight {
+    width: 200px;
+  }
+}
+
+@media (max-width: 860px) {
+  .containerRight {
+    display: none;
+  }
+}
