@@ -26,7 +26,7 @@ export default async function Home({
       {deviceType === 'mobile' ? (
         <div className="flex justify-between">
 
-          <div style={{ width: '140px', height: '100vh', }}>
+          <div style={{ position: 'sticky', top: '0', width: '140px', height: '100vh' }}>
             <NavigationMobile base={channel} />
           </div>
 
@@ -35,7 +35,7 @@ export default async function Home({
       ) : (
         <div className="flex justify-between">
 
-          <div style={{ minWidth: '200px', height: '100vh', }}>
+          <div style={{ position: 'sticky', top: '0', minWidth: '200px', height: '100vh', }}>
             <NavigationDesktop base={channel} />
           </div>
 

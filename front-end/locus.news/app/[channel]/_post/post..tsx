@@ -9,7 +9,7 @@ const customLoader = ({ src }: { src: string }) => {
 };
 
 export default function Post({ type, data }: { type: string, data: any }) {
-  console.log(type);
+  // console.log(type);
 
   return (
     <div className={styles.post}>
@@ -21,7 +21,7 @@ export default function Post({ type, data }: { type: string, data: any }) {
               <Image loader={customLoader} src={data.img} alt="lorem" layout="fill"
                 objectFit="cover" />
               :
-              <Image loader={customLoader} src="/locus.jpg" alt="lorem" layout="fill"
+              <Image loader={customLoader} src="/no_image.jpg" alt="lorem" layout="fill"
                 objectFit="cover" />
             }
           </div>
