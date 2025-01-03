@@ -30,7 +30,7 @@ export default async function Home({
             <NavigationMobile base={channel} />
           </div>
 
-          <Content />
+          <Content channel={channel}/>
         </div>
       ) : (
         <div className="flex justify-between">
@@ -39,7 +39,7 @@ export default async function Home({
             <NavigationDesktop base={channel} />
           </div>
 
-          <Content />
+          <Content channel={channel}/>
 
           <div style={{ minWidth: '200px', height: '100vh', }} className={styles.containerRight}>
             extra desktop

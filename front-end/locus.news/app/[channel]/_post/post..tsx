@@ -1,16 +1,31 @@
+"use client";
+/* eslint-disable */
+
 import styles from './style.module.css'
 import Image from "next/image"
 
-export default function Post() {
+const customLoader = ({ src }: { src: string }) => {
+  return src; // Return the URL directly
+};
+
+export default function Post({ type, data }: { type: string, data: any }) {
+  console.log(type);
+
   return (
     <div className={styles.post}>
-      <p className="text-xl py-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. </p>
+      <p className="text-xl py-4">{data.title}</p>
       <div className={styles.contentPost}>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus ad quod ducimus corrupti adipisci vel nostrum similique tempora, dolorem quis!</p>
-        <div>
-
-        <Image src="/locus.jpg" alt="lorem" width={400} height={224} />
-        </div>
+          <p style={{flex: '2'}}>{data.description.replace(/[^ a-zA-Z.,?!'";:()\[\]{}-]/g, '')}</p>
+          <div style={{ flex: '1', position: 'relative', width: '100%', minHeight: '100px', maxHeight: '150px', right: '0' }}>
+            {data.img !== "" ?
+              <Image loader={customLoader} src={data.img} alt="lorem" layout="fill"
+                objectFit="cover" />
+              :
+              <Image loader={customLoader} src="/locus.jpg" alt="lorem" layout="fill"
+                objectFit="cover" />
+            }
+          </div>
+        
       </div>
     </div>
   )

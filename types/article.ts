@@ -10,6 +10,7 @@ export interface Article {
     scoreInteraction: number;
   }
   data: {
+    channelOrigin: string;
     timeUnixPublished: number;
     source: string | null;
     url_source: string;

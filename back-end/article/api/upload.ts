@@ -4,6 +4,7 @@ import { Article } from '../../../types/article';
 import * as path from 'path';
 import { z } from 'zod';
 import admin from 'firebase-admin';
+import { channel } from 'diagnostics_channel';
 
 const keyFirebase = JSON.parse(fs.readFileSync('./key/serviceAccountKeyFirebase.json', 'utf8'));
 
@@ -21,6 +22,7 @@ const keyFirebase = JSON.parse(fs.readFileSync('./key/serviceAccountKeyFirebase.
 
 const SchemaArticleAPI = z.object({
   timeUnixPublished: z.number(),
+  channelOrigin: z.string(),
   author: z.string(),
   title: z.string(),
   description: z.string(),
@@ -34,6 +36,7 @@ const SchemaArticleAPI = z.object({
 
 const ArticleDefaultAPI = {
   timeUnixPublished: 0,
+  channelOrigin: '',
   author: '',
   title: '',
   description: '',
