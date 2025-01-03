@@ -15,17 +15,18 @@ export default function Post({ type, data }: { type: string, data: any }) {
     <div className={styles.post}>
       <p className="text-xl py-4">{data.title}</p>
       <div className={styles.contentPost}>
-          <p style={{flex: '2'}}>{data.description.replace(/[^ a-zA-Z.,?!'";:()\[\]{}-]/g, '')}</p>
+        <p style={{ flex: '2' }}>{data.description.replace(/[^ a-zA-Z.,?!'";:()\[\]{}-]/g, '')}</p>
+        {data.img !== "" ?
           <div style={{ flex: '1', position: 'relative', width: '100%', minHeight: '100px', maxHeight: '150px', right: '0' }}>
-            {data.img !== "" ?
-              <Image loader={customLoader} src={data.img} alt="lorem" layout="fill"
-                objectFit="cover" />
-              :
-              <Image loader={customLoader} src="/no_image.jpg" alt="lorem" layout="fill"
-                objectFit="cover" />
-            }
+            <Image loader={customLoader} src={data.img} alt="lorem" layout="fill"
+              objectFit="cover" />
           </div>
-        
+          :
+          <div />
+          // <Image loader={customLoader} src="/no_image.jpg" alt="lorem" layout="fill"
+          //   objectFit="cover" />
+        }
+
       </div>
     </div>
   )
